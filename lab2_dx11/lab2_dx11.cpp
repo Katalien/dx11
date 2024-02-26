@@ -49,7 +49,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
-        pRenderer->Render();
+        if (pRenderer->Frame()) {
+            pRenderer->Render();
+        }
     }
 
     pRenderer->Cleanup();
@@ -60,7 +62,7 @@ HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow)
 {
     WNDCLASSEX wcex;
     wcex.cbSize = sizeof(WNDCLASSEX);
-    wcex.style = CS_HREDRAW | CS_VREDRAW;
+    wcex.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
     wcex.lpfnWndProc = WndProc;
     wcex.cbClsExtra = 0;
     wcex.cbWndExtra = 0;
@@ -77,20 +79,17 @@ HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow)
     }
 
     g_hInst = hInstance;
-    HWND hWnd = CreateWindow(L"WindowClass", L"Zinyakova lab2",
+    HWND hWnd = CreateWindow(L"WindowClass", L"Zinyakova lab3",
         WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr,
         nullptr, hInstance, nullptr);
     if (!hWnd) {
         return E_FAIL;
     }
 
-    pRenderer = new Renderer();
-    if (!pRenderer->InitDevice(hWnd)) {
-        delete pRenderer;
-        return E_FAIL;
-    }
-
+    
     ShowWindow(hWnd, nCmdShow);
+    SetForegroundWindow(hWnd);
+    SetFocus(hWnd);
     UpdateWindow(hWnd);
 
     RECT rc;
@@ -101,6 +100,12 @@ HRESULT InitWindow(HINSTANCE hInstance, int nCmdShow)
 
     AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, TRUE);
     MoveWindow(hWnd, 0, 0, rc.right - rc.left, rc.bottom - rc.top, TRUE);
+
+    pRenderer = new Renderer();
+    if (!pRenderer->Init(hInstance, hWnd)) {
+        delete pRenderer;
+        return FALSE;
+    }
 
     return TRUE;
 }
