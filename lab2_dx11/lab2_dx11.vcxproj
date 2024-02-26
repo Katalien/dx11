@@ -179,7 +179,9 @@ copy "$(ProjectDir)pixelShader.hlsl" "$(OutDir)pixelShader.hlsl"</Command>
     </FxCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="camera.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="input.h" />
     <ClInclude Include="lab2_dx11.h" />
     <ClInclude Include="rendering.h" />
     <ClInclude Include="Resource.h" />
@@ -187,6 +189,8 @@ copy "$(ProjectDir)pixelShader.hlsl" "$(OutDir)pixelShader.hlsl"</Command>
     <ClInclude Include="Vertex.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="camera.cpp" />
+    <ClCompile Include="input.cpp" />
     <ClCompile Include="lab2_dx11.cpp" />
     <ClCompile Include="rendering.cpp" />
   </ItemGroup>
