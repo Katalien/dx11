@@ -1,9 +1,13 @@
-﻿  compilation object save succeeded; see C:\Users\z.kate\source\GitHubRepos\dx11\lab2_dx11\x64\Debug\vertexShader.cso
-  camera.cpp
-  input.cpp
-  lab2_dx11.cpp
-  rendering.cpp
-  Создание кода...
+﻿  input.cpp
+C:\Users\z.kate\source\GitHubRepos\dx11\lab2_dx11\input.cpp(43,11): warning C4101: point: неиспользованная локальная переменная
+C:\Users\z.kate\source\GitHubRepos\dx11\lab2_dx11\input.cpp(89,21): warning C4244: аргумент: преобразование "LONG" в "float", возможна потеря данных
+C:\Users\z.kate\source\GitHubRepos\dx11\lab2_dx11\input.cpp(88,21): warning C4244: аргумент: преобразование "LONG" в "float", возможна потеря данных
+C:\Users\z.kate\source\GitHubRepos\dx11\lab2_dx11\input.cpp(113,18): warning C4244: инициализация: преобразование "LONG" в "float", возможна потеря данных
+C:\Users\z.kate\source\GitHubRepos\dx11\lab2_dx11\input.cpp(114,18): warning C4244: инициализация: преобразование "LONG" в "float", возможна потеря данных
+C:\Users\z.kate\source\GitHubRepos\dx11\lab2_dx11\input.cpp(115,21): warning C4838: Преобразование из "float" в "LONG" требует сужающего преобразования.
+C:\Users\z.kate\source\GitHubRepos\dx11\lab2_dx11\input.cpp(115,21): warning C4244: инициализация: преобразование "float" в "LONG", возможна потеря данных
+C:\Users\z.kate\source\GitHubRepos\dx11\lab2_dx11\input.cpp(115,29): warning C4838: Преобразование из "float" в "LONG" требует сужающего преобразования.
+C:\Users\z.kate\source\GitHubRepos\dx11\lab2_dx11\input.cpp(115,29): warning C4244: инициализация: преобразование "float" в "LONG", возможна потеря данных
   lab2_dx11.vcxproj -> C:\Users\z.kate\source\GitHubRepos\dx11\lab2_dx11\x64\Debug\lab2_dx11.exe
   Скопировано файлов:         1.
   Скопировано файлов:         1.

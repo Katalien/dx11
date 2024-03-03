@@ -6,6 +6,7 @@
 
 #include <dinput.h>
 #include <directxmath.h>
+#include <windows.h>
 
 using namespace DirectX;
 
@@ -20,8 +21,15 @@ public:
     void Resize(int screenWidth, int screenHeight);
 
 private:
-    bool ReadKeyboard();
+    //bool ReadKeyboard();
     bool ReadMouse();
+    void CountDelta(POINT const& cursor);
+    XMFLOAT3 PointToXMFLOAT3(POINT const& cursor);
+
+    HWND hwnd;
+    POINT curCursor;
+    POINT deltaCursor;
+    POINT prevCursor;
 
     IDirectInput8* m_directInput = nullptr;
     IDirectInputDevice8* m_keyboard = nullptr;
