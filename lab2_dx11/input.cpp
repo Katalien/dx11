@@ -6,46 +6,16 @@ HRESULT Input::Init(HINSTANCE hinstance, HWND hwnd, int screenWidth, int screenH
     m_screenWidth = screenWidth;
     m_screenHeight = screenHeight;
 
-    hr = DirectInput8Create(hinstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&m_directInput, NULL);
-    if (SUCCEEDED(hr)) {
-        hr = m_directInput->CreateDevice(GUID_SysKeyboard, &m_keyboard, NULL);
-    }
-
-   
-    if (SUCCEEDED(hr)) {
-        hr = m_keyboard->SetDataFormat(&c_dfDIKeyboard);
-    }
-
-    if (SUCCEEDED(hr)) {
-        hr = m_keyboard->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_EXCLUSIVE);
-    }
-
-    if (SUCCEEDED(hr)) {
-        hr = m_keyboard->Acquire();
-    }
-
-    if (SUCCEEDED(hr)) {
-        hr = m_directInput->CreateDevice(GUID_SysMouse, &m_mouse, NULL);
-    }
-
-    if (SUCCEEDED(hr)) {
-        hr = m_mouse->SetDataFormat(&c_dfDIMouse);
-    }
-
-    if (SUCCEEDED(hr)) {
-        hr = m_mouse->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
-    }
-
-    if (SUCCEEDED(hr)) {
-        hr = m_mouse->Acquire();
-    }
-
     POINT point;
     float x = 0.0f;
     float y = 0.0f;
 
     deltaCursor.x = static_cast<LONG>(x);
     deltaCursor.y = static_cast<LONG>(y);
+    prevCursor.x = static_cast<LONG>(x);
+    prevCursor.y = static_cast<LONG>(y);
+    curCursor.x = static_cast<LONG>(x);
+    curCursor.y = static_cast<LONG>(y);
     return hr;
 
 }
@@ -85,22 +55,12 @@ bool Input::ReadMouse() {
 
 XMFLOAT3 Input::IsMouseUsed() {
     XMFLOAT3 mouseDelta = XMFLOAT3(
-        curCursor.x - prevCursor.x,
-        curCursor.y - prevCursor.y,
+        (curCursor.x - prevCursor.x) / 2,
+        (curCursor.y - prevCursor.y) / 2,
         0.0f);
 
     BYTE keyState[256];
     GetKeyboardState(keyState);
-
-    if (keyState[VK_UP] & 0x80) {
-        mouseDelta.z = 1.0f;
-        return mouseDelta;
-    }
-
-    if (keyState[VK_DOWN] & 0x80) {
-        mouseDelta.z = -1.0f;
-        return mouseDelta;
-    }
 
     if (keyState[VK_LBUTTON] & 0x80)
         return mouseDelta;
