@@ -96,15 +96,18 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);dxgi.lib;d3d11.lib;d3dcompiler.lib</AdditionalDependencies>
     </Link>
     <FxCompile>
-      <AdditionalIncludeDirectories>./</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\z.kate\source\GitHubRepos\dx11\lab4</AdditionalIncludeDirectories>
     </FxCompile>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)VS.hlsl" "$(OutDir)VS.cso"
-copy "$(ProjectDir)PS.hlsl" "$(OutDir)PS.cso"
-copy "$(ProjectDir)CubeMapPS.hlsl" "$(OutDir)CubeMapPS.cso"
-copy "$(ProjectDir)CubeMapVS.hlsl" "$(OutDir)CubeMapVS.cso"
+      <Command>copy "$(ProjectDir)VS.hlsl" "$(OutDir)VS.hlsl"
+copy "$(ProjectDir)PS.hlsl" "$(OutDir)PS.hlsl"
+copy "$(ProjectDir)CubeMapPS.hlsl" "$(OutDir)CubeMapPS.hlsl"
+copy "$(ProjectDir)CubeMapVS.hlsl" "$(OutDir)CubeMapVS.hlsl"
 copy "$(ProjectDir)cube.dds" "$(OutDir)cube.dds"
-copy "$(ProjectDir)flamingo.dds" "$(OutDir)flamingo.dds"</Command>
+copy "$(ProjectDir)flamingo.dds" "$(OutDir)flamingo.dds"
+copy "$(ProjectDir)lab4.ico" "$(OutDir)lab4.ico"
+copy "$(ProjectDir)small.ico" "$(OutDir)small.ico"
+copy "$(ProjectDir)lab4.rc" "$(OutDir)lab4.rc"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -125,15 +128,18 @@ copy "$(ProjectDir)flamingo.dds" "$(OutDir)flamingo.dds"</Command>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);dxgi.lib;d3d11.lib;d3dcompiler.lib</AdditionalDependencies>
     </Link>
     <FxCompile>
-      <AdditionalIncludeDirectories>./</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\z.kate\source\GitHubRepos\dx11\lab4</AdditionalIncludeDirectories>
     </FxCompile>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)VS.hlsl" "$(OutDir)VS.cso"
-copy "$(ProjectDir)PS.hlsl" "$(OutDir)PS.cso"
-copy "$(ProjectDir)CubeMapPS.hlsl" "$(OutDir)CubeMapPS.cso"
-copy "$(ProjectDir)CubeMapVS.hlsl" "$(OutDir)CubeMapVS.cso"
+      <Command>copy "$(ProjectDir)VS.hlsl" "$(OutDir)VS.hlsl"
+copy "$(ProjectDir)PS.hlsl" "$(OutDir)PS.hlsl"
+copy "$(ProjectDir)CubeMapPS.hlsl" "$(OutDir)CubeMapPS.hlsl"
+copy "$(ProjectDir)CubeMapVS.hlsl" "$(OutDir)CubeMapVS.hlsl"
 copy "$(ProjectDir)cube.dds" "$(OutDir)cube.dds"
-copy "$(ProjectDir)flamingo.dds" "$(OutDir)flamingo.dds"</Command>
+copy "$(ProjectDir)flamingo.dds" "$(OutDir)flamingo.dds"
+copy "$(ProjectDir)lab4.ico" "$(OutDir)lab4.ico"
+copy "$(ProjectDir)small.ico" "$(OutDir)small.ico"
+copy "$(ProjectDir)lab4.rc" "$(OutDir)lab4.rc"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -150,15 +156,18 @@ copy "$(ProjectDir)flamingo.dds" "$(OutDir)flamingo.dds"</Command>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);dxgi.lib;d3d11.lib;d3dcompiler.lib</AdditionalDependencies>
     </Link>
     <FxCompile>
-      <AdditionalIncludeDirectories>./</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\z.kate\source\GitHubRepos\dx11\lab4</AdditionalIncludeDirectories>
     </FxCompile>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)VS.hlsl" "$(OutDir)VS.cso"
-copy "$(ProjectDir)PS.hlsl" "$(OutDir)PS.cso"
-copy "$(ProjectDir)CubeMapPS.hlsl" "$(OutDir)CubeMapPS.cso"
-copy "$(ProjectDir)CubeMapVS.hlsl" "$(OutDir)CubeMapVS.cso"
+      <Command>copy "$(ProjectDir)VS.hlsl" "$(OutDir)VS.hlsl"
+copy "$(ProjectDir)PS.hlsl" "$(OutDir)PS.hlsl"
+copy "$(ProjectDir)CubeMapPS.hlsl" "$(OutDir)CubeMapPS.hlsl"
+copy "$(ProjectDir)CubeMapVS.hlsl" "$(OutDir)CubeMapVS.hlsl"
 copy "$(ProjectDir)cube.dds" "$(OutDir)cube.dds"
-copy "$(ProjectDir)flamingo.dds" "$(OutDir)flamingo.dds"</Command>
+copy "$(ProjectDir)flamingo.dds" "$(OutDir)flamingo.dds"
+copy "$(ProjectDir)lab4.ico" "$(OutDir)lab4.ico"
+copy "$(ProjectDir)small.ico" "$(OutDir)small.ico"
+copy "$(ProjectDir)lab4.rc" "$(OutDir)lab4.rc"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -179,15 +188,18 @@ copy "$(ProjectDir)flamingo.dds" "$(OutDir)flamingo.dds"</Command>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);dxgi.lib;d3d11.lib;d3dcompiler.lib</AdditionalDependencies>
     </Link>
     <FxCompile>
-      <AdditionalIncludeDirectories>./</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\z.kate\source\GitHubRepos\dx11\lab4</AdditionalIncludeDirectories>
     </FxCompile>
     <PostBuildEvent>
-      <Command>copy "$(ProjectDir)VS.hlsl" "$(OutDir)VS.cso"
-copy "$(ProjectDir)PS.hlsl" "$(OutDir)PS.cso"
-copy "$(ProjectDir)CubeMapPS.hlsl" "$(OutDir)CubeMapPS.cso"
-copy "$(ProjectDir)CubeMapVS.hlsl" "$(OutDir)CubeMapVS.cso"
+      <Command>copy "$(ProjectDir)VS.hlsl" "$(OutDir)VS.hlsl"
+copy "$(ProjectDir)PS.hlsl" "$(OutDir)PS.hlsl"
+copy "$(ProjectDir)CubeMapPS.hlsl" "$(OutDir)CubeMapPS.hlsl"
+copy "$(ProjectDir)CubeMapVS.hlsl" "$(OutDir)CubeMapVS.hlsl"
 copy "$(ProjectDir)cube.dds" "$(OutDir)cube.dds"
-copy "$(ProjectDir)flamingo.dds" "$(OutDir)flamingo.dds"</Command>
+copy "$(ProjectDir)flamingo.dds" "$(OutDir)flamingo.dds"
+copy "$(ProjectDir)lab4.ico" "$(OutDir)lab4.ico"
+copy "$(ProjectDir)small.ico" "$(OutDir)small.ico"
+copy "$(ProjectDir)lab4.rc" "$(OutDir)lab4.rc"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -215,12 +227,17 @@ copy "$(ProjectDir)flamingo.dds" "$(OutDir)flamingo.dds"</Command>
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="CubeMapPS.hlsl">
+    <None Include="CubeMapPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-    </FxCompile>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Yes</DeploymentContent>
+      <FileType>Document</FileType>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Yes</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Yes</DeploymentContent>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Yes</DeploymentContent>
+    </None>
     <FxCompile Include="CubeMapVS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>

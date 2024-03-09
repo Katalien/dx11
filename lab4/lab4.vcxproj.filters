@@ -71,9 +71,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="CubeMapPS.hlsl">
-      <Filter>Исходные файлы</Filter>
-    </FxCompile>
     <FxCompile Include="CubeMapVS.hlsl">
       <Filter>Исходные файлы</Filter>
     </FxCompile>
@@ -83,5 +80,10 @@
     <FxCompile Include="VS.hlsl">
       <Filter>Исходные файлы</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CubeMapPS.hlsl">
+      <Filter>Исходные файлы</Filter>
+    </None>
   </ItemGroup>
 </Project>
