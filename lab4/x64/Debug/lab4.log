@@ -1,17 +1,7 @@
-﻿  compilation object save succeeded; see C:\Users\z.kate\source\GitHubRepos\dx11\lab4\x64\Debug\CubeMapVS.cso
-  compilation object save succeeded; see C:\Users\z.kate\source\GitHubRepos\dx11\lab4\x64\Debug\PS.cso
-  compilation object save succeeded; see C:\Users\z.kate\source\GitHubRepos\dx11\lab4\x64\Debug\VS.cso
-  DDSTextureLoader11.cpp
-  camera.cpp
-  input.cpp
-C:\Users\z.kate\source\GitHubRepos\dx11\lab4\input.cpp(5,11): warning C4101: point: неиспользованная локальная переменная
-C:\Users\z.kate\source\GitHubRepos\dx11\lab4\input.cpp(34,46): warning C4244: аргумент: преобразование "LONG" в "float", возможна потеря данных
-C:\Users\z.kate\source\GitHubRepos\dx11\lab4\input.cpp(33,46): warning C4244: аргумент: преобразование "LONG" в "float", возможна потеря данных
-  lab4.cpp
-  rendering.cpp
-  Создание кода...
-C:\Users\z.kate\source\GitHubRepos\dx11\lab4\input.cpp(41): warning C4715: Input::ReadMouse: значение возвращается не при всех путях выполнения
+﻿  rendering.cpp
   lab4.vcxproj -> C:\Users\z.kate\source\GitHubRepos\dx11\lab4\x64\Debug\lab4.exe
+  Скопировано файлов:         1.
+  Скопировано файлов:         1.
   Скопировано файлов:         1.
   Скопировано файлов:         1.
   Скопировано файлов:         1.

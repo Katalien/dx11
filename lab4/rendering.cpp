@@ -19,7 +19,10 @@ Renderer::Renderer() :
     width_(defaultWidth),
     height_(defaultHeight),
     numSphereTriangles_(0),
-    radius_(1.0) {}
+    radius_(1.0),
+    pDepthBuffer_(NULL),
+    pDepthBufferDSV_(NULL),
+    pBlendState_(NULL) {}
 
 bool Renderer::Init(HINSTANCE hInstance, HWND hWnd) {
     // Create a DirectX graphics interface factory.​
@@ -173,6 +176,20 @@ HRESULT Renderer::InitScene() {
         {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
     };
 
+    static const TranspVertex VerticesT[] = {
+    {0, -1, -1, RGB(0, 255, 255)},
+    {0,  1, -1, RGB(255, 255, 0)},
+    {0,  1,  1, RGB(0, 255, 255)},
+    {0, -1,  1, RGB(255, 255, 0)}
+    };
+    static const USHORT IndicesT[] = {
+        0, 2, 1, 0, 3, 2
+    };
+    static const D3D11_INPUT_ELEMENT_DESC InputDescT[] = {
+        {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+        {"COLOR", 0,  DXGI_FORMAT_R8G8B8A8_UNORM, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
+    };
+
     UINT LatLines = 20, LongLines = 20;
     UINT numSphereVertices = ((LatLines - 2) * LongLines) + 2;
     numSphereTriangles_ = ((LatLines - 3) * (LongLines) * 2) + (LongLines * 2);
@@ -274,6 +291,7 @@ HRESULT Renderer::InitScene() {
 
     result = pDevice_->CreateBuffer(&desc, &data, &pVertexBuffer_[0]);
 
+
     if (SUCCEEDED(result)) {
         D3D11_BUFFER_DESC desc = {};
         desc.ByteWidth = sizeof(Indices);
@@ -336,6 +354,19 @@ HRESULT Renderer::InitScene() {
         data.SysMemSlicePitch = 0;
 
         result = pDevice_->CreateBuffer(&desc, &data, &pWorldMatrixBuffer_[0]);
+
+        if (SUCCEEDED(result)) {
+            worldMatrixBuffer.worldMatrix = DirectX::XMMatrixTranslation(4.0f, 0.0f, 0.0f);
+            result = pDevice_->CreateBuffer(&desc, &data, &pWorldMatrixBuffer_[1]);
+        }
+        if (SUCCEEDED(result)) {
+            worldMatrixBuffer.worldMatrix = DirectX::XMMatrixTranslation(1.8f, 0.0f, 0.0f);
+            result = pDevice_->CreateBuffer(&desc, &data, &pWorldMatrixBuffer_[3]);
+        }
+        if (SUCCEEDED(result)) {
+            worldMatrixBuffer.worldMatrix = DirectX::XMMatrixTranslation(2.2f, 0.0f, 0.0f);
+            result = pDevice_->CreateBuffer(&desc, &data, &pWorldMatrixBuffer_[4]);
+        }
     }
     if (SUCCEEDED(result)) {
         D3D11_BUFFER_DESC desc = {};
@@ -436,15 +467,77 @@ HRESULT Renderer::InitScene() {
             desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
             desc.MiscFlags = 0;
             desc.StructureByteStride = 0;
-
+            //
             result = pDevice_->CreateBuffer(&desc, nullptr, &pViewMatrixBuffer_[1]);
         }
     }
+    //
+    {
+        if (SUCCEEDED(result)) {
+            D3D11_BUFFER_DESC desc = {};
+            desc.ByteWidth = sizeof(VerticesT);
+            desc.Usage = D3D11_USAGE_IMMUTABLE;
+            desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+            desc.CPUAccessFlags = 0;
+            desc.MiscFlags = 0;
+            desc.StructureByteStride = 0;
+
+            D3D11_SUBRESOURCE_DATA data;
+            data.pSysMem = &VerticesT;
+            data.SysMemPitch = sizeof(VerticesT);
+            data.SysMemSlicePitch = 0;
+
+            result = pDevice_->CreateBuffer(&desc, &data, &pVertexBuffer_[2]);
+        }
+        if (SUCCEEDED(result)) {
+            D3D11_BUFFER_DESC desc = {};
+            desc.ByteWidth = sizeof(IndicesT);
+            desc.Usage = D3D11_USAGE_IMMUTABLE;
+            desc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+            desc.CPUAccessFlags = 0;
+            desc.MiscFlags = 0;
+            desc.StructureByteStride = 0;
+
+            D3D11_SUBRESOURCE_DATA data;
+            data.pSysMem = &IndicesT;
+            data.SysMemPitch = sizeof(IndicesT);
+            data.SysMemSlicePitch = 0;
+
+            result = pDevice_->CreateBuffer(&desc, &data, &pIndexBuffer_[2]);
+        }
+
+        ID3D10Blob* vertexShaderBuffer = nullptr;
+        ID3D10Blob* pixelShaderBuffer = nullptr;
+        int flags = 0;
+#ifdef _DEBUG
+        flags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
+#endif
+
+        if (SUCCEEDED(result)) {
+            result = D3DCompileFromFile(L"TVS.hlsl", NULL, NULL, "main", "vs_5_0", flags, 0, &vertexShaderBuffer, NULL);
+            if (SUCCEEDED(result)) {
+                result = pDevice_->CreateVertexShader(vertexShaderBuffer->GetBufferPointer(), vertexShaderBuffer->GetBufferSize(), NULL, &pVertexShader_[2]);
+            }
+        }
+        if (SUCCEEDED(result)) {
+            result = D3DCompileFromFile(L"TPS.hlsl", NULL, NULL, "main", "ps_5_0", flags, 0, &pixelShaderBuffer, NULL);
+            if (SUCCEEDED(result)) {
+                result = pDevice_->CreatePixelShader(pixelShaderBuffer->GetBufferPointer(), pixelShaderBuffer->GetBufferSize(), NULL, &pPixelShader_[2]);
+            }
+        }
+        if (SUCCEEDED(result)) {
+            int numElements = sizeof(InputDescT) / sizeof(InputDescT[0]);
+            result = pDevice_->CreateInputLayout(InputDescT, numElements, vertexShaderBuffer->GetBufferPointer(), vertexShaderBuffer->GetBufferSize(), &pInputLayout_[2]);
+        }
+
+
+    }
+
     if (SUCCEEDED(result)) {
         D3D11_RASTERIZER_DESC desc = {};
         desc.AntialiasedLineEnable = false;
         desc.FillMode = D3D11_FILL_SOLID;
-        desc.CullMode = D3D11_CULL_BACK;
+        desc.CullMode = D3D11_CULL_NONE;
         desc.DepthBias = 0;
         desc.DepthBiasClamp = 0.0f;
         desc.FrontCounterClockwise = false;
