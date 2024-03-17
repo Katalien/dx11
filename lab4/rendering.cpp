@@ -2,6 +2,10 @@
 
 #define SAFE_RELEASE(A) if ((A) != NULL) { (A)->Release(); (A) = NULL; }
 
+std::vector<UINT> CountIndices(UINT numSphereTriangles_,
+    std::vector<SkyboxVertex>&vertices,
+    std::vector<UINT>&indices);
+
 Renderer& Renderer::GetInstance() {
     static Renderer instance;
     return instance;
@@ -205,72 +209,9 @@ HRESULT Renderer::InitScene() {
     vertices[0].y = 0.0f;
     vertices[0].z = 1.0f;
 
-    for (UINT i = 0; i < LatLines - 2; i++) {
-        theta = (i + 1) * (XM_PI / (LatLines - 1));
-        XMMATRIX Rotationx = XMMatrixRotationX(theta);
-        for (UINT j = 0; j < LongLines; j++) {
-            phi = j * (XM_2PI / LongLines);
-            XMMATRIX Rotationy = XMMatrixRotationZ(phi);
-            currVertPos = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f), (Rotationx * Rotationy));
-            currVertPos = XMVector3Normalize(currVertPos);
-            vertices[i * (__int64)LongLines + j + 1].x = XMVectorGetX(currVertPos);
-            vertices[i * (__int64)LongLines + j + 1].y = XMVectorGetY(currVertPos);
-            vertices[i * (__int64)LongLines + j + 1].z = XMVectorGetZ(currVertPos);
-        }
-    }
-
-    vertices[(__int64)numSphereVertices - 1].x = 0.0f;
-    vertices[(__int64)numSphereVertices - 1].y = 0.0f;
-    vertices[(__int64)numSphereVertices - 1].z = -1.0f;
-
     std::vector<UINT> indices((__int64)numSphereTriangles_ * 3);
 
-    UINT k = 0;
-    for (UINT i = 0; i < LongLines - 1; i++) {
-        indices[k] = 0;
-        indices[(__int64)k + 2] = i + 1;
-        indices[(__int64)k + 1] = i + 2;
-        k += 3;
-    }
-    indices[k] = 0;
-    indices[(__int64)k + 2] = LongLines;
-    indices[(__int64)k + 1] = 1;
-    k += 3;
-
-    for (UINT i = 0; i < LatLines - 3; i++) {
-        for (UINT j = 0; j < LongLines - 1; j++) {
-            indices[k] = i * LongLines + j + 1;
-            indices[(__int64)k + 1] = i * LongLines + j + 2;
-            indices[(__int64)k + 2] = (i + 1) * LongLines + j + 1;
-
-            indices[(__int64)k + 3] = (i + 1) * LongLines + j + 1;
-            indices[(__int64)k + 4] = i * LongLines + j + 2;
-            indices[(__int64)k + 5] = (i + 1) * LongLines + j + 2;
-
-            k += 6;
-        }
-
-        indices[k] = (i * LongLines) + LongLines;
-        indices[(__int64)k + 1] = (i * LongLines) + 1;
-        indices[(__int64)k + 2] = ((i + 1) * LongLines) + LongLines;
-
-        indices[(__int64)k + 3] = ((i + 1) * LongLines) + LongLines;
-        indices[(__int64)k + 4] = (i * LongLines) + 1;
-        indices[(__int64)k + 5] = ((i + 1) * LongLines) + 1;
-
-        k += 6;
-    }
-
-    for (UINT i = 0; i < LongLines - 1; i++) {
-        indices[k] = numSphereVertices - 1;
-        indices[(__int64)k + 2] = (numSphereVertices - 1) - (i + 1);
-        indices[(__int64)k + 1] = (numSphereVertices - 1) - (i + 2);
-        k += 3;
-    }
-
-    indices[k] = numSphereVertices - 1;
-    indices[(__int64)k + 2] = (numSphereVertices - 1) - LongLines;
-    indices[(__int64)k + 1] = numSphereVertices - 2;
+    indices = CountIndices(numSphereTriangles_, vertices, indices);
 
     static const D3D11_INPUT_ELEMENT_DESC SkyboxInputDesc[] = {
         {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
@@ -876,10 +817,6 @@ void Renderer::Cleanup() {
         delete pCamera_;
         pCamera_ = NULL;
     }
-    /*if (pInput_) {
-        delete pInput_;
-        pCamera_ = NULL;
-    }*/
 
 #ifdef _DEBUG
     if (pDevice_ != NULL) {
@@ -899,4 +836,85 @@ void Renderer::Cleanup() {
 
 Renderer::~Renderer() {
     Cleanup();
+}
+
+std::vector<UINT> CountIndices(UINT numSphereTriangles_,
+    std::vector<SkyboxVertex>& vertices,
+    std::vector<UINT>& indices) {
+    UINT LatLines = 20, LongLines = 20;
+    UINT numSphereVertices = ((LatLines - 2) * LongLines) + 2;
+    numSphereTriangles_ = ((LatLines - 3) * (LongLines) * 2) + (LongLines * 2);
+
+    float phi = 0.0f;
+    float theta = 0.0f;
+
+    XMVECTOR currVertPos = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+
+
+    for (UINT i = 0; i < LatLines - 2; i++) {
+        theta = (i + 1) * (XM_PI / (LatLines - 1));
+        XMMATRIX Rotationx = XMMatrixRotationX(theta);
+        for (UINT j = 0; j < LongLines; j++) {
+            phi = j * (XM_2PI / LongLines);
+            XMMATRIX Rotationy = XMMatrixRotationZ(phi);
+            currVertPos = XMVector3TransformNormal(XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f), (Rotationx * Rotationy));
+            currVertPos = XMVector3Normalize(currVertPos);
+            vertices[i * (__int64)LongLines + j + 1].x = XMVectorGetX(currVertPos);
+            vertices[i * (__int64)LongLines + j + 1].y = XMVectorGetY(currVertPos);
+            vertices[i * (__int64)LongLines + j + 1].z = XMVectorGetZ(currVertPos);
+        }
+    }
+
+    vertices[(__int64)numSphereVertices - 1].x = 0.0f;
+    vertices[(__int64)numSphereVertices - 1].y = 0.0f;
+    vertices[(__int64)numSphereVertices - 1].z = -1.0f;
+
+
+    UINT k = 0;
+    for (UINT i = 0; i < LongLines - 1; i++) {
+        indices[k] = 0;
+        indices[(__int64)k + 2] = i + 1;
+        indices[(__int64)k + 1] = i + 2;
+        k += 3;
+    }
+    indices[k] = 0;
+    indices[(__int64)k + 2] = LongLines;
+    indices[(__int64)k + 1] = 1;
+    k += 3;
+
+    for (UINT i = 0; i < LatLines - 3; i++) {
+        for (UINT j = 0; j < LongLines - 1; j++) {
+            indices[k] = i * LongLines + j + 1;
+            indices[(__int64)k + 1] = i * LongLines + j + 2;
+            indices[(__int64)k + 2] = (i + 1) * LongLines + j + 1;
+
+            indices[(__int64)k + 3] = (i + 1) * LongLines + j + 1;
+            indices[(__int64)k + 4] = i * LongLines + j + 2;
+            indices[(__int64)k + 5] = (i + 1) * LongLines + j + 2;
+
+            k += 6;
+        }
+
+        indices[k] = (i * LongLines) + LongLines;
+        indices[(__int64)k + 1] = (i * LongLines) + 1;
+        indices[(__int64)k + 2] = ((i + 1) * LongLines) + LongLines;
+
+        indices[(__int64)k + 3] = ((i + 1) * LongLines) + LongLines;
+        indices[(__int64)k + 4] = (i * LongLines) + 1;
+        indices[(__int64)k + 5] = ((i + 1) * LongLines) + 1;
+
+        k += 6;
+    }
+
+    for (UINT i = 0; i < LongLines - 1; i++) {
+        indices[k] = numSphereVertices - 1;
+        indices[(__int64)k + 2] = (numSphereVertices - 1) - (i + 1);
+        indices[(__int64)k + 1] = (numSphereVertices - 1) - (i + 2);
+        k += 3;
+    }
+
+    indices[k] = numSphereVertices - 1;
+    indices[(__int64)k + 2] = (numSphereVertices - 1) - LongLines;
+    indices[(__int64)k + 1] = numSphereVertices - 2;
+    return indices;
 }
