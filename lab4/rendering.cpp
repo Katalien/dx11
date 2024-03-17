@@ -529,7 +529,8 @@ HRESULT Renderer::InitScene() {
             int numElements = sizeof(InputDescT) / sizeof(InputDescT[0]);
             result = pDevice_->CreateInputLayout(InputDescT, numElements, vertexShaderBuffer->GetBufferPointer(), vertexShaderBuffer->GetBufferSize(), &pInputLayout_[2]);
         }
-
+        SAFE_RELEASE(vertexShaderBuffer);
+        SAFE_RELEASE(pixelShaderBuffer);
 
     }
 
