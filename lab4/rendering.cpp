@@ -359,6 +359,14 @@ HRESULT Renderer::InitScene() {
             worldMatrixBuffer.worldMatrix = DirectX::XMMatrixTranslation(4.0f, 0.0f, 0.0f);
             result = pDevice_->CreateBuffer(&desc, &data, &pWorldMatrixBuffer_[1]);
         }
+        if (SUCCEEDED(result)) {
+            worldMatrixBuffer.worldMatrix = DirectX::XMMatrixTranslation(1.8f, 0.0f, 0.0f);
+            result = pDevice_->CreateBuffer(&desc, &data, &pWorldMatrixBuffer_[3]);
+        }
+        if (SUCCEEDED(result)) {
+            worldMatrixBuffer.worldMatrix = DirectX::XMMatrixTranslation(2.2f, 0.0f, 0.0f);
+            result = pDevice_->CreateBuffer(&desc, &data, &pWorldMatrixBuffer_[4]);
+        }
         
     }
     if (SUCCEEDED(result)) {
