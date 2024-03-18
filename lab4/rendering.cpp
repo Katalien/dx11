@@ -558,10 +558,11 @@ HRESULT Renderer::InitScene() {
 
 void Renderer::InputHandler() {
     XMFLOAT3 mouse = pInput_->ReadMouse();
-    pCamera_->Rotate(mouse.x / 200.0f, mouse.y / 200.0f);
-
-
+    //XMFLOAT2 mouse = pInput_->testRead();
+    pCamera_->Rotate(mouse.x, mouse.y );
 }
+
+
 
 bool Renderer::UpdateScene() {
     HRESULT result;
