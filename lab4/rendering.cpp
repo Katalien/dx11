@@ -497,7 +497,7 @@ HRESULT Renderer::InitScene() {
         result = CreateDDSTextureFromFile(pDevice_, pDeviceContext_, L"flamingo_compressed.DDS", nullptr, &pTexture_[0]);
     }
     if (SUCCEEDED(result)) {
-        result = CreateDDSTextureFromFileEx(pDevice_, pDeviceContext_, L"cube.dds",
+        result = CreateDDSTextureFromFileEx(pDevice_, pDeviceContext_, L"cube.DDS",
             0, D3D11_USAGE_DEFAULT, D3D11_BIND_SHADER_RESOURCE, 0, D3D11_RESOURCE_MISC_TEXTURECUBE,
             DDS_LOADER_DEFAULT, nullptr, &pTexture_[1]);
     }
