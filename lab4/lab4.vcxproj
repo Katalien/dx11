@@ -227,6 +227,7 @@ copy "$(ProjectDir)TPS.hlsl" "$(OutDir)TPS.hlsl"</Command>
     <ClCompile Include="input.cpp" />
     <ClCompile Include="lab4.cpp" />
     <ClCompile Include="rendering.cpp" />
+    <ClCompile Include="test_compressonator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="lab4.rc" />

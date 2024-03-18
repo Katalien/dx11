@@ -491,8 +491,10 @@ HRESULT Renderer::InitScene() {
 
         result = pDevice_->CreateRasterizerState(&desc, &pRasterizerState_);
     }
+
+    // load textures
     if (SUCCEEDED(result)) {
-        result = CreateDDSTextureFromFile(pDevice_, pDeviceContext_, L"flamingo.dds", nullptr, &pTexture_[0]);
+        result = CreateDDSTextureFromFile(pDevice_, pDeviceContext_, L"flamingo_compressed.DDS", nullptr, &pTexture_[0]);
     }
     if (SUCCEEDED(result)) {
         result = CreateDDSTextureFromFileEx(pDevice_, pDeviceContext_, L"cube.dds",
