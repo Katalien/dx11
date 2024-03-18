@@ -181,10 +181,10 @@ HRESULT Renderer::InitScene() {
     };
 
     static const TranspVertex VerticesT[] = {
-    {0, -1, -1, RGB(0, 255, 255)},
-    {0,  1, -1, RGB(255, 255, 0)},
-    {0,  1,  1, RGB(0, 255, 255)},
-    {0, -1,  1, RGB(255, 255, 0)}
+    {0, -2, -2, RGB(0, 255, 255)},
+    {0,  2, -2, RGB(255, 255, 0)},
+    {0,  2,  2, RGB(0, 255, 255)},
+    {0, -2,  2, RGB(255, 255, 0)}
     };
     static const USHORT IndicesT[] = {
         0, 2, 1, 0, 3, 2
@@ -558,7 +558,6 @@ HRESULT Renderer::InitScene() {
 
 void Renderer::InputHandler() {
     XMFLOAT3 mouse = pInput_->ReadMouse();
-    //XMFLOAT2 mouse = pInput_->testRead();
     pCamera_->Rotate(mouse.x, mouse.y );
 }
 
