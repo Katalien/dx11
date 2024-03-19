@@ -104,10 +104,12 @@ copy "$(ProjectDir)PS.hlsl" "$(OutDir)PS.hlsl"
 copy "$(ProjectDir)CubeMapPS.hlsl" "$(OutDir)CubeMapPS.hlsl"
 copy "$(ProjectDir)CubeMapVS.hlsl" "$(OutDir)CubeMapVS.hlsl"
 copy "$(ProjectDir)cube.dds" "$(OutDir)cube.dds"
-copy "$(ProjectDir)flamingo.dds" "$(OutDir)flamingo.dds"
+copy "$(ProjectDir)vydra_compressed.dds" "$(OutDir)vydra_compressed.dds"
 copy "$(ProjectDir)lab4.ico" "$(OutDir)lab4.ico"
 copy "$(ProjectDir)small.ico" "$(OutDir)small.ico"
-copy "$(ProjectDir)lab4.rc" "$(OutDir)lab4.rc"</Command>
+copy "$(ProjectDir)lab4.rc" "$(OutDir)lab4.rc"
+copy "$(ProjectDir)TVS.hlsl" "$(OutDir)TVS.hlsl"
+copy "$(ProjectDir)TPS.hlsl" "$(OutDir)TPS.hlsl"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -136,10 +138,12 @@ copy "$(ProjectDir)PS.hlsl" "$(OutDir)PS.hlsl"
 copy "$(ProjectDir)CubeMapPS.hlsl" "$(OutDir)CubeMapPS.hlsl"
 copy "$(ProjectDir)CubeMapVS.hlsl" "$(OutDir)CubeMapVS.hlsl"
 copy "$(ProjectDir)cube.dds" "$(OutDir)cube.dds"
-copy "$(ProjectDir)flamingo.dds" "$(OutDir)flamingo.dds"
+copy "$(ProjectDir)vydra_compressed.dds" "$(OutDir)vydra_compressed.dds"
 copy "$(ProjectDir)lab4.ico" "$(OutDir)lab4.ico"
 copy "$(ProjectDir)small.ico" "$(OutDir)small.ico"
-copy "$(ProjectDir)lab4.rc" "$(OutDir)lab4.rc"</Command>
+copy "$(ProjectDir)lab4.rc" "$(OutDir)lab4.rc"
+copy "$(ProjectDir)TVS.hlsl" "$(OutDir)TVS.hlsl"
+copy "$(ProjectDir)TPS.hlsl" "$(OutDir)TPS.hlsl"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -164,10 +168,12 @@ copy "$(ProjectDir)PS.hlsl" "$(OutDir)PS.hlsl"
 copy "$(ProjectDir)CubeMapPS.hlsl" "$(OutDir)CubeMapPS.hlsl"
 copy "$(ProjectDir)CubeMapVS.hlsl" "$(OutDir)CubeMapVS.hlsl"
 copy "$(ProjectDir)cube.dds" "$(OutDir)cube.dds"
-copy "$(ProjectDir)flamingo.dds" "$(OutDir)flamingo.dds"
+copy "$(ProjectDir)vydra_compressed.dds" "$(OutDir)vydra_compressed.dds"
 copy "$(ProjectDir)lab4.ico" "$(OutDir)lab4.ico"
 copy "$(ProjectDir)small.ico" "$(OutDir)small.ico"
-copy "$(ProjectDir)lab4.rc" "$(OutDir)lab4.rc"</Command>
+copy "$(ProjectDir)lab4.rc" "$(OutDir)lab4.rc"
+copy "$(ProjectDir)TVS.hlsl" "$(OutDir)TVS.hlsl"
+copy "$(ProjectDir)TPS.hlsl" "$(OutDir)TPS.hlsl"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -196,10 +202,12 @@ copy "$(ProjectDir)PS.hlsl" "$(OutDir)PS.hlsl"
 copy "$(ProjectDir)CubeMapPS.hlsl" "$(OutDir)CubeMapPS.hlsl"
 copy "$(ProjectDir)CubeMapVS.hlsl" "$(OutDir)CubeMapVS.hlsl"
 copy "$(ProjectDir)cube.dds" "$(OutDir)cube.dds"
-copy "$(ProjectDir)flamingo.dds" "$(OutDir)flamingo.dds"
+copy "$(ProjectDir)vydra_compressed.dds" "$(OutDir)vydra_compressed.dds"
 copy "$(ProjectDir)lab4.ico" "$(OutDir)lab4.ico"
 copy "$(ProjectDir)small.ico" "$(OutDir)small.ico"
-copy "$(ProjectDir)lab4.rc" "$(OutDir)lab4.rc"</Command>
+copy "$(ProjectDir)lab4.rc" "$(OutDir)lab4.rc"
+copy "$(ProjectDir)TVS.hlsl" "$(OutDir)TVS.hlsl"
+copy "$(ProjectDir)TPS.hlsl" "$(OutDir)TPS.hlsl"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -210,6 +218,7 @@ copy "$(ProjectDir)lab4.rc" "$(OutDir)lab4.rc"</Command>
     <ClInclude Include="lab4.h" />
     <ClInclude Include="rendering.hpp" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="structs.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
@@ -250,6 +259,13 @@ copy "$(ProjectDir)lab4.rc" "$(OutDir)lab4.rc"</Command>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
     </FxCompile>
+    <FxCompile Include="TPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="TVS.hlsl" />
     <FxCompile Include="VS.hlsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

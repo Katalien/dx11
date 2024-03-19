@@ -2,7 +2,6 @@
 #include <fstream>
 
 void Input::Init(HINSTANCE hinstance, HWND hwnd) {
-    POINT point;
     float x = 0.0f;
     float y = 0.0f;
   
@@ -30,8 +29,8 @@ XMFLOAT3 Input::ReadMouse() {
 
         if (keyboardState_[VK_LBUTTON] & 0x80) {
             return  XMFLOAT3(
-                (curCursor.x - prevCursor.x) / 2,
-                (curCursor.y - prevCursor.y) / 2,
+                (curCursor.x - prevCursor.x) / 100.0f,
+                (curCursor.y - prevCursor.y) / 100.0f,
                 0.0f);
         }
         else {
@@ -39,4 +38,3 @@ XMFLOAT3 Input::ReadMouse() {
         }
     }
 }
-
