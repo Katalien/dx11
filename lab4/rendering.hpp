@@ -4,6 +4,9 @@
 #include "input.hpp"
 #include "structs.h"
 #include <vector>
+#include <math.h>
+#include <algorithm>
+#include <fstream>
 
 class Renderer {
 public:
@@ -58,4 +61,8 @@ private:
     UINT height_;
     UINT numSphereTriangles_;
     float radius_;
+    XMFLOAT4 rectVert[4];
+    BBRect bb_rects[2];
+    
+    
 };

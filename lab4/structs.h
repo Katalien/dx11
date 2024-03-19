@@ -36,3 +36,7 @@ struct TranspVertex {
     float x, y, z;
     COLORREF color;
 };
+
+struct BBRect {
+    XMFLOAT3 v[4];
+};

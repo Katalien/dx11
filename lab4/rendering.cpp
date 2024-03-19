@@ -1,10 +1,13 @@
 ﻿#include "rendering.hpp"
 
+
 #define SAFE_RELEASE(A) if ((A) != NULL) { (A)->Release(); (A) = NULL; }
 
 std::vector<UINT> CountIndices(UINT numSphereTriangles_,
     std::vector<SkyboxVertex>&vertices,
     std::vector<UINT>&indices);
+
+float computeDistanceSqr(const XMFLOAT3 & vec1, const XMFLOAT3 & vec2);
 
 Renderer& Renderer::GetInstance() {
     static Renderer instance;
@@ -181,14 +184,30 @@ HRESULT Renderer::InitScene() {
     };
 
     static const TranspVertex VerticesT[] = {
-    {0, -2, -2, RGB(0, 255, 255)},
-    {0,  2, -2, RGB(255, 255, 0)},
+    {0, -2, -5, RGB(0, 255, 255)},
+    {0,  2, -5, RGB(255, 255, 0)},
     {0,  2,  2, RGB(0, 255, 255)},
     {0, -2,  2, RGB(255, 255, 0)}
     };
+
+    for (int i = 0; i < 4; ++i) {
+        rectVert[i].x = VerticesT[i].x;
+        rectVert[i].y = VerticesT[i].y;
+        rectVert[i].z = VerticesT[i].z;
+        rectVert[i].w = 1.0f; 
+    }
+
     static const USHORT IndicesT[] = {
         0, 2, 1, 0, 3, 2
     };
+
+
+    for (int i = 0; i < 4; i++)
+    {
+        bb_rects[0].v[i] = XMFLOAT3{ Vertices[i].x, Vertices[i].y, Vertices[i].z } ;
+        bb_rects[1].v[i] = XMFLOAT3{ Vertices[i].x, Vertices[i].y, Vertices[i].z } ;
+    }
+
     static const D3D11_INPUT_ELEMENT_DESC InputDescT[] = {
         {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
         {"COLOR", 0,  DXGI_FORMAT_R8G8B8A8_UNORM, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
@@ -494,10 +513,10 @@ HRESULT Renderer::InitScene() {
 
     // load textures
     if (SUCCEEDED(result)) {
-        result = CreateDDSTextureFromFile(pDevice_, pDeviceContext_, L"flamingo_compressed.DDS", nullptr, &pTexture_[0]);
+        result = CreateDDSTextureFromFile(pDevice_, pDeviceContext_, L"vydra_compressed.dds", nullptr, &pTexture_[0]);
     }
     if (SUCCEEDED(result)) {
-        result = CreateDDSTextureFromFileEx(pDevice_, pDeviceContext_, L"cube.DDS",
+        result = CreateDDSTextureFromFileEx(pDevice_, pDeviceContext_, L"cube.dds",
             0, D3D11_USAGE_DEFAULT, D3D11_BIND_SHADER_RESOURCE, 0, D3D11_RESOURCE_MISC_TEXTURECUBE,
             DDS_LOADER_DEFAULT, nullptr, &pTexture_[1]);
     }
@@ -552,7 +571,7 @@ HRESULT Renderer::InitScene() {
 
         result = pDevice_->CreateBlendState(&desc, &pBlendState_);
     }
-    //
+    
     return result;
 }
 
@@ -582,7 +601,7 @@ bool Renderer::UpdateScene() {
     pDeviceContext_->UpdateSubresource(pWorldMatrixBuffer_[0], 0, nullptr, &worldMatrixBuffer, 0, 0);
 
     XMMATRIX mView = pCamera_->GetViewMatrix();
-    //
+    
     XMMATRIX mProjection = XMMatrixPerspectiveFovLH(XM_PI / 3, width_ / (FLOAT)height_, 100.0f, 0.01f);
 
     D3D11_MAPPED_SUBRESOURCE subresource, skyboxSubresource;
@@ -598,7 +617,7 @@ bool Renderer::UpdateScene() {
         skyboxWorldMatrixBuffer.worldMatrix = XMMatrixIdentity();
         skyboxWorldMatrixBuffer.size = XMFLOAT4(radius_, 0.0f, 0.0f, 0.0f);
 
-        //f
+        //
         pDeviceContext_->UpdateSubresource(pWorldMatrixBuffer_[2], 0, nullptr, &skyboxWorldMatrixBuffer, 0, 0);
 
         result = pDeviceContext_->Map(pViewMatrixBuffer_[1], 0, D3D11_MAP_WRITE_DISCARD, 0, &skyboxSubresource);
@@ -686,7 +705,16 @@ bool Renderer::Render() {
         pDeviceContext_->DrawIndexed(numSphereTriangles_ * 3, 0, 0);
     }
 
-    {
+    {   
+        //
+        float dist1 = 0.0f, dist2 = 0.0f;
+        XMFLOAT3 cameraPos = pCamera_->GetPosition();
+        
+        for (int i = 0; i < 4; i++) {
+            dist1 = max(dist1, computeDistanceSqr(cameraPos, bb_rects[0].v[i]));
+            dist2 = max(dist2, computeDistanceSqr(cameraPos, bb_rects[1].v[i]));
+        }
+
         pDeviceContext_->IASetIndexBuffer(pIndexBuffer_[2], DXGI_FORMAT_R16_UINT, 0);
         ID3D11Buffer* vertexBuffers[] = { pVertexBuffer_[2] };
         UINT strides[] = { 16 };
@@ -700,11 +728,24 @@ bool Renderer::Render() {
 
         pDeviceContext_->OMSetBlendState(pBlendState_, nullptr, 0xFFFFFFFF);
 
-        pDeviceContext_->VSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[3]);
-        pDeviceContext_->DrawIndexed(6, 0, 0);
+        if (dist1 < dist2) {
+            pDeviceContext_->VSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[3]);
+            pDeviceContext_->PSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[3]);
+            pDeviceContext_->DrawIndexed(6, 0, 0);
+            pDeviceContext_->VSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[4]);
+            pDeviceContext_->PSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[4]);
+            pDeviceContext_->DrawIndexed(6, 0, 0);
+        }
+        else {
 
-        pDeviceContext_->VSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[4]);
-        pDeviceContext_->DrawIndexed(6, 0, 0);
+            pDeviceContext_->VSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[4]);
+            pDeviceContext_->PSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[4]);
+            pDeviceContext_->DrawIndexed(6, 0, 0);
+            pDeviceContext_->VSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[3]);
+            pDeviceContext_->PSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[3]);
+            pDeviceContext_->DrawIndexed(6, 0, 0);
+        }
+
     }
     HRESULT result = pSwapChain_->Present(0, 0);
 
@@ -919,4 +960,14 @@ std::vector<UINT> CountIndices(UINT numSphereTriangles_,
     indices[(__int64)k + 2] = (numSphereVertices - 1) - LongLines;
     indices[(__int64)k + 1] = numSphereVertices - 2;
     return indices;
+}
+
+float computeDistanceSqr(const XMFLOAT3& vec1, const XMFLOAT3& vec2) {
+    XMVECTOR v1 = XMLoadFloat3(&vec1);
+    XMVECTOR v2 = XMLoadFloat3(&vec2);
+    XMVECTOR diff = v1 - v2;
+    XMVECTOR distSqr = XMVector3LengthSq(diff);
+    float distanceSqr;
+    XMStoreFloat(&distanceSqr, distSqr);
+    return distanceSqr;
 }
