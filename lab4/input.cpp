@@ -2,7 +2,6 @@
 #include <fstream>
 
 void Input::Init(HINSTANCE hinstance, HWND hwnd) {
-    POINT point;
     float x = 0.0f;
     float y = 0.0f;
   
