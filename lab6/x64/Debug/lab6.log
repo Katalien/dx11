@@ -1,2 +1,5 @@
-﻿  compilation object save succeeded; see C:\Users\z.kate\source\GitHubRepos\dx11\lab6\x64\Debug\PS.cso
-  lab6.vcxproj -> C:\Users\z.kate\source\GitHubRepos\dx11\lab6\x64\Debug\lab6.exe
+﻿C:\Users\z.kate\source\GitHubRepos\dx11\lab6\SceneBuffer.h(1,9-12): warning X3568: 'once' : unknown pragma ignored
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\PS.hlsl(20,11): error X5608: Compiled shader code uses too many arithmetic instruction slots (738). Max. allowed by the target (ps_2_x) is 512. Consider increasing optimization level to reduce instruction count.
+FXC(1,1): error X5609: Compiled shader code uses too many instruction slots (740). Max. allowed by the target (ps_2_x) is 512.
+  
+  compilation failed; no code produced

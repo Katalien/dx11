@@ -131,13 +131,13 @@
     <FxCompile Include="CubeMapVS.hlsl">
       <Filter>Исходные файлы</Filter>
     </FxCompile>
-    <FxCompile Include="PS.hlsl">
-      <Filter>Исходные файлы</Filter>
-    </FxCompile>
     <FxCompile Include="TPS.hlsl">
       <Filter>Исходные файлы</Filter>
     </FxCompile>
     <FxCompile Include="TVS.hlsl">
+      <Filter>Исходные файлы</Filter>
+    </FxCompile>
+    <FxCompile Include="PS.hlsl">
       <Filter>Исходные файлы</Filter>
     </FxCompile>
     <FxCompile Include="VS.hlsl">

@@ -13,16 +13,10 @@
       <FullPath>C:\Users\z.kate\source\GitHubRepos\dx11\lab6\x64\Debug\CubeMapVS.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\z.kate\source\GitHubRepos\dx11\lab6\x64\Debug\PS.cso</FullPath>
-    </ContentFile>
-    <ContentFile>
       <FullPath>C:\Users\z.kate\source\GitHubRepos\dx11\lab6\x64\Debug\TPS.cso</FullPath>
     </ContentFile>
     <ContentFile>
       <FullPath>C:\Users\z.kate\source\GitHubRepos\dx11\lab6\x64\Debug\TVS.cso</FullPath>
-    </ContentFile>
-    <ContentFile>
-      <FullPath>C:\Users\z.kate\source\GitHubRepos\dx11\lab6\x64\Debug\VS.cso</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />
