@@ -913,6 +913,7 @@ void Renderer::Cleanup() {
         delete pCamera_;
         pCamera_ = NULL;
     }
+   
 
 #ifdef _DEBUG
     if (pDevice_ != NULL) {
