@@ -1,5 +1,6 @@
 #include "LightProccessing.h"
 
+
 Texture2D colorTexture : register (t0);
 Texture2D normals : register (t1);
 SamplerState colorSampler : register(s0);

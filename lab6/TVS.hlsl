@@ -1,5 +1,6 @@
 #include "SceneBuffer.h"
 
+
 cbuffer WorldMatrixBuffer : register (b0) {
     float4x4 worldMatrix;
     float4 color : COLOR;

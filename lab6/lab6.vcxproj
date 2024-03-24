@@ -98,6 +98,19 @@
     <FxCompile>
       <AdditionalIncludeDirectories>C:\Users\z.kate\source\GitHubRepos\dx11\lab6</AdditionalIncludeDirectories>
     </FxCompile>
+    <PostBuildEvent>
+      <Command>copy "$(ProjectDir)VS.hlsl" "$(OutDir)VS.hlsl"
+copy "$(ProjectDir)PS.hlsl" "$(OutDir)PS.hlsl"
+copy "$(ProjectDir)CubeMapPS.hlsl" "$(OutDir)CubeMapPS.hlsl"
+copy "$(ProjectDir)CubeMapVS.hlsl" "$(OutDir)CubeMapVS.hlsl"
+copy "$(ProjectDir)cube.dds" "$(OutDir)cube.dds"
+copy "$(ProjectDir)vydra_compressed.dds" "$(OutDir)vydra_compressed.dds"
+copy "$(ProjectDir)lab4.ico" "$(OutDir)lab4.ico"
+copy "$(ProjectDir)small.ico" "$(OutDir)small.ico"
+copy "$(ProjectDir)lab4.rc" "$(OutDir)lab4.rc"
+copy "$(ProjectDir)TVS.hlsl" "$(OutDir)TVS.hlsl"
+copy "$(ProjectDir)TPS.hlsl" "$(OutDir)TPS.hlsl"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -119,6 +132,19 @@
     <FxCompile>
       <AdditionalIncludeDirectories>C:\Users\z.kate\source\GitHubRepos\dx11\lab6</AdditionalIncludeDirectories>
     </FxCompile>
+    <PostBuildEvent>
+      <Command>copy "$(ProjectDir)VS.hlsl" "$(OutDir)VS.hlsl"
+copy "$(ProjectDir)PS.hlsl" "$(OutDir)PS.hlsl"
+copy "$(ProjectDir)CubeMapPS.hlsl" "$(OutDir)CubeMapPS.hlsl"
+copy "$(ProjectDir)CubeMapVS.hlsl" "$(OutDir)CubeMapVS.hlsl"
+copy "$(ProjectDir)cube.dds" "$(OutDir)cube.dds"
+copy "$(ProjectDir)vydra_compressed.dds" "$(OutDir)vydra_compressed.dds"
+copy "$(ProjectDir)lab4.ico" "$(OutDir)lab4.ico"
+copy "$(ProjectDir)small.ico" "$(OutDir)small.ico"
+copy "$(ProjectDir)lab4.rc" "$(OutDir)lab4.rc"
+copy "$(ProjectDir)TVS.hlsl" "$(OutDir)TVS.hlsl"
+copy "$(ProjectDir)TPS.hlsl" "$(OutDir)TPS.hlsl"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -136,6 +162,19 @@
     <FxCompile>
       <AdditionalIncludeDirectories>C:\Users\z.kate\source\GitHubRepos\dx11\lab6</AdditionalIncludeDirectories>
     </FxCompile>
+    <PostBuildEvent>
+      <Command>copy "$(ProjectDir)VS.hlsl" "$(OutDir)VS.hlsl"
+copy "$(ProjectDir)PS.hlsl" "$(OutDir)PS.hlsl"
+copy "$(ProjectDir)CubeMapPS.hlsl" "$(OutDir)CubeMapPS.hlsl"
+copy "$(ProjectDir)CubeMapVS.hlsl" "$(OutDir)CubeMapVS.hlsl"
+copy "$(ProjectDir)cube.dds" "$(OutDir)cube.dds"
+copy "$(ProjectDir)vydra_compressed.dds" "$(OutDir)vydra_compressed.dds"
+copy "$(ProjectDir)lab4.ico" "$(OutDir)lab4.ico"
+copy "$(ProjectDir)small.ico" "$(OutDir)small.ico"
+copy "$(ProjectDir)lab4.rc" "$(OutDir)lab4.rc"
+copy "$(ProjectDir)TVS.hlsl" "$(OutDir)TVS.hlsl"
+copy "$(ProjectDir)TPS.hlsl" "$(OutDir)TPS.hlsl"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -157,6 +196,19 @@
     <FxCompile>
       <AdditionalIncludeDirectories>C:\Users\z.kate\source\GitHubRepos\dx11\lab6</AdditionalIncludeDirectories>
     </FxCompile>
+    <PostBuildEvent>
+      <Command>copy "$(ProjectDir)VS.hlsl" "$(OutDir)VS.hlsl"
+copy "$(ProjectDir)PS.hlsl" "$(OutDir)PS.hlsl"
+copy "$(ProjectDir)CubeMapPS.hlsl" "$(OutDir)CubeMapPS.hlsl"
+copy "$(ProjectDir)CubeMapVS.hlsl" "$(OutDir)CubeMapVS.hlsl"
+copy "$(ProjectDir)cube.dds" "$(OutDir)cube.dds"
+copy "$(ProjectDir)vydra_compressed.dds" "$(OutDir)vydra_compressed.dds"
+copy "$(ProjectDir)lab4.ico" "$(OutDir)lab4.ico"
+copy "$(ProjectDir)small.ico" "$(OutDir)small.ico"
+copy "$(ProjectDir)lab4.rc" "$(OutDir)lab4.rc"
+copy "$(ProjectDir)TVS.hlsl" "$(OutDir)TVS.hlsl"
+copy "$(ProjectDir)TPS.hlsl" "$(OutDir)TPS.hlsl"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="camera.hpp" />

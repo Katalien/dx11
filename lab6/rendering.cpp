@@ -9,6 +9,9 @@ std::vector<UINT> CountIndices(UINT numSphereTriangles_,
 
 float computeDistanceSqr(const XMFLOAT3 & vec1, const XMFLOAT3 & vec2);
 
+std::vector<Light> processGuiLight(std::vector<Light>& lights_);
+std::vector<Light> processGuiButtons(std::vector<Light>& lights_);
+
 Renderer& Renderer::GetInstance() {
     static Renderer instance;
     return instance;
@@ -146,37 +149,36 @@ bool Renderer::Init(HINSTANCE hInstance, HWND hWnd) {
 
 HRESULT Renderer::InitScene() {
     HRESULT result;
-
     static const Vertex Vertices[] = {
-        {{-1.0, -1.0,  1.0}, {0,1}, {0,-1,0}, {1,0,0}},
-        {{ 1.0, -1.0,  1.0}, {1,1}, {0,-1,0}, {1,0,0}},
-        {{ 1.0, -1.0, -1.0}, {1,0}, {0,-1,0}, {1,0,0}},
-        {{-1.0, -1.0, -1.0}, {0,0}, {0,-1,0}, {1,0,0}},
+            {{-1.0, -1.0,  1.0}, {0,1}, {0,-1,0}, {1,0,0}},
+            {{ 1.0, -1.0,  1.0}, {1,1}, {0,-1,0}, {1,0,0}},
+            {{ 1.0, -1.0, -1.0}, {1,0}, {0,-1,0}, {1,0,0}},
+            {{-1.0, -1.0, -1.0}, {0,0}, {0,-1,0}, {1,0,0}},
 
-        {{-1.0,  1.0, -1.0}, {0,1}, {0,1,0}, {1,0,0}},
-        {{ 1.0,  1.0, -1.0}, {1,1}, {0,1,0}, {1,0,0}},
-        {{ 1.0,  1.0,  1.0}, {1,0}, {0,1,0}, {1,0,0}},
-        {{-1.0,  1.0,  1.0}, {0,0}, {0,1,0}, {1,0,0}},
+            {{-1.0,  1.0, -1.0}, {0,1}, {0,1,0}, {1,0,0}},
+            {{ 1.0,  1.0, -1.0}, {1,1}, {0,1,0}, {1,0,0}},
+            {{ 1.0,  1.0,  1.0}, {1,0}, {0,1,0}, {1,0,0}},
+            {{-1.0,  1.0,  1.0}, {0,0}, {0,1,0}, {1,0,0}},
 
-        {{ 1.0, -1.0, -1.0}, {0,1}, {1,0,0}, {0,0,1}},
-        {{ 1.0, -1.0,  1.0}, {1,1}, {1,0,0}, {0,0,1}},
-        {{ 1.0,  1.0,  1.0}, {1,0}, {1,0,0}, {0,0,1}},
-        {{ 1.0,  1.0, -1.0}, {0,0}, {1,0,0}, {0,0,1}},
+            {{ 1.0, -1.0, -1.0}, {0,1}, {1,0,0}, {0,0,1}},
+            {{ 1.0, -1.0,  1.0}, {1,1}, {1,0,0}, {0,0,1}},
+            {{ 1.0,  1.0,  1.0}, {1,0}, {1,0,0}, {0,0,1}},
+            {{ 1.0,  1.0, -1.0}, {0,0}, {1,0,0}, {0,0,1}},
 
-        {{-1.0, -1.0,  1.0}, {0,1}, {-1,0,0}, {0,0,-1}},
-        {{-1.0, -1.0, -1.0}, {1,1}, {-1,0,0}, {0,0,-1}},
-        {{-1.0,  1.0, -1.0}, {1,0}, {-1,0,0}, {0,0,-1}},
-        {{-1.0,  1.0,  1.0}, {0,0}, {-1,0,0}, {0,0,-1}},
+            {{-1.0, -1.0,  1.0}, {0,1}, {-1,0,0}, {0,0,-1}},
+            {{-1.0, -1.0, -1.0}, {1,1}, {-1,0,0}, {0,0,-1}},
+            {{-1.0,  1.0, -1.0}, {1,0}, {-1,0,0}, {0,0,-1}},
+            {{-1.0,  1.0,  1.0}, {0,0}, {-1,0,0}, {0,0,-1}},
 
-        {{ 1.0, -1.0,  1.0}, {0,1}, {0,0,1}, {-1,0,0}},
-        {{-1.0, -1.0,  1.0}, {1,1}, {0,0,1}, {-1,0,0}},
-        {{-1.0,  1.0,  1.0}, {1,0}, {0,0,1}, {-1,0,0}},
-        {{ 1.0,  1.0,  1.0}, {0,0}, {0,0,1}, {-1,0,0}},
+            {{ 1.0, -1.0,  1.0}, {0,1}, {0,0,1}, {-1,0,0}},
+            {{-1.0, -1.0,  1.0}, {1,1}, {0,0,1}, {-1,0,0}},
+            {{-1.0,  1.0,  1.0}, {1,0}, {0,0,1}, {-1,0,0}},
+            {{ 1.0,  1.0,  1.0}, {0,0}, {0,0,1}, {-1,0,0}},
 
-        {{-1.0, -1.0, -1.0}, {0,1}, {0,0,-1}, {1,0,0}},
-        {{ 1.0, -1.0, -1.0}, {1,1}, {0,0,-1}, {1,0,0}},
-        {{ 1.0,  1.0, -1.0}, {1,0}, {0,0,-1}, {1,0,0}},
-        {{-1.0,  1.0, -1.0}, {0,0}, {0,0,-1}, {1,0,0}}
+            {{-1.0, -1.0, -1.0}, {0,1}, {0,0,-1}, {1,0,0}},
+            {{ 1.0, -1.0, -1.0}, {1,1}, {0,0,-1}, {1,0,0}},
+            {{ 1.0,  1.0, -1.0}, {1,0}, {0,0,-1}, {1,0,0}},
+            {{-1.0,  1.0, -1.0}, {0,0}, {0,0,-1}, {1,0,0}}
     };
     static const USHORT Indices[] = {
         0, 2, 1, 0, 3, 2,
@@ -186,43 +188,27 @@ HRESULT Renderer::InitScene() {
         16, 18, 17, 16, 19, 18,
         20, 22, 21, 20, 23, 22
     };
-
     static const D3D11_INPUT_ELEMENT_DESC InputDesc[] = {
-       {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-       {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
-       {"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 20, D3D11_INPUT_PER_VERTEX_DATA, 0},
-       {"TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 32, D3D11_INPUT_PER_VERTEX_DATA, 0},
+        {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+        {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
+        {"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 20, D3D11_INPUT_PER_VERTEX_DATA, 0},
+        {"TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 32, D3D11_INPUT_PER_VERTEX_DATA, 0},
     };
-
-   /* static const TranspVertex VerticesT[] = {
-    {0, -2, -5, RGB(0, 255, 255)},
-    {0,  2, -5, RGB(255, 255, 0)},
-    {0,  2,  2, RGB(0, 255, 255)},
-    {0, -2,  2, RGB(255, 255, 0)}
-    };
-
-    for (int i = 0; i < 4; ++i) {
-        rectVert[i].x = VerticesT[i].x;
-        rectVert[i].y = VerticesT[i].y;
-        rectVert[i].z = VerticesT[i].z;
-        rectVert[i].w = 1.0f; 
-    }*/
 
     static const USHORT IndicesT[] = {
         0, 2, 1, 0, 3, 2
     };
-
-
-    for (int i = 0; i < 4; i++)
-    {
-        bb_rects[0].v[i] = XMFLOAT3{ Vertices[i].pos.x, Vertices[i].pos.y, Vertices[i].pos.z } ;
-        bb_rects[1].v[i] = XMFLOAT3{ Vertices[i].pos.x, Vertices[i].pos.y, Vertices[i].pos.z } ;
-    }
-
     static const D3D11_INPUT_ELEMENT_DESC InputDescT[] = {
         {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
         {"COLOR", 0,  DXGI_FORMAT_R8G8B8A8_UNORM, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
     };
+
+    // fill bb structs for further texture sort
+    for (int i = 0; i < 4; i++) {
+        bb_rects[0].v[i] = XMFLOAT3{ Vertices[i].pos.x, Vertices[i].pos.y, Vertices[i].pos.z };
+        bb_rects[1].v[i] = XMFLOAT3{ Vertices[i].pos.x, Vertices[i].pos.y, Vertices[i].pos.z };
+    }
+
 
     UINT LatLines = 20, LongLines = 20;
     UINT numSphereVertices = ((LatLines - 2) * LongLines) + 2;
@@ -533,14 +519,11 @@ HRESULT Renderer::InitScene() {
     }
 
     // load textures
-    /*if (SUCCEEDED(result)) {
-        result = CreateDDSTextureFromFile(pDevice_, pDeviceContext_, L"vydra_compressed.dds", nullptr, &pTexture_[0]);
-    }*/
     if (SUCCEEDED(result)) {
-        result = CreateDDSTextureFromFile(pDevice_, pDeviceContext_, L"textures/156.dds", nullptr, &pTexture_[0]);
+        result = CreateDDSTextureFromFile(pDevice_, pDeviceContext_, L"texture.dds", nullptr, &pTexture_[0]);
     }
     if (SUCCEEDED(result)) {
-        result = CreateDDSTextureFromFile(pDevice_, pDeviceContext_, L"textures/156_norm.dds", nullptr, &pTexture_[1]);
+        result = CreateDDSTextureFromFile(pDevice_, pDeviceContext_, L"texture_norm.dds", nullptr, &pTexture_[1]);
     }
     if (SUCCEEDED(result)) {
         result = CreateDDSTextureFromFileEx(pDevice_, pDeviceContext_, L"cube.dds",
@@ -625,37 +608,9 @@ bool Renderer::UpdateScene() {
         ImGui::Checkbox("Use normal maps", &useNormalMap_);
         ImGui::Checkbox("Show normals", &showNormals_);
 
-        if (ImGui::Button("+")) {
-            if (lights_.size() < MAX_LIGHT)
-                lights_.push_back({ XMFLOAT4(2.0f, 2.0f, 0.0f, 0.f), XMFLOAT4(1.0f, 1.0f, 1.0f, 0.0f) });
-        }
-        ImGui::SameLine();
-        if (ImGui::Button("-")) {
-            if (lights_.size() > 0)
-                lights_.pop_back();
-        }
+        lights_ = processGuiButtons(lights_);
 
-        static float col[MAX_LIGHT][3];
-        static float pos[MAX_LIGHT][4];
-        for (int i = 0; i < lights_.size(); i++) {
-            std::string str = "Light " + std::to_string(i);
-            ImGui::Text(str.c_str());
-
-            pos[i][0] = lights_[i].pos.x;
-            pos[i][1] = lights_[i].pos.y;
-            pos[i][2] = lights_[i].pos.z;
-            str = "Pos " + std::to_string(i);
-            ImGui::Text(str.c_str());
-            ImGui::DragFloat3(str.c_str(), pos[i], 0.1f, -4.0f, 4.0f);
-            lights_[i].pos = XMFLOAT4(pos[i][0], pos[i][1], pos[i][2], 1.0f);
-
-            col[i][0] = lights_[i].color.x;
-            col[i][1] = lights_[i].color.y;
-            col[i][2] = lights_[i].color.z;
-            str = "Color " + std::to_string(i);
-            ImGui::ColorEdit3(str.c_str(), col[i]);
-            lights_[i].color = XMFLOAT4(col[i][0], col[i][1], col[i][2], 1.0f);
-        }
+        lights_ = processGuiLight(lights_);
 
         ImGui::End();
     }
@@ -720,7 +675,6 @@ bool Renderer::UpdateScene() {
     if (SUCCEEDED(result)) {
         SkyboxViewMatrixBuffer& skyboxSceneBuffer = *reinterpret_cast<SkyboxViewMatrixBuffer*>(skyboxSubresource.pData);
         skyboxSceneBuffer.viewProjectionMatrix = XMMatrixMultiply(mView, mProjection);
-        XMFLOAT3 cameraPos = pCamera_->GetPosition();
         skyboxSceneBuffer.cameraPos = XMFLOAT4(cameraPos.x, cameraPos.y, cameraPos.z, 1.0f);
         pDeviceContext_->Unmap(pViewMatrixBuffer_[1], 0);
     }
@@ -830,19 +784,17 @@ bool Renderer::Render() {
 
         if (dist1 < dist2) {
             pDeviceContext_->VSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[3]);
-            pDeviceContext_->PSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[3]);
             pDeviceContext_->DrawIndexed(6, 0, 0);
+
             pDeviceContext_->VSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[4]);
-            pDeviceContext_->PSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[4]);
             pDeviceContext_->DrawIndexed(6, 0, 0);
         }
         else {
 
             pDeviceContext_->VSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[4]);
-            pDeviceContext_->PSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[4]);
             pDeviceContext_->DrawIndexed(6, 0, 0);
+
             pDeviceContext_->VSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[3]);
-            pDeviceContext_->PSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[3]);
             pDeviceContext_->DrawIndexed(6, 0, 0);
         }
 
@@ -1079,3 +1031,41 @@ float computeDistanceSqr(const XMFLOAT3& vec1, const XMFLOAT3& vec2) {
     XMStoreFloat(&distanceSqr, distSqr);
     return distanceSqr;
 }
+
+std::vector<Light> processGuiLight(std::vector<Light>& lights_) {
+    static float col[MAX_LIGHT][3];
+    static float pos[MAX_LIGHT][4];
+    for (int i = 0; i < lights_.size(); i++) {
+        std::string str = "Light " + std::to_string(i);
+        ImGui::Text(str.c_str());
+
+        pos[i][0] = lights_[i].pos.x;
+        pos[i][1] = lights_[i].pos.y;
+        pos[i][2] = lights_[i].pos.z;
+        str = "Pos " + std::to_string(i);
+        ImGui::Text(str.c_str());
+        ImGui::DragFloat3(str.c_str(), pos[i], 0.1f, -4.0f, 4.0f);
+        lights_[i].pos = XMFLOAT4(pos[i][0], pos[i][1], pos[i][2], 1.0f);
+
+        col[i][0] = lights_[i].color.x;
+        col[i][1] = lights_[i].color.y;
+        col[i][2] = lights_[i].color.z;
+        str = "Color " + std::to_string(i);
+        ImGui::ColorEdit3(str.c_str(), col[i]);
+        lights_[i].color = XMFLOAT4(col[i][0], col[i][1], col[i][2], 1.0f);
+    }
+    return lights_;
+};
+
+std::vector<Light> processGuiButtons(std::vector<Light>& lights_) {
+    if (ImGui::Button("+")) {
+        if (lights_.size() < MAX_LIGHT)
+            lights_.push_back({ XMFLOAT4(2.0f, 2.0f, 0.0f, 0.f), XMFLOAT4(1.0f, 1.0f, 1.0f, 0.0f) });
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("-")) {
+        if (lights_.size() > 0)
+            lights_.pop_back();
+    }
+    return lights_;
+};

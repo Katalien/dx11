@@ -11,5 +11,5 @@ float4 main(PS_INPUT input) : SV_TARGET{
     return float4(ProcessLightColor(input.color.xyz, float3(1, 0, 0), input.worldPos.xyz, 0.0, true), 0.5f);
 #else
     return float4(input.color.xyz, 0.5f);
-#endif
+#endif // !USE_LIGHTS
 }
