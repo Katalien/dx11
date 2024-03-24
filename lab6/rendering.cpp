@@ -129,6 +129,14 @@ bool Renderer::Init(HINSTANCE hInstance, HWND hWnd) {
     if (SUCCEEDED(result)) {
         pInput_->Init(hInstance, hWnd);
     }
+
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    ImGui::StyleColorsDark();
+    ImGui_ImplWin32_Init(hWnd);
+    ImGui_ImplDX11_Init(pDevice_, pDeviceContext_);
+
     if (FAILED(result)) {
         Cleanup();
     }
@@ -140,35 +148,35 @@ HRESULT Renderer::InitScene() {
     HRESULT result;
 
     static const Vertex Vertices[] = {
-        {-1.0, -1.0,  1.0, 0, 1},
-        { 1.0, -1.0,  1.0, 1, 1},
-        { 1.0, -1.0, -1.0, 1, 0},
-        {-1.0, -1.0, -1.0, 0, 0},
+        {{-1.0, -1.0,  1.0}, {0,1}, {0,-1,0}, {1,0,0}},
+        {{ 1.0, -1.0,  1.0}, {1,1}, {0,-1,0}, {1,0,0}},
+        {{ 1.0, -1.0, -1.0}, {1,0}, {0,-1,0}, {1,0,0}},
+        {{-1.0, -1.0, -1.0}, {0,0}, {0,-1,0}, {1,0,0}},
 
-        {-1.0,  1.0, -1.0, 0, 1},
-        { 1.0,  1.0, -1.0, 1, 1},
-        { 1.0,  1.0,  1.0, 1, 0},
-        {-1.0,  1.0,  1.0, 0, 0},
+        {{-1.0,  1.0, -1.0}, {0,1}, {0,1,0}, {1,0,0}},
+        {{ 1.0,  1.0, -1.0}, {1,1}, {0,1,0}, {1,0,0}},
+        {{ 1.0,  1.0,  1.0}, {1,0}, {0,1,0}, {1,0,0}},
+        {{-1.0,  1.0,  1.0}, {0,0}, {0,1,0}, {1,0,0}},
 
-        { 1.0, -1.0, -1.0, 0, 1},
-        { 1.0, -1.0,  1.0, 1, 1},
-        { 1.0,  1.0,  1.0, 1, 0},
-        { 1.0,  1.0, -1.0, 0, 0},
+        {{ 1.0, -1.0, -1.0}, {0,1}, {1,0,0}, {0,0,1}},
+        {{ 1.0, -1.0,  1.0}, {1,1}, {1,0,0}, {0,0,1}},
+        {{ 1.0,  1.0,  1.0}, {1,0}, {1,0,0}, {0,0,1}},
+        {{ 1.0,  1.0, -1.0}, {0,0}, {1,0,0}, {0,0,1}},
 
-        {-1.0, -1.0,  1.0, 0, 1},
-        {-1.0, -1.0, -1.0, 1, 1},
-        {-1.0,  1.0, -1.0, 1, 0},
-        {-1.0,  1.0,  1.0, 0, 0},
+        {{-1.0, -1.0,  1.0}, {0,1}, {-1,0,0}, {0,0,-1}},
+        {{-1.0, -1.0, -1.0}, {1,1}, {-1,0,0}, {0,0,-1}},
+        {{-1.0,  1.0, -1.0}, {1,0}, {-1,0,0}, {0,0,-1}},
+        {{-1.0,  1.0,  1.0}, {0,0}, {-1,0,0}, {0,0,-1}},
 
-        { 1.0, -1.0,  1.0, 0, 1},
-        {-1.0, -1.0,  1.0, 1, 1},
-        {-1.0,  1.0,  1.0, 1, 0},
-        { 1.0,  1.0,  1.0, 0, 0},
+        {{ 1.0, -1.0,  1.0}, {0,1}, {0,0,1}, {-1,0,0}},
+        {{-1.0, -1.0,  1.0}, {1,1}, {0,0,1}, {-1,0,0}},
+        {{-1.0,  1.0,  1.0}, {1,0}, {0,0,1}, {-1,0,0}},
+        {{ 1.0,  1.0,  1.0}, {0,0}, {0,0,1}, {-1,0,0}},
 
-        {-1.0, -1.0, -1.0, 0, 1},
-        { 1.0, -1.0, -1.0, 1, 1},
-        { 1.0,  1.0, -1.0, 1, 0},
-        {-1.0,  1.0, -1.0, 0, 0}
+        {{-1.0, -1.0, -1.0}, {0,1}, {0,0,-1}, {1,0,0}},
+        {{ 1.0, -1.0, -1.0}, {1,1}, {0,0,-1}, {1,0,0}},
+        {{ 1.0,  1.0, -1.0}, {1,0}, {0,0,-1}, {1,0,0}},
+        {{-1.0,  1.0, -1.0}, {0,0}, {0,0,-1}, {1,0,0}}
     };
     static const USHORT Indices[] = {
         0, 2, 1, 0, 3, 2,
@@ -178,12 +186,15 @@ HRESULT Renderer::InitScene() {
         16, 18, 17, 16, 19, 18,
         20, 22, 21, 20, 23, 22
     };
+
     static const D3D11_INPUT_ELEMENT_DESC InputDesc[] = {
-        {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
-        {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
+       {"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+       {"TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0},
+       {"NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 20, D3D11_INPUT_PER_VERTEX_DATA, 0},
+       {"TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 32, D3D11_INPUT_PER_VERTEX_DATA, 0},
     };
 
-    static const TranspVertex VerticesT[] = {
+   /* static const TranspVertex VerticesT[] = {
     {0, -2, -5, RGB(0, 255, 255)},
     {0,  2, -5, RGB(255, 255, 0)},
     {0,  2,  2, RGB(0, 255, 255)},
@@ -195,7 +206,7 @@ HRESULT Renderer::InitScene() {
         rectVert[i].y = VerticesT[i].y;
         rectVert[i].z = VerticesT[i].z;
         rectVert[i].w = 1.0f; 
-    }
+    }*/
 
     static const USHORT IndicesT[] = {
         0, 2, 1, 0, 3, 2
@@ -204,8 +215,8 @@ HRESULT Renderer::InitScene() {
 
     for (int i = 0; i < 4; i++)
     {
-        bb_rects[0].v[i] = XMFLOAT3{ Vertices[i].x, Vertices[i].y, Vertices[i].z } ;
-        bb_rects[1].v[i] = XMFLOAT3{ Vertices[i].x, Vertices[i].y, Vertices[i].z } ;
+        bb_rects[0].v[i] = XMFLOAT3{ Vertices[i].pos.x, Vertices[i].pos.y, Vertices[i].pos.z } ;
+        bb_rects[1].v[i] = XMFLOAT3{ Vertices[i].pos.x, Vertices[i].pos.y, Vertices[i].pos.z } ;
     }
 
     static const D3D11_INPUT_ELEMENT_DESC InputDescT[] = {
@@ -276,14 +287,17 @@ HRESULT Renderer::InitScene() {
     flags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
 #endif
 
+    //
+    D3DInclude includeObj;
+
     if (SUCCEEDED(result)) {
-        result = D3DCompileFromFile(L"VS.hlsl", NULL, NULL, "main", "vs_5_0", flags, 0, &vertexShaderBuffer, NULL);
+        result = D3DCompileFromFile(L"VS.hlsl", NULL, &includeObj, "main", "vs_5_0", flags, 0, &vertexShaderBuffer, NULL);
         if (SUCCEEDED(result)) {
             result = pDevice_->CreateVertexShader(vertexShaderBuffer->GetBufferPointer(), vertexShaderBuffer->GetBufferSize(), NULL, &pVertexShader_[0]);
         }
     }
     if (SUCCEEDED(result)) {
-        result = D3DCompileFromFile(L"PS.hlsl", NULL, NULL, "main", "ps_5_0", flags, 0, &pixelShaderBuffer, NULL);
+        result = D3DCompileFromFile(L"PS.hlsl", NULL, &includeObj, "main", "ps_5_0", flags, 0, &pixelShaderBuffer, NULL);
         if (SUCCEEDED(result)) {
             result = pDevice_->CreatePixelShader(pixelShaderBuffer->GetBufferPointer(), pixelShaderBuffer->GetBufferSize(), NULL, &pPixelShader_[0]);
         }
@@ -307,6 +321,7 @@ HRESULT Renderer::InitScene() {
 
         WorldMatrixBuffer worldMatrixBuffer;
         worldMatrixBuffer.worldMatrix = DirectX::XMMatrixIdentity();
+        worldMatrixBuffer.shine = XMFLOAT4(300.0f, 0.0f, 0.0f, 0.0f); //
 
         D3D11_SUBRESOURCE_DATA data;
         data.pSysMem = &worldMatrixBuffer;
@@ -320,11 +335,15 @@ HRESULT Renderer::InitScene() {
             result = pDevice_->CreateBuffer(&desc, &data, &pWorldMatrixBuffer_[1]);
         }
         if (SUCCEEDED(result)) {
-            worldMatrixBuffer.worldMatrix = DirectX::XMMatrixTranslation(1.8f, 0.0f, 0.0f);
+            /*worldMatrixBuffer.worldMatrix = DirectX::XMMatrixTranslation(1.8f, 0.0f, 0.0f);*/
+            worldMatrixBuffer.worldMatrix = TransparentMatrixs[0];
+            worldMatrixBuffer.shine = XMFLOAT4(1.0f, 0.0f, 0.0f, 0.0f);
             result = pDevice_->CreateBuffer(&desc, &data, &pWorldMatrixBuffer_[3]);
         }
         if (SUCCEEDED(result)) {
-            worldMatrixBuffer.worldMatrix = DirectX::XMMatrixTranslation(2.2f, 0.0f, 0.0f);
+            //worldMatrixBuffer.worldMatrix = DirectX::XMMatrixTranslation(2.2f, 0.0f, 0.0f);
+            worldMatrixBuffer.worldMatrix = TransparentMatrixs[1];
+            worldMatrixBuffer.shine = XMFLOAT4(0.0f, 1.0f, 0.0f, 0.0f);
             result = pDevice_->CreateBuffer(&desc, &data, &pWorldMatrixBuffer_[4]);
         }
         
@@ -473,15 +492,17 @@ HRESULT Renderer::InitScene() {
 #ifdef _DEBUG
         flags = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
 #endif
+        //
+        D3D_SHADER_MACRO Shader_Macros[] = { {"USE_LIGHTS"}, {NULL, NULL} };
 
         if (SUCCEEDED(result)) {
-            result = D3DCompileFromFile(L"TVS.hlsl", NULL, NULL, "main", "vs_5_0", flags, 0, &vertexShaderBuffer, NULL);
+            result = D3DCompileFromFile(L"TVS.hlsl", NULL, &includeObj, "main", "vs_5_0", flags, 0, &vertexShaderBuffer, NULL);
             if (SUCCEEDED(result)) {
                 result = pDevice_->CreateVertexShader(vertexShaderBuffer->GetBufferPointer(), vertexShaderBuffer->GetBufferSize(), NULL, &pVertexShader_[2]);
             }
         }
         if (SUCCEEDED(result)) {
-            result = D3DCompileFromFile(L"TPS.hlsl", NULL, NULL, "main", "ps_5_0", flags, 0, &pixelShaderBuffer, NULL);
+            result = D3DCompileFromFile(L"TPS.hlsl", Shader_Macros, &includeObj, "main", "ps_5_0", flags, 0, &pixelShaderBuffer, NULL);
             if (SUCCEEDED(result)) {
                 result = pDevice_->CreatePixelShader(pixelShaderBuffer->GetBufferPointer(), pixelShaderBuffer->GetBufferSize(), NULL, &pPixelShader_[2]);
             }
@@ -512,13 +533,19 @@ HRESULT Renderer::InitScene() {
     }
 
     // load textures
-    if (SUCCEEDED(result)) {
+    /*if (SUCCEEDED(result)) {
         result = CreateDDSTextureFromFile(pDevice_, pDeviceContext_, L"vydra_compressed.dds", nullptr, &pTexture_[0]);
+    }*/
+    if (SUCCEEDED(result)) {
+        result = CreateDDSTextureFromFile(pDevice_, pDeviceContext_, L"textures/156.dds", nullptr, &pTexture_[0]);
+    }
+    if (SUCCEEDED(result)) {
+        result = CreateDDSTextureFromFile(pDevice_, pDeviceContext_, L"textures/156_norm.dds", nullptr, &pTexture_[1]);
     }
     if (SUCCEEDED(result)) {
         result = CreateDDSTextureFromFileEx(pDevice_, pDeviceContext_, L"cube.dds",
             0, D3D11_USAGE_DEFAULT, D3D11_BIND_SHADER_RESOURCE, 0, D3D11_RESOURCE_MISC_TEXTURECUBE,
-            DDS_LOADER_DEFAULT, nullptr, &pTexture_[1]);
+            DDS_LOADER_DEFAULT, nullptr, &pTexture_[2]);
     }
     if (SUCCEEDED(result)) {
         D3D11_SAMPLER_DESC desc = {};
@@ -585,6 +612,55 @@ void Renderer::InputHandler() {
 bool Renderer::UpdateScene() {
     HRESULT result;
 
+    //
+    ImGui_ImplDX11_NewFrame();
+    ImGui_ImplWin32_NewFrame();
+    ImGui::NewFrame();
+
+    static bool window = true;
+
+    if (window) {
+        ImGui::Begin("ImGui", &window);
+
+        ImGui::Checkbox("Use normal maps", &useNormalMap_);
+        ImGui::Checkbox("Show normals", &showNormals_);
+
+        if (ImGui::Button("+")) {
+            if (lights_.size() < MAX_LIGHT)
+                lights_.push_back({ XMFLOAT4(2.0f, 2.0f, 0.0f, 0.f), XMFLOAT4(1.0f, 1.0f, 1.0f, 0.0f) });
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("-")) {
+            if (lights_.size() > 0)
+                lights_.pop_back();
+        }
+
+        static float col[MAX_LIGHT][3];
+        static float pos[MAX_LIGHT][4];
+        for (int i = 0; i < lights_.size(); i++) {
+            std::string str = "Light " + std::to_string(i);
+            ImGui::Text(str.c_str());
+
+            pos[i][0] = lights_[i].pos.x;
+            pos[i][1] = lights_[i].pos.y;
+            pos[i][2] = lights_[i].pos.z;
+            str = "Pos " + std::to_string(i);
+            ImGui::Text(str.c_str());
+            ImGui::DragFloat3(str.c_str(), pos[i], 0.1f, -4.0f, 4.0f);
+            lights_[i].pos = XMFLOAT4(pos[i][0], pos[i][1], pos[i][2], 1.0f);
+
+            col[i][0] = lights_[i].color.x;
+            col[i][1] = lights_[i].color.y;
+            col[i][2] = lights_[i].color.z;
+            str = "Color " + std::to_string(i);
+            ImGui::ColorEdit3(str.c_str(), col[i]);
+            lights_[i].color = XMFLOAT4(col[i][0], col[i][1], col[i][2], 1.0f);
+        }
+
+        ImGui::End();
+    }
+
+
     InputHandler();
 
     static float t = 0.0f;
@@ -597,6 +673,7 @@ bool Renderer::UpdateScene() {
 
     WorldMatrixBuffer worldMatrixBuffer;
     worldMatrixBuffer.worldMatrix = XMMatrixRotationY(t);
+    worldMatrixBuffer.shine = XMFLOAT4(300.0f, 0.0f, 0.0f, 0.0f); //
 
     pDeviceContext_->UpdateSubresource(pWorldMatrixBuffer_[0], 0, nullptr, &worldMatrixBuffer, 0, 0);
 
@@ -604,13 +681,31 @@ bool Renderer::UpdateScene() {
     
     XMMATRIX mProjection = XMMatrixPerspectiveFovLH(XM_PI / 3, width_ / (FLOAT)height_, 100.0f, 0.01f);
 
+
+    //
+    XMFLOAT3 cameraPos = pCamera_->GetPosition();
+
     D3D11_MAPPED_SUBRESOURCE subresource, skyboxSubresource;
     result = pDeviceContext_->Map(pViewMatrixBuffer_[0], 0, D3D11_MAP_WRITE_DISCARD, 0, &subresource);
-    if (SUCCEEDED(result)) {
+    /*if (SUCCEEDED(result)) {
         ViewMatrixBuffer& sceneBuffer = *reinterpret_cast<ViewMatrixBuffer*>(subresource.pData);
         sceneBuffer.viewProjectionMatrix = XMMatrixMultiply(mView, mProjection);
         pDeviceContext_->Unmap(pViewMatrixBuffer_[0], 0);
+    }*/
+
+    if (SUCCEEDED(result)) {
+        ViewMatrixBuffer& sceneBuffer = *reinterpret_cast<ViewMatrixBuffer*>(subresource.pData);
+        sceneBuffer.viewProjectionMatrix = XMMatrixMultiply(mView, mProjection);
+        sceneBuffer.cameraPos = XMFLOAT4(cameraPos.x, cameraPos.y, cameraPos.z, 1.0f);
+        sceneBuffer.ambientColor = XMFLOAT4(0.4f, 0.4f, 0.4f, 1.0f);
+        sceneBuffer.lightParams = XMINT4(int(lights_.size()), (int)useNormalMap_, (int)showNormals_, 0);
+        for (int i = 0; i < lights_.size(); i++) {
+            sceneBuffer.lights[i].pos = lights_[i].pos;
+            sceneBuffer.lights[i].color = lights_[i].color;
+        }
+        pDeviceContext_->Unmap(pViewMatrixBuffer_[0], 0);
     }
+
     if (SUCCEEDED(result)) {
         SkyboxWorldMatrixBuffer skyboxWorldMatrixBuffer;
 
@@ -629,6 +724,9 @@ bool Renderer::UpdateScene() {
         skyboxSceneBuffer.cameraPos = XMFLOAT4(cameraPos.x, cameraPos.y, cameraPos.z, 1.0f);
         pDeviceContext_->Unmap(pViewMatrixBuffer_[1], 0);
     }
+
+    //
+    ImGui::Render();
 
     return SUCCEEDED(result);
 }
@@ -665,7 +763,7 @@ bool Renderer::Render() {
     pDeviceContext_->RSSetState(pRasterizerState_);
     pDeviceContext_->OMSetDepthStencilState(pDepthState_[0], 0);
 
-    ID3D11ShaderResourceView* resources[] = { pTexture_[0] };
+    ID3D11ShaderResourceView* resources[] = { pTexture_[0], pTexture_[1] };
     pDeviceContext_->PSSetShaderResources(0, 1, resources);
 
     ID3D11SamplerState* samplers[] = { pSampler_ };
@@ -673,7 +771,7 @@ bool Renderer::Render() {
 
     pDeviceContext_->IASetIndexBuffer(pIndexBuffer_[0], DXGI_FORMAT_R16_UINT, 0);
     ID3D11Buffer* vertexBuffers[] = { pVertexBuffer_[0] };
-    UINT strides[] = { 20 };
+    UINT strides[] = { sizeof(Vertex) };
     UINT offsets[] = { 0 };
     pDeviceContext_->IASetVertexBuffers(0, 1, vertexBuffers, strides, offsets);
     pDeviceContext_->IASetInputLayout(pInputLayout_[0]);
@@ -682,13 +780,14 @@ bool Renderer::Render() {
     pDeviceContext_->VSSetConstantBuffers(1, 1, &pViewMatrixBuffer_[0]);
     pDeviceContext_->VSSetShader(pVertexShader_[0], nullptr, 0);
     pDeviceContext_->PSSetShader(pPixelShader_[0], nullptr, 0);
+    pDeviceContext_->PSSetConstantBuffers(1, 1, &pViewMatrixBuffer_[0]);
     pDeviceContext_->DrawIndexed(36, 0, 0);
     pDeviceContext_->VSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[1]);
     pDeviceContext_->DrawIndexed(36, 0, 0);
 
     pDeviceContext_->OMSetDepthStencilState(pDepthState_[1], 0);
     {
-        ID3D11ShaderResourceView* resources[] = { pTexture_[1] };
+        ID3D11ShaderResourceView* resources[] = { pTexture_[2] }; //
         pDeviceContext_->PSSetShaderResources(0, 1, resources);
 
         pDeviceContext_->IASetIndexBuffer(pIndexBuffer_[1], DXGI_FORMAT_R32_UINT, 0);
@@ -727,6 +826,7 @@ bool Renderer::Render() {
         pDeviceContext_->VSSetConstantBuffers(1, 1, &pViewMatrixBuffer_[0]);
 
         pDeviceContext_->OMSetBlendState(pBlendState_, nullptr, 0xFFFFFFFF);
+
 
         if (dist1 < dist2) {
             pDeviceContext_->VSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[3]);

@@ -8,6 +8,11 @@
 
 #define MAX_LIGHT 10
 
+struct Light {
+    XMFLOAT4 pos;
+    XMFLOAT4 color;
+};
+
 struct Vertex {
     XMFLOAT3 pos;
     XMFLOAT2 uv;
@@ -51,7 +56,3 @@ struct BBRect {
     XMFLOAT3 v[4];
 };
 
-struct Light {
-    XMFLOAT4 pos;
-    XMFLOAT4 color;
-};

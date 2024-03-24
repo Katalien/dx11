@@ -9,6 +9,7 @@
 #include <fstream>
 #include "D3DInclude.h"
 #include <string>
+#include <iostream>
 
 #define MAX_LIGHT 10
 
@@ -84,6 +85,6 @@ private:
         DirectX::XMMatrixTranslation(1.8f, 0.0f, 0.0f),
         DirectX::XMMatrixTranslation(2.2f, 0.0f, 0.0f)
     };
-    bool isFirst_ = true;
+
     
 };
