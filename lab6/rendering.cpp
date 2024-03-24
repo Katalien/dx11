@@ -718,7 +718,7 @@ bool Renderer::Render() {
     pDeviceContext_->OMSetDepthStencilState(pDepthState_[0], 0);
 
     ID3D11ShaderResourceView* resources[] = { pTexture_[0], pTexture_[1] };
-    pDeviceContext_->PSSetShaderResources(0, 1, resources);
+    pDeviceContext_->PSSetShaderResources(0, 2, resources);
 
     ID3D11SamplerState* samplers[] = { pSampler_ };
     pDeviceContext_->PSSetSamplers(0, 1, samplers);
