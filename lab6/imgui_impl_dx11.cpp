@@ -73,10 +73,6 @@ struct VERTEX_CONSTANT_BUFFER_DX11
 // It is STRONGLY preferred that you use docking branch with multi-viewports (== single Dear ImGui context + multiple windows) instead of multiple Dear ImGui contexts.
 static ImGui_ImplDX11_Data* ImGui_ImplDX11_GetBackendData()
 {
-    std::ofstream outputFile("output.txt");
-    outputFile << ImGui::GetCurrentContext() ? (ImGui_ImplDX11_Data*)ImGui::GetIO().BackendRendererUserData : NULL;
-    outputFile << "\n";
-
     return ImGui::GetCurrentContext() ? (ImGui_ImplDX11_Data*)ImGui::GetIO().BackendRendererUserData : NULL;
 }
 

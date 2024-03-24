@@ -82,9 +82,6 @@ bool Renderer::Init(HINSTANCE hInstance, HWND hWnd) {
     if (D3D_FEATURE_LEVEL_11_0 != level || !SUCCEEDED(result)) {
         SAFE_RELEASE(pFactory);
         SAFE_RELEASE(pSelectedAdapter);
-        std::ofstream outputFile("output.txt");
-        outputFile << " if (D3D_FEATURE_LEVEL_11_0 != level || !SUCCEEDED(result))!!!\n";
-        outputFile.close();
         Cleanup();
         return false;
     }
@@ -137,24 +134,13 @@ bool Renderer::Init(HINSTANCE hInstance, HWND hWnd) {
         pInput_->Init(hInstance, hWnd);
     }
 
-        std::ofstream outputFile("output.txt");
-
-  
-        outputFile << "Open file\n";
-
+      
         IMGUI_CHECKVERSION();
-        outputFile << " IMGUI_CHECKVERSION();\n";
-
         ImGui::CreateContext();
-        outputFile << " ImGui::CreateContext();\n";
         ImGuiIO& io = ImGui::GetIO(); (void)io;
-        outputFile << "ImGuiIO& io = ImGui::GetIO(); (void)io;\n";
         ImGui::StyleColorsDark();
         ImGui_ImplWin32_Init(hWnd);
-        outputFile << "    ImGui_ImplWin32_Init(hWnd);\n";
         ImGui_ImplDX11_Init(pDevice_, pDeviceContext_);
-        outputFile << "ImGui_ImplDX11_Init(pDevice_, pDeviceContext_);\n";
-        outputFile.close();
     
 
     if (FAILED(result)) {
@@ -875,15 +861,9 @@ bool Renderer::Resize(UINT width, UINT height) {
 
 
 void Renderer::Cleanup() {
-    std::ofstream outputFile("output.txt");
-    outputFile << "\n\n Close file\n";
     ImGui_ImplDX11_Shutdown();
-    outputFile << " ImGui_ImplDX11_Shutdown()\n";
     ImGui_ImplWin32_Shutdown();
-    outputFile << " ImGui_ImplWin32_Shutdown();\n";
     ImGui::DestroyContext();
-    outputFile << "ImGui::DestroyContext()\n";
-    outputFile.close();
 
     if (pDeviceContext_ != NULL)
         pDeviceContext_->ClearState();
