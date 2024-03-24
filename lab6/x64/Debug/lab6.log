@@ -1,5 +1,11 @@
-﻿  camera.cpp
-  lab6.cpp
+﻿  lab6.cpp
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\structs.h(47,12): error C3646: lightPos: неизвестный спецификатор переопределения
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\structs.h(47,20): error C4430: отсутствует спецификатор типа - предполагается int. Примечание. C++ не поддерживает int по умолчанию
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\structs.h(48,12): error C3646: lightColor: неизвестный спецификатор переопределения
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\structs.h(48,22): error C4430: отсутствует спецификатор типа - предполагается int. Примечание. C++ не поддерживает int по умолчанию
   rendering.cpp
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\structs.h(47,12): error C3646: lightPos: неизвестный спецификатор переопределения
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\structs.h(47,20): error C4430: отсутствует спецификатор типа - предполагается int. Примечание. C++ не поддерживает int по умолчанию
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\structs.h(48,12): error C3646: lightColor: неизвестный спецификатор переопределения
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\structs.h(48,22): error C4430: отсутствует спецификатор типа - предполагается int. Примечание. C++ не поддерживает int по умолчанию
   Создание кода...
-  lab6.vcxproj -> C:\Users\z.kate\source\GitHubRepos\dx11\lab6\x64\Debug\lab6.exe

@@ -66,6 +66,9 @@
     <ClInclude Include="imstb_truetype.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="SceneBuffer.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lab6.cpp">

@@ -43,3 +43,8 @@ struct BBRect {
     XMFLOAT3 v[4];
 };
 
+struct LIGHT {
+    float4 lightPos;
+    float4 lightColor;
+};
+
