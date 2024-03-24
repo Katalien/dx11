@@ -595,7 +595,6 @@ void Renderer::InputHandler() {
 bool Renderer::UpdateScene() {
     HRESULT result;
 
-    //
     ImGui_ImplDX11_NewFrame();
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
@@ -642,11 +641,6 @@ bool Renderer::UpdateScene() {
 
     D3D11_MAPPED_SUBRESOURCE subresource, skyboxSubresource;
     result = pDeviceContext_->Map(pViewMatrixBuffer_[0], 0, D3D11_MAP_WRITE_DISCARD, 0, &subresource);
-    /*if (SUCCEEDED(result)) {
-        ViewMatrixBuffer& sceneBuffer = *reinterpret_cast<ViewMatrixBuffer*>(subresource.pData);
-        sceneBuffer.viewProjectionMatrix = XMMatrixMultiply(mView, mProjection);
-        pDeviceContext_->Unmap(pViewMatrixBuffer_[0], 0);
-    }*/
 
     if (SUCCEEDED(result)) {
         ViewMatrixBuffer& sceneBuffer = *reinterpret_cast<ViewMatrixBuffer*>(subresource.pData);
@@ -667,7 +661,7 @@ bool Renderer::UpdateScene() {
         skyboxWorldMatrixBuffer.worldMatrix = XMMatrixIdentity();
         skyboxWorldMatrixBuffer.size = XMFLOAT4(radius_, 0.0f, 0.0f, 0.0f);
 
-        //
+        
         pDeviceContext_->UpdateSubresource(pWorldMatrixBuffer_[2], 0, nullptr, &skyboxWorldMatrixBuffer, 0, 0);
 
         result = pDeviceContext_->Map(pViewMatrixBuffer_[1], 0, D3D11_MAP_WRITE_DISCARD, 0, &skyboxSubresource);
@@ -679,7 +673,7 @@ bool Renderer::UpdateScene() {
         pDeviceContext_->Unmap(pViewMatrixBuffer_[1], 0);
     }
 
-    //
+    
     ImGui::Render();
 
     return SUCCEEDED(result);
@@ -759,7 +753,6 @@ bool Renderer::Render() {
     }
 
     {   
-        //
         float dist1 = 0.0f, dist2 = 0.0f;
         XMFLOAT3 cameraPos = pCamera_->GetPosition();
         
@@ -830,7 +823,7 @@ bool Renderer::Resize(UINT width, UINT height) {
     if (!SUCCEEDED(result))
         return false;
 
-    //
+    
     SAFE_RELEASE(pDepthBuffer_);
     SAFE_RELEASE(pDepthBufferDSV_);
     D3D11_TEXTURE2D_DESC desc = {};
