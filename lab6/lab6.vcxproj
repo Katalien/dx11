@@ -172,6 +172,7 @@
     <ClInclude Include="imstb_truetype.h" />
     <ClInclude Include="input.hpp" />
     <ClInclude Include="lab6.h" />
+    <ClInclude Include="LightProccessing.h" />
     <ClInclude Include="rendering.hpp" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="SceneBuffer.h" />
