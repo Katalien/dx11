@@ -847,6 +847,9 @@ bool Renderer::Render() {
         }
 
     }
+
+    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
     HRESULT result = pSwapChain_->Present(0, 0);
 
     return SUCCEEDED(result);
@@ -910,6 +913,10 @@ bool Renderer::Resize(UINT width, UINT height) {
 
 
 void Renderer::Cleanup() {
+    ImGui_ImplDX11_Shutdown();
+    ImGui_ImplWin32_Shutdown();
+    ImGui::DestroyContext();
+
     if (pDeviceContext_ != NULL)
         pDeviceContext_->ClearState();
 
@@ -953,6 +960,7 @@ void Renderer::Cleanup() {
 
     SAFE_RELEASE(pTexture_[0]);
     SAFE_RELEASE(pTexture_[1]);
+    SAFE_RELEASE(pTexture_[2]);
 
     SAFE_RELEASE(pDepthState_[0]);
     SAFE_RELEASE(pDepthState_[1]);
