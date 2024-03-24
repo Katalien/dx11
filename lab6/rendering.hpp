@@ -7,6 +7,10 @@
 #include <math.h>
 #include <algorithm>
 #include <fstream>
+#include "D3DInclude.h"
+#include <string>
+
+#define MAX_LIGHT 10
 
 class Renderer {
 public:
@@ -47,7 +51,7 @@ private:
     ID3D11RasterizerState* pRasterizerState_;
     ID3D11SamplerState* pSampler_;
 
-    ID3D11ShaderResourceView* pTexture_[2] = { NULL, NULL };
+    ID3D11ShaderResourceView* pTexture_[3] = { NULL, NULL, NULL };
 
     ID3D11Texture2D* pDepthBuffer_;
     ID3D11DepthStencilView* pDepthBufferDSV_;
@@ -57,12 +61,29 @@ private:
     Camera* pCamera_;
     Input* pInput_;
 
+    XMFLOAT4 rectVert[4];
+    BBRect bb_rects[2];
+    
+
+    bool useNormalMap_ = true;
+    bool showNormals_ = false;
+    std::vector<Light> lights_;
+
     UINT width_;
     UINT height_;
     UINT numSphereTriangles_;
     float radius_;
-    XMFLOAT4 rectVert[4];
-    BBRect bb_rects[2];
-    
+
+    const TranspVertex VerticesT[4] = {
+        {0, -1, -1, RGB(0, 255, 255)},
+        {0,  1, -1, RGB(255, 255, 0)},
+        {0,  1,  1, RGB(0, 255, 255)},
+        {0, -1,  1, RGB(255, 255, 0)}
+    };
+    XMMATRIX TransparentMatrixs[2] = {
+        DirectX::XMMatrixTranslation(1.8f, 0.0f, 0.0f),
+        DirectX::XMMatrixTranslation(2.2f, 0.0f, 0.0f)
+    };
+    bool isFirst_ = true;
     
 };

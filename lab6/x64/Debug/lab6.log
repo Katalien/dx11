@@ -1,5 +1,30 @@
-﻿C:\Users\z.kate\source\GitHubRepos\dx11\lab6\SceneBuffer.h(1,9-12): warning X3568: 'once' : unknown pragma ignored
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\PS.hlsl(20,11): error X5608: Compiled shader code uses too many arithmetic instruction slots (738). Max. allowed by the target (ps_2_x) is 512. Consider increasing optimization level to reduce instruction count.
-FXC(1,1): error X5609: Compiled shader code uses too many instruction slots (740). Max. allowed by the target (ps_2_x) is 512.
-  
-  compilation failed; no code produced
+﻿  lab6.cpp
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\structs.h(27,11): error C3646: lights: неизвестный спецификатор переопределения
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\structs.h(27,17): error C2143: синтаксическая ошибка: отсутствие "," перед "["
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\structs.h(27,28): error C2238: непредвиденные лексемы перед ";"
+  rendering.cpp
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\structs.h(27,11): error C3646: lights: неизвестный спецификатор переопределения
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\structs.h(27,17): error C2143: синтаксическая ошибка: отсутствие "," перед "["
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\structs.h(27,28): error C2238: непредвиденные лексемы перед ";"
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(143,11): error C2440: инициализация: невозможно преобразовать "double" в "DirectX::XMFLOAT3"
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(172,5): message : Ни один конструктор не смог принять исходный тип, либо разрешение перегрузки конструктора неоднозначно
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(143,17): error C2440: инициализация: невозможно преобразовать "double" в "DirectX::XMFLOAT2"
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(172,5): message : Ни один конструктор не смог принять исходный тип, либо разрешение перегрузки конструктора неоднозначно
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(143,23): error C2440: инициализация: невозможно преобразовать "double" в "DirectX::XMFLOAT3"
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(172,5): message : Ни один конструктор не смог принять исходный тип, либо разрешение перегрузки конструктора неоднозначно
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(143,28): error C2440: инициализация: невозможно преобразовать "int" в "DirectX::XMFLOAT3"
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(172,5): message : Конструктор для struct "DirectX::XMFLOAT3" объявлен как "explicit"
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(143,31): error C2078: слишком много инициализаторов
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(207,50): error C2039: "x": не является членом "Vertex".
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\structs.h(11): message : см. объявление "Vertex"
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(207,65): error C2039: "y": не является членом "Vertex".
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\structs.h(11): message : см. объявление "Vertex"
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(207,80): error C2039: "z": не является членом "Vertex".
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\structs.h(11): message : см. объявление "Vertex"
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(208,50): error C2039: "x": не является членом "Vertex".
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\structs.h(11): message : см. объявление "Vertex"
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(208,65): error C2039: "y": не является членом "Vertex".
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\structs.h(11): message : см. объявление "Vertex"
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(208,80): error C2039: "z": не является членом "Vertex".
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\structs.h(11): message : см. объявление "Vertex"
+  Создание кода...

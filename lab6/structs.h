@@ -6,18 +6,26 @@
 #include <windowsnumerics.h>
 #include <windows.h>
 
-struct Vertex {
+#define MAX_LIGHT 10
 
-    float x, y, z;
-    float u, v;
+struct Vertex {
+    XMFLOAT3 pos;
+    XMFLOAT2 uv;
+    XMFLOAT3 normal;
+    XMFLOAT3 tangent;
 };
 
 struct WorldMatrixBuffer {
     XMMATRIX worldMatrix;
+    XMFLOAT4 shine;
 };
 
 struct ViewMatrixBuffer {
     XMMATRIX viewProjectionMatrix;
+    XMFLOAT4 cameraPos;
+    XMINT4 lightParams;
+    Light lights[MAX_LIGHT];
+    XMFLOAT4 ambientColor;
 };
 
 struct SkyboxVertex {
@@ -43,3 +51,7 @@ struct BBRect {
     XMFLOAT3 v[4];
 };
 
+struct Light {
+    XMFLOAT4 pos;
+    XMFLOAT4 color;
+};

@@ -72,6 +72,9 @@
     <ClInclude Include="LightProccessing.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="D3dInclude.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lab6.cpp">
@@ -110,6 +113,9 @@
     <ClCompile Include="imgui_widgets.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="D3dInclude.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="lab6.rc">
@@ -123,26 +129,6 @@
     <Image Include="lab6.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="CubeMapPS.hlsl">
-      <Filter>Исходные файлы</Filter>
-    </FxCompile>
-    <FxCompile Include="CubeMapVS.hlsl">
-      <Filter>Исходные файлы</Filter>
-    </FxCompile>
-    <FxCompile Include="TPS.hlsl">
-      <Filter>Исходные файлы</Filter>
-    </FxCompile>
-    <FxCompile Include="TVS.hlsl">
-      <Filter>Исходные файлы</Filter>
-    </FxCompile>
-    <FxCompile Include="PS.hlsl">
-      <Filter>Исходные файлы</Filter>
-    </FxCompile>
-    <FxCompile Include="VS.hlsl">
-      <Filter>Исходные файлы</Filter>
-    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="imgui.ini">
