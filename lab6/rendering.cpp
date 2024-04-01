@@ -797,6 +797,7 @@ bool Renderer::UpdateScene() {
     ImGui::NewFrame();
 
     static bool window = true;
+    static bool window2 = true;
 
     if (window) {
         ImGui::Begin("ImGui", &window);
@@ -810,9 +811,35 @@ bool Renderer::UpdateScene() {
 
         ImGui::End();
     }
+    if (window2) {
+        ImGui::Begin("Instances", &window2);
 
+        if (ImGui::Button("+")) {
+            if (cubesCount_ < MAX_CUBE) {
+                ++cubesCount_;
+            }
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("-")) {
+            if (cubesCount_ > 0) {
+                --cubesCount_;
+            }
+        }
+
+        std::string str = "Count: " + std::to_string(cubesCount_);
+        ImGui::Text(str.c_str());
+        str = "Rendered: " + std::to_string(cubeIndexies_.size());
+        ImGui::Text(str.c_str());
+        ImGui::Checkbox("Culling", &withCulling_);
+
+        ImGui::End();
+    }
 
     InputHandler();
+
+    XMMATRIX mView = pCamera_->GetViewMatrix();
+
+    XMMATRIX mProjection = XMMatrixPerspectiveFovLH(XM_PI / 3, width_ / (FLOAT)height_, SCREEN_FAR, SCREEN_NEAR);
 
     static float t = 0.0f;
     static ULONGLONG timeStart = 0;
@@ -822,34 +849,48 @@ bool Renderer::UpdateScene() {
     }
     t = (timeCur - timeStart) / 1000.0f;
 
-    WorldMatrixBuffer worldMatrixBuffer;
-    worldMatrixBuffer.worldMatrix = XMMatrixRotationY(t);
-    worldMatrixBuffer.shine = XMFLOAT4(300.0f, 0.0f, 0.0f, 0.0f); //
+    GeomBuffer geomBufferInst[MAX_CUBE];
+    for (int i = 0; i < cubesCount_; i++) {
+        geomBufferInst[i].worldMatrix = XMMatrixRotationY(cubes_[i].pos.w * t * cubes_[i].shineSpeedIdNM.y) * XMMatrixTranslation(cubes_[i].pos.x, cubes_[i].pos.y, cubes_[i].pos.z);
+        geomBufferInst[i].norm = geomBufferInst[i].worldMatrix;
+        geomBufferInst[i].shineSpeedTexIdNM = cubes_[i].shineSpeedIdNM;
+    }
 
-    pDeviceContext_->UpdateSubresource(pWorldMatrixBuffer_[0], 0, nullptr, &worldMatrixBuffer, 0, 0);
+    pDeviceContext_->UpdateSubresource(pGeomBufferInst_, 0, nullptr, &geomBufferInst, 0, 0);
 
-    XMMATRIX mView = pCamera_->GetViewMatrix();
-    
-    XMMATRIX mProjection = XMMatrixPerspectiveFovLH(XM_PI / 3, width_ / (FLOAT)height_, 100.0f, 0.01f);
+    pFrustum_->BuildFrustum(mView, mProjection);
+    cubeIndexies_.clear();
+    for (int i = 0; i < cubesCount_; i++) {
+        XMFLOAT4 min, max;
+        XMStoreFloat4(&min, XMVector4Transform(XMLoadFloat4(&AABB[0]), geomBufferInst[i].worldMatrix));
+        XMStoreFloat4(&max, XMVector4Transform(XMLoadFloat4(&AABB[1]), geomBufferInst[i].worldMatrix));
+        if (!withCulling_ || pFrustum_->CheckRectangle(max.x, max.y, max.z, min.x, min.y, min.z)) {
+            cubeIndexies_.push_back(i);
+        }
+    }
 
-
-    //
     XMFLOAT3 cameraPos = pCamera_->GetPosition();
-
     D3D11_MAPPED_SUBRESOURCE subresource, skyboxSubresource;
     result = pDeviceContext_->Map(pViewMatrixBuffer_[0], 0, D3D11_MAP_WRITE_DISCARD, 0, &subresource);
-
     if (SUCCEEDED(result)) {
-        ViewMatrixBuffer& sceneBuffer = *reinterpret_cast<ViewMatrixBuffer*>(subresource.pData);
+        SceneBuffer& sceneBuffer = *reinterpret_cast<SceneBuffer*>(subresource.pData);
         sceneBuffer.viewProjectionMatrix = XMMatrixMultiply(mView, mProjection);
-        sceneBuffer.cameraPos = XMFLOAT4(cameraPos.x, cameraPos.y, cameraPos.z, 1.0f);
-        sceneBuffer.ambientColor = XMFLOAT4(0.4f, 0.4f, 0.4f, 1.0f);
-        sceneBuffer.lightParams = XMINT4(int(lights_.size()), (int)useNormalMap_, (int)showNormals_, 0);
-        for (int i = 0; i < lights_.size(); i++) {
-            sceneBuffer.lights[i].pos = lights_[i].pos;
-            sceneBuffer.lights[i].color = lights_[i].color;
+        for (int i = 0; i < cubeIndexies_.size(); i++) {
+            sceneBuffer.indexBuffer[i] = XMINT4(cubeIndexies_[i], 0, 0, 0);
         }
         pDeviceContext_->Unmap(pViewMatrixBuffer_[0], 0);
+    }
+    result = pDeviceContext_->Map(pLightBuffer_, 0, D3D11_MAP_WRITE_DISCARD, 0, &subresource);
+    if (SUCCEEDED(result)) {
+        LightBuffer& lightBuffer = *reinterpret_cast<LightBuffer*>(subresource.pData);
+        lightBuffer.cameraPos = XMFLOAT4(cameraPos.x, cameraPos.y, cameraPos.z, 1.0f);
+        lightBuffer.ambientColor = XMFLOAT4(0.9f, 0.9f, 0.9f, 1.0f);
+        lightBuffer.lightParams = XMINT4(int(lights_.size()), (int)useNormalMap_, (int)showNormals_, 0);
+        for (int i = 0; i < lights_.size(); i++) {
+            lightBuffer.lights[i].pos = lights_[i].pos;
+            lightBuffer.lights[i].color = lights_[i].color;
+        }
+        pDeviceContext_->Unmap(pLightBuffer_, 0);
     }
 
     if (SUCCEEDED(result)) {
@@ -858,8 +899,7 @@ bool Renderer::UpdateScene() {
         skyboxWorldMatrixBuffer.worldMatrix = XMMatrixIdentity();
         skyboxWorldMatrixBuffer.size = XMFLOAT4(radius_, 0.0f, 0.0f, 0.0f);
 
-        
-        pDeviceContext_->UpdateSubresource(pWorldMatrixBuffer_[2], 0, nullptr, &skyboxWorldMatrixBuffer, 0, 0);
+        pDeviceContext_->UpdateSubresource(pSkyboxWorldMatrixBuffer_, 0, nullptr, &skyboxWorldMatrixBuffer, 0, 0);
 
         result = pDeviceContext_->Map(pViewMatrixBuffer_[1], 0, D3D11_MAP_WRITE_DISCARD, 0, &skyboxSubresource);
     }
@@ -870,11 +910,35 @@ bool Renderer::UpdateScene() {
         pDeviceContext_->Unmap(pViewMatrixBuffer_[1], 0);
     }
 
-    
     ImGui::Render();
+
+    XMFLOAT4 rectVert[4];
+    float maxDist = -D3D11_FLOAT32_MAX;
+    for (int i = 0; i < 4; i++) {
+        rectVert[i] = XMFLOAT4(VerticesT[i].x, VerticesT[i].y, VerticesT[i].z, 1.0f);
+    }
+    for (int i = 0; i < 4; i++) {
+        XMStoreFloat4(&rectVert[i], XMVector4Transform(XMLoadFloat4(&rectVert[i]), TransparentMatrixs[0]));
+        float dist = (rectVert[i].x - cameraPos.x) * (rectVert[i].x - cameraPos.x) +
+            (rectVert[i].y - cameraPos.y) * (rectVert[i].y - cameraPos.y) +
+            (rectVert[i].z - cameraPos.z) * (rectVert[i].z - cameraPos.z);
+        maxDist = max(maxDist, dist);
+    }
+    float maxDist2 = -D3D11_FLOAT32_MAX;
+    for (int i = 0; i < 4; i++) {
+        rectVert[i] = XMFLOAT4(VerticesT[i].x, VerticesT[i].y, VerticesT[i].z, 1.0f);
+    }
+    for (int i = 0; i < 4; i++) {
+        XMStoreFloat4(&rectVert[i], XMVector4Transform(XMLoadFloat4(&rectVert[i]), TransparentMatrixs[1]));
+        float dist = (rectVert[i].x - cameraPos.x) * (rectVert[i].x - cameraPos.x) +
+            (rectVert[i].y - cameraPos.y) * (rectVert[i].y - cameraPos.y) +
+            (rectVert[i].z - cameraPos.z) * (rectVert[i].z - cameraPos.z);
+        maxDist2 = max(maxDist2, dist);
+    }
 
     return SUCCEEDED(result);
 }
+
 
 bool Renderer::Render() {
     if (!UpdateScene())
@@ -882,13 +946,13 @@ bool Renderer::Render() {
 
     pDeviceContext_->ClearState();
 
-    ID3D11RenderTargetView* views[] = { pRenderTargetView_ };
-    pDeviceContext_->OMSetRenderTargets(1, views, pDepthBufferDSV_);
+    //ID3D11RenderTargetView* views[] = { pRenderTargetView_ };
+    //pDeviceContext_->OMSetRenderTargets(1, views, pDepthBufferDSV_);
 
-    static const FLOAT backColor[4] = { 0.4f, 0.2f, 0.4f, 1.0f };
-    pDeviceContext_->ClearRenderTargetView(pRenderTargetView_, backColor);
-    //
-    pDeviceContext_->ClearDepthStencilView(pDepthBufferDSV_, D3D11_CLEAR_DEPTH, 0.0f, 0);
+    //static const FLOAT backColor[4] = { 0.4f, 0.2f, 0.4f, 1.0f };
+    //pDeviceContext_->ClearRenderTargetView(pRenderTargetView_, backColor);
+    ////
+    //pDeviceContext_->ClearDepthStencilView(pDepthBufferDSV_, D3D11_CLEAR_DEPTH, 0.0f, 0);
 
     D3D11_VIEWPORT viewport;
     viewport.TopLeftX = 0;
@@ -905,6 +969,11 @@ bool Renderer::Render() {
     rect.right = width_;
     rect.bottom = height_;
     pDeviceContext_->RSSetScissorRects(1, &rect);
+    pDeviceContext_->OMSetRenderTargets(1, &pPostEffectRenderTargetView_, pDepthBufferDSV_);
+    static const FLOAT color[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+    pDeviceContext_->ClearRenderTargetView(pPostEffectRenderTargetView_, color);
+    pDeviceContext_->ClearDepthStencilView(pDepthBufferDSV_, D3D11_CLEAR_DEPTH, 0.0f, 0);
+
     pDeviceContext_->RSSetState(pRasterizerState_);
     pDeviceContext_->OMSetDepthStencilState(pDepthState_[0], 0);
 
@@ -921,14 +990,15 @@ bool Renderer::Render() {
     pDeviceContext_->IASetVertexBuffers(0, 1, vertexBuffers, strides, offsets);
     pDeviceContext_->IASetInputLayout(pInputLayout_[0]);
     pDeviceContext_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-    pDeviceContext_->VSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[0]);
+    pDeviceContext_->VSSetConstantBuffers(0, 1, &pGeomBufferInst_);
     pDeviceContext_->VSSetConstantBuffers(1, 1, &pViewMatrixBuffer_[0]);
+    pDeviceContext_->VSSetConstantBuffers(2, 1, &pLightBuffer_);
     pDeviceContext_->VSSetShader(pVertexShader_[0], nullptr, 0);
     pDeviceContext_->PSSetShader(pPixelShader_[0], nullptr, 0);
+    pDeviceContext_->PSSetConstantBuffers(0, 1, &pGeomBufferInst_);
     pDeviceContext_->PSSetConstantBuffers(1, 1, &pViewMatrixBuffer_[0]);
-    pDeviceContext_->DrawIndexed(36, 0, 0);
-    pDeviceContext_->VSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[1]);
-    pDeviceContext_->DrawIndexed(36, 0, 0);
+    pDeviceContext_->PSSetConstantBuffers(2, 1, &pLightBuffer_);
+    pDeviceContext_->DrawIndexedInstanced(36, (UINT)cubeIndexies_.size(), 0, 0, 0);
 
     pDeviceContext_->OMSetDepthStencilState(pDepthState_[1], 0);
     {
@@ -942,7 +1012,7 @@ bool Renderer::Render() {
         pDeviceContext_->IASetVertexBuffers(0, 1, vertexBuffers, strides, offsets);
         pDeviceContext_->IASetInputLayout(pInputLayout_[1]);
         pDeviceContext_->VSSetShader(pVertexShader_[1], nullptr, 0);
-        pDeviceContext_->VSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[2]);
+        pDeviceContext_->VSSetConstantBuffers(0, 1, &pSkyboxWorldMatrixBuffer_);
         pDeviceContext_->VSSetConstantBuffers(1, 1, &pViewMatrixBuffer_[1]);
         pDeviceContext_->PSSetShader(pPixelShader_[1], nullptr, 0);
 
@@ -973,18 +1043,18 @@ bool Renderer::Render() {
 
 
         if (dist1 < dist2) {
-            pDeviceContext_->VSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[3]);
+            pDeviceContext_->VSSetConstantBuffers(0, 1, &pPlanesWorldMatrixBuffer_[3]);
             pDeviceContext_->DrawIndexed(6, 0, 0);
 
-            pDeviceContext_->VSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[4]);
+            pDeviceContext_->VSSetConstantBuffers(0, 1, &pPlanesWorldMatrixBuffer_[4]);
             pDeviceContext_->DrawIndexed(6, 0, 0);
         }
         else {
 
-            pDeviceContext_->VSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[4]);
+            pDeviceContext_->VSSetConstantBuffers(0, 1, &pPlanesWorldMatrixBuffer_[4]);
             pDeviceContext_->DrawIndexed(6, 0, 0);
 
-            pDeviceContext_->VSSetConstantBuffers(0, 1, &pWorldMatrixBuffer_[3]);
+            pDeviceContext_->VSSetConstantBuffers(0, 1, &pPlanesWorldMatrixBuffer_[3]);
             pDeviceContext_->DrawIndexed(6, 0, 0);
         }
 

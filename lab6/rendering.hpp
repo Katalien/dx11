@@ -110,5 +110,10 @@ private:
     ID3D11Texture2D* pRenderTargetTexture_ = NULL;
     ID3D11RenderTargetView* pPostEffectRenderTargetView_ = NULL;
     ID3D11ShaderResourceView* pShaderResourceView_ = NULL;
+
+    const XMFLOAT4 AABB[2] = {
+        {-0.5f, -0.5f, -0.5f, 1.0f},
+        {0.5f,  0.5f, 0.5f, 1.0f}
+    };
     
 };
