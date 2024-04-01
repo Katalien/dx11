@@ -48,8 +48,11 @@ private:
     ID3D11VertexShader* pVertexShader_[3] = { NULL, NULL, NULL };
     ID3D11PixelShader* pPixelShader_[3] = { NULL, NULL, NULL };
 
-    ID3D11Buffer* pWorldMatrixBuffer_[5] = { NULL, NULL, NULL, NULL, NULL };
+    ID3D11Buffer* pGeomBufferInst_ = NULL;
+    ID3D11Buffer* pPlanesWorldMatrixBuffer_[2] = { NULL, NULL };
+    ID3D11Buffer* pSkyboxWorldMatrixBuffer_ = NULL;
     ID3D11Buffer* pViewMatrixBuffer_[2] = { NULL, NULL };
+    ID3D11Buffer* pLightBuffer_ = NULL;
     ID3D11RasterizerState* pRasterizerState_;
     ID3D11SamplerState* pSampler_;
 
@@ -77,15 +80,16 @@ private:
     float radius_;
 
     const TranspVertex VerticesT[4] = {
-        {0, -1, -1, RGB(0, 255, 255)},
-        {0,  1, -1, RGB(255, 255, 0)},
-        {0,  1,  1, RGB(0, 255, 255)},
-        {0, -1,  1, RGB(255, 255, 0)}
+        {0, -1, -1},
+        {0,  1, -1},
+        {0,  1,  1},
+        {0, -1,  1}
     };
     XMMATRIX TransparentMatrixs[2] = {
         DirectX::XMMatrixTranslation(1.8f, 0.0f, 0.0f),
         DirectX::XMMatrixTranslation(2.2f, 0.0f, 0.0f)
     };
 
+    Frustum* pFrustum_;
     
 };
