@@ -223,6 +223,7 @@ copy "$(ProjectDir)LightProccessing.h" "$(OutDir)LightProccessing.h"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Buffers.h" />
     <ClInclude Include="camera.hpp" />
     <ClInclude Include="D3dInclude.h" />
     <ClInclude Include="DDSTextureLoader11.h" />
@@ -237,6 +238,7 @@ copy "$(ProjectDir)LightProccessing.h" "$(OutDir)LightProccessing.h"</Command>
     <ClInclude Include="imstb_truetype.h" />
     <ClInclude Include="input.hpp" />
     <ClInclude Include="lab6.h" />
+    <ClInclude Include="Light.h" />
     <ClInclude Include="LightProccessing.h" />
     <ClInclude Include="rendering.hpp" />
     <ClInclude Include="Resource.h" />
