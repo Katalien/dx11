@@ -126,22 +126,26 @@ bool Renderer::Init(HINSTANCE hInstance, HWND hWnd) {
         }
     }
     if (SUCCEEDED(result)) {
-        pInput_ = new Input;
-        if (!pInput_) {
+        pFrustum_ = new Frustum(SCREEN_NEAR);
+        if (!pFrustum_) {
             result = S_FALSE;
         }
     }
     if (SUCCEEDED(result)) {
-        pInput_->Init(hInstance, hWnd);
+        result = pInput_->Init(hInstance, hWnd);
+    }
+    if (SUCCEEDED(result)) {
+        result = InitRenderTexture(defaultWidth, defaultHeight);
     }
 
+
       
-        IMGUI_CHECKVERSION();
-        ImGui::CreateContext();
-        ImGuiIO& io = ImGui::GetIO(); (void)io;
-        ImGui::StyleColorsDark();
-        ImGui_ImplWin32_Init(hWnd);
-        ImGui_ImplDX11_Init(pDevice_, pDeviceContext_);
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    ImGui::StyleColorsDark();
+    ImGui_ImplWin32_Init(hWnd);
+    ImGui_ImplDX11_Init(pDevice_, pDeviceContext_);
     
 
     if (FAILED(result)) {
