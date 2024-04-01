@@ -1043,18 +1043,18 @@ bool Renderer::Render() {
 
 
         if (dist1 < dist2) {
-            pDeviceContext_->VSSetConstantBuffers(0, 1, &pPlanesWorldMatrixBuffer_[3]);
+            pDeviceContext_->VSSetConstantBuffers(0, 1, &pPlanesWorldMatrixBuffer_[0]);
             pDeviceContext_->DrawIndexed(6, 0, 0);
 
-            pDeviceContext_->VSSetConstantBuffers(0, 1, &pPlanesWorldMatrixBuffer_[4]);
+            pDeviceContext_->VSSetConstantBuffers(0, 1, &pPlanesWorldMatrixBuffer_[1]);
             pDeviceContext_->DrawIndexed(6, 0, 0);
         }
         else {
 
-            pDeviceContext_->VSSetConstantBuffers(0, 1, &pPlanesWorldMatrixBuffer_[4]);
+            pDeviceContext_->VSSetConstantBuffers(0, 1, &pPlanesWorldMatrixBuffer_[1]);
             pDeviceContext_->DrawIndexed(6, 0, 0);
 
-            pDeviceContext_->VSSetConstantBuffers(0, 1, &pPlanesWorldMatrixBuffer_[3]);
+            pDeviceContext_->VSSetConstantBuffers(0, 1, &pPlanesWorldMatrixBuffer_[0]);
             pDeviceContext_->DrawIndexed(6, 0, 0);
         }
 
