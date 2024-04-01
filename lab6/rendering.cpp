@@ -1062,6 +1062,13 @@ bool Renderer::Render() {
 
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
+    ID3D11RenderTargetView* views[] = { pRenderTargetView_ };
+    pDeviceContext_->OMSetRenderTargets(1, views, pDepthBufferDSV_);
+
+    static const FLOAT backColor[4] = { 0.4f, 0.2f, 0.4f, 1.0f };
+    pDeviceContext_->ClearRenderTargetView(pRenderTargetView_, backColor);
+    pDeviceContext_->ClearDepthStencilView(pDepthBufferDSV_, D3D11_CLEAR_DEPTH, 0.0f, 0);
+
     HRESULT result = pSwapChain_->Present(0, 0);
 
     return SUCCEEDED(result);
@@ -1111,6 +1118,11 @@ bool Renderer::Resize(UINT width, UINT height) {
         return false;
 
     result = pDevice_->CreateDepthStencilView(pDepthBuffer_, NULL, &pDepthBufferDSV_);
+    if (!SUCCEEDED(result))
+        return false;
+
+    ReleaseRenderTexture();
+    result = InitRenderTexture(width_, height_);
     if (!SUCCEEDED(result))
         return false;
 
@@ -1330,3 +1342,9 @@ std::vector<Light> processGuiButtons(std::vector<Light>& lights_) {
     }
     return lights_;
 };
+
+void Renderer::ReleaseRenderTexture() {
+    SAFE_RELEASE(pRenderTargetTexture_);
+    SAFE_RELEASE(pPostEffectRenderTargetView_);
+    SAFE_RELEASE(pShaderResourceView_);
+}
