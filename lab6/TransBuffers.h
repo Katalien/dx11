@@ -1,5 +1,4 @@
-#include "Macros.h"
-#include "LightCalc.h"
+#include "LightProccessing.h"
 
 cbuffer WorldMatrixBuffer : register (b0) {
     float4x4 worldMatrix;

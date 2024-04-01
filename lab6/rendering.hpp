@@ -38,6 +38,9 @@ private:
     HRESULT InitScene();
     void InputHandler();
     bool UpdateScene();
+    void ProcessPostEffect(D3D11_VIEWPORT viewport);
+    HRESULT InitRenderTexture(int textureWidth, int textureHeight);
+    void ReleaseRenderTexture();
 
     ID3D11Device* pDevice_;
     ID3D11DeviceContext* pDeviceContext_;
@@ -93,5 +96,19 @@ private:
     };
 
     Frustum* pFrustum_;
+
+    bool withPostEffect_ = true;
+    bool withCulling_ = true;
+    std::vector<Cube> cubes_;
+    std::vector<int> cubeIndexies_;
+    int cubesCount_ = 2;
+
+    ID3D11VertexShader* pPostEffectVertexShader_ = NULL;
+    ID3D11PixelShader* pPostEffectPixelShader_ = NULL;
+    ID3D11SamplerState* pPostEffectSamplerState_ = NULL;
+    ID3D11Buffer* pPostEffectConstantBuffer_ = NULL;
+    ID3D11Texture2D* pRenderTargetTexture_ = NULL;
+    ID3D11RenderTargetView* pPostEffectRenderTargetView_ = NULL;
+    ID3D11ShaderResourceView* pShaderResourceView_ = NULL;
     
 };

@@ -1,74 +1,74 @@
 ﻿  lab6.cpp
   rendering.cpp
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(305,33): error C2065: WorldMatrixBuffer: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(312,9): error C2065: WorldMatrixBuffer: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(312,27): error C2146: синтаксическая ошибка: отсутствие ";" перед идентификатором "worldMatrixBuffer"
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(312,27): error C2065: worldMatrixBuffer: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(313,9): error C2065: worldMatrixBuffer: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(314,9): error C2065: worldMatrixBuffer: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(317,25): error C2065: worldMatrixBuffer: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(318,35): error C2065: worldMatrixBuffer: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(321,56): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(321,78): error C2660: ID3D11Device::CreateBuffer: функция не принимает 2 аргументов
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(309,33): error C2065: WorldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(316,9): error C2065: WorldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(316,27): error C2146: синтаксическая ошибка: отсутствие ";" перед идентификатором "worldMatrixBuffer"
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(316,27): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(317,9): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(318,9): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(321,25): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(322,35): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(325,56): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(325,78): error C2660: ID3D11Device::CreateBuffer: функция не принимает 2 аргументов
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\d3d11.h(14114,43): message : см. объявление "ID3D11Device::CreateBuffer"
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(324,13): error C2065: worldMatrixBuffer: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(325,60): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(325,82): error C2660: ID3D11Device::CreateBuffer: функция не принимает 2 аргументов
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(328,13): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(329,60): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(329,82): error C2660: ID3D11Device::CreateBuffer: функция не принимает 2 аргументов
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\d3d11.h(14114,43): message : см. объявление "ID3D11Device::CreateBuffer"
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(329,13): error C2065: worldMatrixBuffer: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(330,13): error C2065: worldMatrixBuffer: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(331,60): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(331,82): error C2660: ID3D11Device::CreateBuffer: функция не принимает 2 аргументов
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(333,13): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(334,13): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(335,60): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(335,82): error C2660: ID3D11Device::CreateBuffer: функция не принимает 2 аргументов
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\d3d11.h(14114,43): message : см. объявление "ID3D11Device::CreateBuffer"
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(335,13): error C2065: worldMatrixBuffer: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(336,13): error C2065: worldMatrixBuffer: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(337,60): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(337,82): error C2660: ID3D11Device::CreateBuffer: функция не принимает 2 аргументов
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(339,13): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(340,13): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(341,60): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(341,82): error C2660: ID3D11Device::CreateBuffer: функция не принимает 2 аргументов
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\d3d11.h(14114,43): message : см. объявление "ID3D11Device::CreateBuffer"
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(343,33): error C2065: ViewMatrixBuffer: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(430,60): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(430,82): error C2660: ID3D11Device::CreateBuffer: функция не принимает 2 аргументов
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(347,33): error C2065: ViewMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(434,60): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(434,82): error C2660: ID3D11Device::CreateBuffer: функция не принимает 2 аргументов
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\d3d11.h(14114,43): message : см. объявление "ID3D11Device::CreateBuffer"
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(632,5): error C2065: WorldMatrixBuffer: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(632,23): error C2146: синтаксическая ошибка: отсутствие ";" перед идентификатором "worldMatrixBuffer"
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(632,23): error C2065: worldMatrixBuffer: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(633,5): error C2065: worldMatrixBuffer: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(634,5): error C2065: worldMatrixBuffer: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(636,40): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(636,77): error C2065: worldMatrixBuffer: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(650,9): error C2065: ViewMatrixBuffer: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(650,27): error C2065: sceneBuffer: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(650,59): error C2061: синтаксическая ошибка: идентификатор "ViewMatrixBuffer"
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(651,9): error C2065: sceneBuffer: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(652,9): error C2065: sceneBuffer: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(653,9): error C2065: sceneBuffer: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(654,9): error C2065: sceneBuffer: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(656,13): error C2065: sceneBuffer: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(657,13): error C2065: sceneBuffer: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(669,44): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(731,50): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(731,72): error C2660: ID3D11DeviceContext::VSSetConstantBuffers: функция не принимает 2 аргументов
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(636,5): error C2065: WorldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(636,23): error C2146: синтаксическая ошибка: отсутствие ";" перед идентификатором "worldMatrixBuffer"
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(636,23): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(637,5): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(638,5): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(640,40): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(640,77): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(654,9): error C2065: ViewMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(654,27): error C2065: sceneBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(654,59): error C2061: синтаксическая ошибка: идентификатор "ViewMatrixBuffer"
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(655,9): error C2065: sceneBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(656,9): error C2065: sceneBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(657,9): error C2065: sceneBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(658,9): error C2065: sceneBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(660,13): error C2065: sceneBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(661,13): error C2065: sceneBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(673,44): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(735,50): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(735,72): error C2660: ID3D11DeviceContext::VSSetConstantBuffers: функция не принимает 2 аргументов
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\d3d11.h(7752,40): message : см. объявление "ID3D11DeviceContext::VSSetConstantBuffers"
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(737,50): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(737,72): error C2660: ID3D11DeviceContext::VSSetConstantBuffers: функция не принимает 2 аргументов
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(741,50): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(741,72): error C2660: ID3D11DeviceContext::VSSetConstantBuffers: функция не принимает 2 аргументов
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\d3d11.h(7752,40): message : см. объявление "ID3D11DeviceContext::VSSetConstantBuffers"
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(752,54): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(752,76): error C2660: ID3D11DeviceContext::VSSetConstantBuffers: функция не принимает 2 аргументов
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(756,54): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(756,76): error C2660: ID3D11DeviceContext::VSSetConstantBuffers: функция не принимает 2 аргументов
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\d3d11.h(7752,40): message : см. объявление "ID3D11DeviceContext::VSSetConstantBuffers"
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(783,58): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(783,80): error C2660: ID3D11DeviceContext::VSSetConstantBuffers: функция не принимает 2 аргументов
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(787,58): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(787,80): error C2660: ID3D11DeviceContext::VSSetConstantBuffers: функция не принимает 2 аргументов
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\d3d11.h(7752,40): message : см. объявление "ID3D11DeviceContext::VSSetConstantBuffers"
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(786,58): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(786,80): error C2660: ID3D11DeviceContext::VSSetConstantBuffers: функция не принимает 2 аргументов
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(790,58): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(790,80): error C2660: ID3D11DeviceContext::VSSetConstantBuffers: функция не принимает 2 аргументов
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\d3d11.h(7752,40): message : см. объявление "ID3D11DeviceContext::VSSetConstantBuffers"
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(791,58): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(791,80): error C2660: ID3D11DeviceContext::VSSetConstantBuffers: функция не принимает 2 аргументов
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(795,58): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(795,80): error C2660: ID3D11DeviceContext::VSSetConstantBuffers: функция не принимает 2 аргументов
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\d3d11.h(7752,40): message : см. объявление "ID3D11DeviceContext::VSSetConstantBuffers"
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(794,58): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(794,80): error C2660: ID3D11DeviceContext::VSSetConstantBuffers: функция не принимает 2 аргументов
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(798,58): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(798,80): error C2660: ID3D11DeviceContext::VSSetConstantBuffers: функция не принимает 2 аргументов
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.22000.0\um\d3d11.h(7752,40): message : см. объявление "ID3D11DeviceContext::VSSetConstantBuffers"
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(904,5): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(905,5): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(906,5): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
-C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(907,5): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
 C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(908,5): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(909,5): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(910,5): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(911,5): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(912,5): error C2065: pWorldMatrixBuffer_: необъявленный идентификатор

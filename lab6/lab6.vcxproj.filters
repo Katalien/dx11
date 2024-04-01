@@ -84,6 +84,9 @@
     <ClInclude Include="Frustum.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="TransBuffers.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lab6.cpp">

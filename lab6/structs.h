@@ -71,3 +71,7 @@ struct TransparentWorldMatrixBuffer {
     XMMATRIX worldMatrix;
     XMFLOAT4 color;
 };
+
+struct PostEffectConstantBuffer {
+    XMINT4 params;
+};
