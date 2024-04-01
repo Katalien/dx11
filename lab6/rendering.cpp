@@ -800,14 +800,48 @@ bool Renderer::UpdateScene() {
     static bool window2 = true;
 
     if (window) {
-        ImGui::Begin("ImGui", &window);
+        ImGui::Begin("Lights", &window);
 
         ImGui::Checkbox("Use normal maps", &useNormalMap_);
         ImGui::Checkbox("Show normals", &showNormals_);
+        if (ImGui::Checkbox("Post effect", &withPostEffect_)) {
+            PostEffectConstantBuffer postEffectConstantBuffer;
+            postEffectConstantBuffer.params = XMINT4(withPostEffect_, 0, 0, 0);
+            pDeviceContext_->UpdateSubresource(pPostEffectConstantBuffer_, 0, nullptr, &postEffectConstantBuffer, 0, 0);
+        }
 
-        lights_ = processGuiButtons(lights_);
+        if (ImGui::Button("+")) {
+            if (lights_.size() < MAX_LIGHT)
+                lights_.push_back({ XMFLOAT4((float)(rand() % 12 - 6), (float)(rand() % 12 - 6), (float)(rand() % 12 - 6), 0.0f),
+                    XMFLOAT4((rand() % 255) / 255.0f, (rand() % 255) / 255.0f, (rand() % 255) / 255.0f, 0.0f) });
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("-")) {
+            if (lights_.size() > 0)
+                lights_.pop_back();
+        }
 
-        lights_ = processGuiLight(lights_);
+        static float col[MAX_LIGHT][3];
+        static float pos[MAX_LIGHT][4];
+        for (int i = 0; i < lights_.size(); i++) {
+            std::string str = "Light " + std::to_string(i);
+            ImGui::Text(str.c_str());
+
+            pos[i][0] = lights_[i].pos.x;
+            pos[i][1] = lights_[i].pos.y;
+            pos[i][2] = lights_[i].pos.z;
+            str = "Pos " + std::to_string(i);
+            ImGui::Text(str.c_str());
+            ImGui::DragFloat3(str.c_str(), pos[i], 0.1f, -6.0f, 6.0f);
+            lights_[i].pos = XMFLOAT4(pos[i][0], pos[i][1], pos[i][2], 1.0f);
+
+            col[i][0] = lights_[i].color.x;
+            col[i][1] = lights_[i].color.y;
+            col[i][2] = lights_[i].color.z;
+            str = "Color " + std::to_string(i);
+            ImGui::ColorEdit3(str.c_str(), col[i]);
+            lights_[i].color = XMFLOAT4(col[i][0], col[i][1], col[i][2], 1.0f);
+        }
 
         ImGui::End();
     }
@@ -940,6 +974,7 @@ bool Renderer::UpdateScene() {
 }
 
 
+
 bool Renderer::Render() {
     if (!UpdateScene())
         return false;
@@ -1007,7 +1042,7 @@ bool Renderer::Render() {
 
         pDeviceContext_->IASetIndexBuffer(pIndexBuffer_[1], DXGI_FORMAT_R32_UINT, 0);
         ID3D11Buffer* vertexBuffers[] = { pVertexBuffer_[1] };
-        UINT strides[] = { 12 };
+        UINT strides[] = { 2 };
         UINT offsets[] = { 0 };
         pDeviceContext_->IASetVertexBuffers(0, 1, vertexBuffers, strides, offsets);
         pDeviceContext_->IASetInputLayout(pInputLayout_[1]);
@@ -1044,17 +1079,21 @@ bool Renderer::Render() {
 
         if (dist1 < dist2) {
             pDeviceContext_->VSSetConstantBuffers(0, 1, &pPlanesWorldMatrixBuffer_[0]);
+            pDeviceContext_->PSSetConstantBuffers(0, 1, &pPlanesWorldMatrixBuffer_[0]);
             pDeviceContext_->DrawIndexed(6, 0, 0);
 
             pDeviceContext_->VSSetConstantBuffers(0, 1, &pPlanesWorldMatrixBuffer_[1]);
+            pDeviceContext_->PSSetConstantBuffers(0, 1, &pPlanesWorldMatrixBuffer_[1]);
             pDeviceContext_->DrawIndexed(6, 0, 0);
         }
         else {
 
             pDeviceContext_->VSSetConstantBuffers(0, 1, &pPlanesWorldMatrixBuffer_[1]);
+            pDeviceContext_->PSSetConstantBuffers(0, 1, &pPlanesWorldMatrixBuffer_[1]);
             pDeviceContext_->DrawIndexed(6, 0, 0);
 
             pDeviceContext_->VSSetConstantBuffers(0, 1, &pPlanesWorldMatrixBuffer_[0]);
+            pDeviceContext_->PSSetConstantBuffers(0, 1, &pPlanesWorldMatrixBuffer_[0]);
             pDeviceContext_->DrawIndexed(6, 0, 0);
         }
 
@@ -1068,6 +1107,8 @@ bool Renderer::Render() {
     static const FLOAT backColor[4] = { 0.4f, 0.2f, 0.4f, 1.0f };
     pDeviceContext_->ClearRenderTargetView(pRenderTargetView_, backColor);
     pDeviceContext_->ClearDepthStencilView(pDepthBufferDSV_, D3D11_CLEAR_DEPTH, 0.0f, 0);
+
+    ProcessPostEffect(viewport);
 
     HRESULT result = pSwapChain_->Present(0, 0);
 
@@ -1178,7 +1219,7 @@ void Renderer::Cleanup() {
     SAFE_RELEASE(pViewMatrixBuffer_[0]);
     SAFE_RELEASE(pViewMatrixBuffer_[1]);
 
-    SAFE_RELEASE(pSkyboxWorldMatrixBuffer_);
+SAFE_RELEASE(pSkyboxWorldMatrixBuffer_);
     SAFE_RELEASE(pPlanesWorldMatrixBuffer_[0]);
     SAFE_RELEASE(pPlanesWorldMatrixBuffer_[1]);
 
@@ -1207,7 +1248,7 @@ void Renderer::Cleanup() {
     if (pFrustum_) {
         delete pFrustum_;
         pFrustum_ = NULL;
-}
+    }
 
 #ifdef _DEBUG
     if (pDevice_ != NULL) {
@@ -1229,6 +1270,76 @@ void Renderer::Cleanup() {
 Renderer::~Renderer() {
     Cleanup();
 }
+
+void Renderer::ReleaseRenderTexture() {
+    SAFE_RELEASE(pRenderTargetTexture_);
+    SAFE_RELEASE(pPostEffectRenderTargetView_);
+    SAFE_RELEASE(pShaderResourceView_);
+}
+
+HRESULT Renderer::InitRenderTexture(int textureWidth, int textureHeight) {
+    D3D11_TEXTURE2D_DESC textureDesc;
+    ZeroMemory(&textureDesc, sizeof(textureDesc));
+
+    textureDesc.Width = textureWidth;
+    textureDesc.Height = textureHeight;
+    textureDesc.MipLevels = 1;
+    textureDesc.ArraySize = 1;
+    textureDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+    textureDesc.SampleDesc.Count = 1;
+    textureDesc.Usage = D3D11_USAGE_DEFAULT;
+    textureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+    textureDesc.CPUAccessFlags = 0;
+    textureDesc.MiscFlags = 0;
+
+    HRESULT result = pDevice_->CreateTexture2D(&textureDesc, NULL, &pRenderTargetTexture_);
+    if (FAILED(result)) {
+        return result;
+    }
+
+    D3D11_RENDER_TARGET_VIEW_DESC renderTargetViewDesc;
+    renderTargetViewDesc.Format = textureDesc.Format;
+    renderTargetViewDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+    renderTargetViewDesc.Texture2D.MipSlice = 0;
+
+    result = pDevice_->CreateRenderTargetView(pRenderTargetTexture_, &renderTargetViewDesc, &pPostEffectRenderTargetView_);
+    if (FAILED(result)) {
+        return result;
+    }
+
+    D3D11_SHADER_RESOURCE_VIEW_DESC shaderResourceViewDesc;
+    shaderResourceViewDesc.Format = textureDesc.Format;
+    shaderResourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+    shaderResourceViewDesc.Texture2D.MostDetailedMip = 0;
+    shaderResourceViewDesc.Texture2D.MipLevels = 1;
+
+    result = pDevice_->CreateShaderResourceView(pRenderTargetTexture_, &shaderResourceViewDesc, &pShaderResourceView_);
+    if (FAILED(result)) {
+        return result;
+    }
+
+    return S_OK;
+}
+
+void Renderer::ProcessPostEffect(D3D11_VIEWPORT viewport) {
+    pDeviceContext_->OMSetRenderTargets(1, &pRenderTargetView_, nullptr);
+    pDeviceContext_->RSSetViewports(1, &viewport);
+
+    pDeviceContext_->IASetInputLayout(nullptr);
+    pDeviceContext_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+    pDeviceContext_->VSSetShader(pPostEffectVertexShader_, nullptr, 0);
+    pDeviceContext_->PSSetShader(pPostEffectPixelShader_, nullptr, 0);
+    pDeviceContext_->PSSetConstantBuffers(0, 1, &pPostEffectConstantBuffer_);
+    pDeviceContext_->PSSetShaderResources(0, 1, &pShaderResourceView_);
+    pDeviceContext_->PSSetSamplers(0, 1, &pPostEffectSamplerState_);
+
+    pDeviceContext_->Draw(3, 0);
+
+    ID3D11ShaderResourceView* nullsrv[] = { nullptr };
+    pDeviceContext_->PSSetShaderResources(0, 1, nullsrv);
+}
+
 
 std::vector<UINT> CountIndices(UINT numSphereTriangles_,
     std::vector<SkyboxVertex>& vertices,
@@ -1359,8 +1470,3 @@ std::vector<Light> processGuiButtons(std::vector<Light>& lights_) {
     return lights_;
 };
 
-void Renderer::ReleaseRenderTexture() {
-    SAFE_RELEASE(pRenderTargetTexture_);
-    SAFE_RELEASE(pPostEffectRenderTargetView_);
-    SAFE_RELEASE(pShaderResourceView_);
-}
