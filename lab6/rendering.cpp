@@ -1152,6 +1152,8 @@ void Renderer::Cleanup() {
     SAFE_RELEASE(pDepthBuffer_);
     SAFE_RELEASE(pDepthBufferDSV_);
     SAFE_RELEASE(pBlendState_);
+    SAFE_RELEASE(pLightBuffer_);
+    SAFE_RELEASE(pGeomBufferInst_);
 
     SAFE_RELEASE(pVertexBuffer_[0]);
     SAFE_RELEASE(pVertexBuffer_[1]);
@@ -1176,11 +1178,9 @@ void Renderer::Cleanup() {
     SAFE_RELEASE(pViewMatrixBuffer_[0]);
     SAFE_RELEASE(pViewMatrixBuffer_[1]);
 
-    SAFE_RELEASE(pWorldMatrixBuffer_[0]);
-    SAFE_RELEASE(pWorldMatrixBuffer_[1]);
-    SAFE_RELEASE(pWorldMatrixBuffer_[2]);
-    SAFE_RELEASE(pWorldMatrixBuffer_[3]);
-    SAFE_RELEASE(pWorldMatrixBuffer_[4]);
+    SAFE_RELEASE(pSkyboxWorldMatrixBuffer_);
+    SAFE_RELEASE(pPlanesWorldMatrixBuffer_[0]);
+    SAFE_RELEASE(pPlanesWorldMatrixBuffer_[1]);
 
     SAFE_RELEASE(pTexture_[0]);
     SAFE_RELEASE(pTexture_[1]);
@@ -1188,11 +1188,26 @@ void Renderer::Cleanup() {
 
     SAFE_RELEASE(pDepthState_[0]);
     SAFE_RELEASE(pDepthState_[1]);
+
+    SAFE_RELEASE(pPostEffectVertexShader_);
+    SAFE_RELEASE(pPostEffectPixelShader_);
+    SAFE_RELEASE(pPostEffectSamplerState_);
+    SAFE_RELEASE(pPostEffectConstantBuffer_);
+
+    ReleaseRenderTexture();
+
     if (pCamera_) {
         delete pCamera_;
         pCamera_ = NULL;
     }
-   
+    if (pInput_) {
+        delete pInput_;
+        pInput_ = NULL;
+    }
+    if (pFrustum_) {
+        delete pFrustum_;
+        pFrustum_ = NULL;
+}
 
 #ifdef _DEBUG
     if (pDevice_ != NULL) {
@@ -1209,6 +1224,7 @@ void Renderer::Cleanup() {
 #endif
     SAFE_RELEASE(pDevice_);
 }
+
 
 Renderer::~Renderer() {
     Cleanup();
