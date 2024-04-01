@@ -10,6 +10,7 @@
 #include "D3DInclude.h"
 #include <string>
 #include <iostream>
+#include "Frustum.h"
 
 #define MAX_LIGHT 10
 

@@ -33,7 +33,8 @@ Renderer::Renderer() :
     radius_(1.0),
     pDepthBuffer_(NULL),
     pDepthBufferDSV_(NULL),
-    pBlendState_(NULL) {}
+    pBlendState_(NULL),
+    pFrustum_(NULL) {}
 
 bool Renderer::Init(HINSTANCE hInstance, HWND hWnd) {
     // Create a DirectX graphics interface factory.​

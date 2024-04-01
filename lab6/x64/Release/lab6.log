@@ -1,15 +1,34 @@
-﻿  lab6.vcxproj -> C:\Users\z.kate\source\GitHubRepos\dx11\lab6\x64\Release\lab6.exe
-  Скопировано файлов:         1.
-  Скопировано файлов:         1.
-  Скопировано файлов:         1.
-  Скопировано файлов:         1.
-  Скопировано файлов:         1.
-  Скопировано файлов:         1.
-  Скопировано файлов:         1.
-  Скопировано файлов:         1.
-  Скопировано файлов:         1.
-  Скопировано файлов:         1.
-  Скопировано файлов:         1.
-  Скопировано файлов:         1.
-  Скопировано файлов:         1.
-  Скопировано файлов:         1.
+﻿  lab6.cpp
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.hpp(80,21): error C2078: слишком много инициализаторов
+  rendering.cpp
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.hpp(80,21): error C2078: слишком много инициализаторов
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(37,5): error C2614: Renderer: недопустимая инициализация члена: "pFrustum_" не является базовым классом или членом
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(305,33): error C2065: WorldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(312,9): error C2065: WorldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(312,27): error C2146: синтаксическая ошибка: отсутствие ";" перед идентификатором "worldMatrixBuffer"
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(312,27): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(313,9): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(314,9): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(317,25): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(318,35): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(324,13): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(329,13): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(330,13): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(335,13): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(336,13): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(343,33): error C2065: ViewMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(632,5): error C2065: WorldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(632,23): error C2146: синтаксическая ошибка: отсутствие ";" перед идентификатором "worldMatrixBuffer"
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(632,23): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(633,5): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(634,5): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(636,77): error C2065: worldMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(650,9): error C2065: ViewMatrixBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(650,27): error C2065: sceneBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(650,59): error C2061: синтаксическая ошибка: идентификатор "ViewMatrixBuffer"
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(651,9): error C2065: sceneBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(652,9): error C2065: sceneBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(653,9): error C2065: sceneBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(654,9): error C2065: sceneBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(656,13): error C2065: sceneBuffer: необъявленный идентификатор
+C:\Users\z.kate\source\GitHubRepos\dx11\lab6\rendering.cpp(657,13): error C2065: sceneBuffer: необъявленный идентификатор
