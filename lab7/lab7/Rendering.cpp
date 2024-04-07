@@ -797,6 +797,9 @@ void Renderer::ProcessPostEffect(D3D11_VIEWPORT viewport) {
 void Renderer::InputHandler() {
     XMFLOAT3 mouse = pInput_->ReadMouse();
     pCamera_->Rotate(mouse.x, mouse.y);
+    //XMFLOAT3 mouseWheel = pInput_->ReadMouseWheel();
+    pCamera_->Zoom(mouse.z);
+
 }
 
 bool Renderer::UpdateScene() {

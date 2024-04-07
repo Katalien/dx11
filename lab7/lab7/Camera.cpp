@@ -31,3 +31,15 @@ void Camera::UpdateViewMatrix() {
 
     viewMatrix_ = XMMatrixLookAtLH(position, focus, up);
 }
+
+void Camera::Zoom(float dr) {
+    r_ += dr;
+    if (r_ < 2.0f) {
+        r_ = 2.0f;
+    }
+    position_ = XMFLOAT3(focus_.x - cosf(theta_) * cosf(phi_) * r_,
+        focus_.y - sinf(theta_) * r_,
+        focus_.z - cosf(theta_) * sinf(phi_) * r_);
+
+    UpdateViewMatrix();
+}

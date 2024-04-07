@@ -14,6 +14,8 @@ public:
     XMFLOAT3& GetPosition() {
         return position_;
     };
+
+    void Zoom(float dr);
 private:
     XMMATRIX viewMatrix_;
     XMFLOAT3 focus_;

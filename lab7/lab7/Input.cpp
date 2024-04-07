@@ -17,8 +17,6 @@ XMFLOAT3 Input::ReadMouse() {
 
     if (GetCursorPos(&cursor)) {
         ScreenToClient(hwnd, &cursor);
-        std::ofstream outputFile("check_coords.txt");
-        outputFile << "read mouse" << std::endl;
         if (cursor.x == curCursor.x && cursor.y == curCursor.y) {
             return XMFLOAT3(0.0f, 0.0f, 0.0f);
         }
@@ -27,11 +25,17 @@ XMFLOAT3 Input::ReadMouse() {
         curCursor = cursor;
         GetKeyboardState(keyboardState_);
 
-        if (keyboardState_[VK_LBUTTON] & 0x80) {
+       if (keyboardState_[VK_LBUTTON] & 0x80) {
             return  XMFLOAT3(
                 (curCursor.x - prevCursor.x) / 100.0f,
                 (curCursor.y - prevCursor.y) / 100.0f,
                 0.0f);
+        }
+        if (keyboardState_[VK_UP] & 0x80) {
+            return  XMFLOAT3(0.0f, 0.0f, -1.0f);
+        }
+        if (keyboardState_[VK_DOWN] & 0x80) {
+            return  XMFLOAT3(0.0f, 0.0f, 1.0f);
         }
         else {
             return XMFLOAT3(0.0f, 0.0f, 0.0f);

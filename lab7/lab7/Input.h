@@ -15,6 +15,7 @@ public:
 
     void Init(HINSTANCE hinstance, HWND hwnd);
     XMFLOAT3 ReadMouse();
+    XMFLOAT3 ReadArrow();
 
 private:
 
