@@ -5,9 +5,7 @@
 #include <vector>
 #include <windowsnumerics.h>
 #include <windows.h>
-
-#define MAX_LIGHT 10
-#define MAX_CUBE 30
+#include "Macros.h"
 
 struct Light {
     XMFLOAT4 pos;
