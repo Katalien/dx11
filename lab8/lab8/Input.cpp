@@ -25,7 +25,7 @@ XMFLOAT3 Input::ReadMouse() {
         curCursor = cursor;
         GetKeyboardState(keyboardState_);
 
-       if (keyboardState_[VK_LBUTTON] & 0x80) {
+        if (keyboardState_[VK_LBUTTON] & 0x80) {
             return  XMFLOAT3(
                 (curCursor.x - prevCursor.x) / 100.0f,
                 (curCursor.y - prevCursor.y) / 100.0f,

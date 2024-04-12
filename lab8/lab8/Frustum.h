@@ -1,6 +1,6 @@
 #pragma once
-#include <directxmath.h>
-using namespace DirectX;
+
+#include "framework.h"
 
 class Frustum {
 public:

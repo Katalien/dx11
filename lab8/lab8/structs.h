@@ -39,6 +39,11 @@ struct SceneBuffer {
     XMFLOAT4 planes[6];
 };
 
+struct CullingParams {
+    XMINT4 numShapes;
+    XMFLOAT4 bbMin[MAX_CUBE];
+    XMFLOAT4 bbMax[MAX_CUBE];
+};
 
 struct LightBuffer {
     XMFLOAT4 cameraPos;
@@ -61,10 +66,6 @@ struct SkyboxViewMatrixBuffer {
     XMFLOAT4 cameraPos;
 };
 
-struct BBRect {
-    XMFLOAT3 v[4];
-};
-
 struct TransparentVertex {
     float x, y, z;
 };
@@ -74,8 +75,3 @@ struct TransparentWorldMatrixBuffer {
     XMFLOAT4 color;
 };
 
-struct CullingParams {
-    XMINT4 numShapes;
-    XMFLOAT4 bbMin[MAX_CUBE];
-    XMFLOAT4 bbMax[MAX_CUBE];
-};

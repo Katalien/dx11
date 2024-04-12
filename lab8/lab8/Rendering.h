@@ -7,8 +7,80 @@
 #include "Frustum.h"
 #include <vector>
 #include <string>
-#include "structs.h"
+//#include "structs.h"
 
+struct Light {
+    XMFLOAT4 pos;
+    XMFLOAT4 color;
+};
+
+struct Cube {
+    XMFLOAT4 pos;
+    XMFLOAT4 shineSpeedIdNM;
+};
+
+struct PostEffectConstantBuffer {
+    XMINT4 params;
+};
+
+struct Vertex {
+    XMFLOAT3 pos;
+    XMFLOAT2 uv;
+    XMFLOAT3 normal;
+    XMFLOAT3 tangent;
+};
+
+struct GeomBuffer {
+    XMMATRIX worldMatrix;
+    XMMATRIX norm;
+    XMFLOAT4 shineSpeedTexIdNM;
+};
+
+struct SceneBuffer {
+    XMMATRIX viewProjectionMatrix;
+    XMFLOAT4 planes[6];
+};
+
+struct CullingParams {
+    XMINT4 numShapes;
+    XMFLOAT4 bbMin[MAX_CUBE];
+    XMFLOAT4 bbMax[MAX_CUBE];
+};
+
+struct LightBuffer {
+    XMFLOAT4 cameraPos;
+    XMINT4 lightParams;
+    Light lights[MAX_LIGHT];
+    XMFLOAT4 ambientColor;
+};
+
+struct SkyboxVertex {
+    float x, y, z;
+};
+
+struct SkyboxWorldMatrixBuffer {
+    XMMATRIX worldMatrix;
+    XMFLOAT4 size;
+};
+
+struct SkyboxViewMatrixBuffer {
+    XMMATRIX viewProjectionMatrix;
+    XMFLOAT4 cameraPos;
+};
+
+struct TransparentVertex {
+    float x, y, z;
+};
+
+struct TransparentWorldMatrixBuffer {
+    XMMATRIX worldMatrix;
+    XMFLOAT4 color;
+};
+
+
+struct BBRect {
+    XMFLOAT3 v[4];
+};
 
 class Renderer {
 public:
@@ -70,6 +142,16 @@ private:
     ID3D11RenderTargetView* pPostEffectRenderTargetView_ = NULL;
     ID3D11ShaderResourceView* pShaderResourceView_ = NULL;
 
+    ID3D11Buffer* pCullingParams_ = NULL;
+    ID3D11ComputeShader* pCullingShader_ = NULL;
+
+    ID3D11Buffer* pInderectArgsSrc_ = NULL;
+    ID3D11Buffer* pInderectArgs_ = NULL;
+    ID3D11UnorderedAccessView* pInderectArgsUAV_ = NULL;
+    ID3D11Buffer* pGeomBufferInstVis_ = NULL;
+    ID3D11Buffer* pGeomBufferInstVisGpu_ = NULL;
+    ID3D11UnorderedAccessView* pGeomBufferInstVisGpuUAV_ = NULL;
+
     Camera* pCamera_;
     Input* pInput_;
     Frustum* pFrustum_;
@@ -84,6 +166,10 @@ private:
     std::vector<int> cubeIndexies_;
     int cubesCount_ = 2;
     int cubesCountGPU_ = 2;
+
+    ID3D11Query* queries_[MAX_QUERY];
+    unsigned int curFrame_ = 0;
+    unsigned int lastCompletedFrame_ = 0;
 
     UINT width_;
     UINT height_;
@@ -103,29 +189,16 @@ private:
         DirectX::XMMatrixTranslation(1.8f, 0.0f, 0.0f),
         DirectX::XMMatrixTranslation(2.2f, 0.0f, 0.0f)
     };
+    bool isFirst_ = true;
 
     const XMFLOAT4 AABB[8] = {
-       {-1.0f, -1.0f, -1.0f, 1.0f},
-       {1.0f, -1.0f, -1.0f, 1.0f},
-       {-1.0f, 1.0f, -1.0f, 1.0f},
-       {-1.0f, -1.0f, 1.0f, 1.0f},
-       {1.0f, 1.0f, -1.0f, 1.0f},
-       {1.0f, -1.0f, 1.0f, 1.0f},
-       {-1.0f, 1.0f, 1.0f, 1.0f},
-       {1.0f,  1.0f, 1.0f, 1.0f}
+        {-1.0f, -1.0f, -1.0f, 1.0f},
+        {1.0f, -1.0f, -1.0f, 1.0f},
+        {-1.0f, 1.0f, -1.0f, 1.0f},
+        {-1.0f, -1.0f, 1.0f, 1.0f},
+        {1.0f, 1.0f, -1.0f, 1.0f},
+        {1.0f, -1.0f, 1.0f, 1.0f},
+        {-1.0f, 1.0f, 1.0f, 1.0f},
+        {1.0f,  1.0f, 1.0f, 1.0f}
     };
-
-    ID3D11Buffer* pCullingParams_ = NULL;
-    ID3D11ComputeShader* pCullingShader_ = NULL;
-
-    ID3D11Buffer* pInderectArgsSrc_ = NULL;
-    ID3D11Buffer* pInderectArgs_ = NULL;
-    ID3D11UnorderedAccessView* pInderectArgsUAV_ = NULL;
-    ID3D11Buffer* pGeomBufferInstVis_ = NULL;
-    ID3D11Buffer* pGeomBufferInstVisGpu_ = NULL;
-    ID3D11UnorderedAccessView* pGeomBufferInstVisGpuUAV_ = NULL;
-
-    ID3D11Query* queries_[MAX_QUERY];
-    unsigned int curFrame_ = 0;
-    unsigned int lastCompletedFrame_ = 0;
 };

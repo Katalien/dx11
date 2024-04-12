@@ -1,6 +1,6 @@
-#include "frustum.h"
+#include "Frustum.h"
 
-Frustum::Frustum(float screenDepth) :
+Frustum::Frustum(float screenDepth):
     screenDepth_(screenDepth) {}
 
 void Frustum::ConstructFrustum(XMMATRIX viewMatrix, XMMATRIX projectionMatrix) {

@@ -3,15 +3,15 @@
 #define SAFE_RELEASE(A) if ((A) != NULL) { (A)->Release(); (A) = NULL; }
 
 std::vector<UINT> CountIndices(UINT numSphereTriangles_,
-    std::vector<SkyboxVertex>&vertices,
-    std::vector<UINT>&indices);
+    std::vector<SkyboxVertex>& vertices,
+    std::vector<UINT>& indices);
 
-float computeDistanceSqr(const XMFLOAT3 & vec1, const XMFLOAT3 & vec2);
+float computeDistanceSqr(const XMFLOAT3& vec1, const XMFLOAT3& vec2);
 
-std::vector<Light> processGuiLight(std::vector<Light>&lights_);
-std::vector<Light> processGuiButtons(std::vector<Light>&lights_);
+std::vector<Light> processGuiLight(std::vector<Light>& lights_);
+std::vector<Light> processGuiButtons(std::vector<Light>& lights_);
 int processInstancesButtons(int& cubesCount_);
-void proccessInstanceGui(int& cubesCount_, int cubesCountGPU_, std::vector<int>&cubeIndexies_, bool& withCulling_, bool& withGPUCulling_);
+void proccessInstanceGui(int& cubesCount_, int cubesCountGPU_, std::vector<int>& cubeIndexies_, bool& withCulling_, bool& withGPUCulling_);
 
 
 Renderer& Renderer::GetInstance() {
@@ -112,7 +112,7 @@ bool Renderer::Init(HINSTANCE hInstance, HWND hWnd) {
     if (SUCCEEDED(result)) {
         result = pDevice_->CreateRenderTargetView(pBackBuffer, NULL, &pRenderTargetView_);
     }
-     if (SUCCEEDED(result)) {
+    if (SUCCEEDED(result)) {
         D3D11_QUERY_DESC desc;
         desc.Query = D3D11_QUERY_PIPELINE_STATISTICS;
         desc.MiscFlags = 0;
@@ -735,7 +735,7 @@ HRESULT Renderer::InitScene() {
         result = pDevice_->CreateRasterizerState(&desc, &pRasterizerState_);
     }
     if (SUCCEEDED(result)) {
-        std::vector<const wchar_t*> filenames = {L"texture.dds", L"texture2.dds"};
+        std::vector<const wchar_t*> filenames = { L"texture.dds", L"texture2.dds" };
         UINT textureCount = (UINT)filenames.size();
 
         std::vector<ID3D11Texture2D*> textures(textureCount);
@@ -894,7 +894,6 @@ bool Renderer::UpdateScene() {
 
     static bool window = true;
     static bool window2 = true;
-
     if (window) {
         ImGui::Begin("Lights", &window);
 
@@ -905,22 +904,78 @@ bool Renderer::UpdateScene() {
             postEffectConstantBuffer.params = XMINT4(withPostEffect_, 0, 0, 0);
             pDeviceContext_->UpdateSubresource(pPostEffectConstantBuffer_, 0, nullptr, &postEffectConstantBuffer, 0, 0);
         }
-        lights_ = processGuiButtons(lights_);
 
-        lights_ = processGuiLight(lights_);
+        if (ImGui::Button("+")) {
+            if (lights_.size() < MAX_LIGHT)
+                lights_.push_back({ XMFLOAT4((float)(rand() % 12 - 6), (float)(rand() % 12 - 6), (float)(rand() % 12 - 6), 0.0f),
+                    XMFLOAT4((rand() % 255) / 255.0f, (rand() % 255) / 255.0f, (rand() % 255) / 255.0f, 0.0f) });
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("-")) {
+            if (lights_.size() > 0)
+                lights_.pop_back();
+        }
+
+        static float col[MAX_LIGHT][3];
+        static float pos[MAX_LIGHT][4];
+        for (int i = 0; i < lights_.size(); i++) {
+            std::string str = "Light " + std::to_string(i);
+            ImGui::Text(str.c_str());
+
+            pos[i][0] = lights_[i].pos.x;
+            pos[i][1] = lights_[i].pos.y;
+            pos[i][2] = lights_[i].pos.z;
+            str = "Pos " + std::to_string(i);
+            ImGui::Text(str.c_str());
+            ImGui::DragFloat3(str.c_str(), pos[i], 0.1f, -6.0f, 6.0f);
+            lights_[i].pos = XMFLOAT4(pos[i][0], pos[i][1], pos[i][2], 1.0f);
+
+            col[i][0] = lights_[i].color.x;
+            col[i][1] = lights_[i].color.y;
+            col[i][2] = lights_[i].color.z;
+            str = "Color " + std::to_string(i);
+            ImGui::ColorEdit3(str.c_str(), col[i]);
+            lights_[i].color = XMFLOAT4(col[i][0], col[i][1], col[i][2], 1.0f);
+        }
 
         ImGui::End();
     }
     if (window2) {
         ImGui::Begin("Instances", &window2);
-        
-        cubesCount_ = processInstancesButtons(cubesCount_);
 
-        proccessInstanceGui(cubesCount_, cubesCountGPU_,  cubeIndexies_, withCulling_, withGPUCulling_);
+        if (ImGui::Button("+")) {
+            if (cubesCount_ < MAX_CUBE) {
+                ++cubesCount_;
+            }
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("-")) {
+            if (cubesCount_ > 0) {
+                --cubesCount_;
+            }
+        }
+
+        std::string str = "Count: " + std::to_string(cubesCount_);
+        ImGui::Text(str.c_str());
+
+        if (!withGPUCulling_) {
+            str = "Rendered: " + std::to_string(cubeIndexies_.size());
+            ImGui::Text(str.c_str());
+        }
+        else {
+            str = "Rendered (GPU): " + std::to_string(cubesCountGPU_);
+            ImGui::Text(str.c_str());
+        }
+        ImGui::Checkbox("Culling", &withCulling_);
+        if (withCulling_) {
+            ImGui::Checkbox("Culling (GPU)", &withGPUCulling_);
+        }
+        else {
+            withGPUCulling_ = false;
+        }
 
         ImGui::End();
     }
-
     InputHandler();
 
     XMMATRIX mView = pCamera_->GetViewMatrix();
@@ -971,7 +1026,7 @@ bool Renderer::UpdateScene() {
 
     pDeviceContext_->UpdateSubresource(pCullingParams_, 0, nullptr, &cullingParams, 0, 0);
 
-     XMFLOAT3 cameraPos = pCamera_->GetPosition();
+    XMFLOAT3 cameraPos = pCamera_->GetPosition();
     D3D11_MAPPED_SUBRESOURCE subresource, skyboxSubresource;
     result = pDeviceContext_->Map(pViewMatrixBuffer_[0], 0, D3D11_MAP_WRITE_DISCARD, 0, &subresource);
     if (SUCCEEDED(result)) {
@@ -1156,7 +1211,7 @@ bool Renderer::Render() {
         pDeviceContext_->OMSetBlendState(pBlendState_, nullptr, 0xFFFFFFFF);
 
         //
-        if (dist1<dist2) {
+        if (dist1 < dist2) {
             pDeviceContext_->VSSetConstantBuffers(0, 1, &pPlanesWorldMatrixBuffer_[0]);
             pDeviceContext_->PSSetConstantBuffers(0, 1, &pPlanesWorldMatrixBuffer_[0]);
             pDeviceContext_->DrawIndexed(6, 0, 0);
@@ -1206,7 +1261,7 @@ bool Renderer::Resize(UINT width, UINT height) {
         return false;
 
     ID3D11Texture2D* pBuffer;
-    result = pSwapChain_->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*) &pBuffer);
+    result = pSwapChain_->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBuffer);
     if (!SUCCEEDED(result))
         return false;
 
@@ -1524,22 +1579,22 @@ int processInstancesButtons(int& cubesCount_) {
     return cubesCount_;
 };
 
-void proccessInstanceGui(int& cubesCount_, int cubesCountGPU_,  std::vector<int>& cubeIndexies_, bool& withCulling_, bool& withGPUCulling_) {
+void proccessInstanceGui(int& cubesCount_, int cubesCountGPU_, std::vector<int>& cubeIndexies_, bool& withCulling_, bool& withGPUCulling_) {
     std::string str = "Count: " + std::to_string(cubesCount_);
     ImGui::Text(str.c_str());
     if (!withGPUCulling_) {
-            str = "Rendered: " + std::to_string(cubeIndexies_.size());
-            ImGui::Text(str.c_str());
-        }
-        else {
-            str = "Rendered (GPU): " + std::to_string(cubesCountGPU_);
-            ImGui::Text(str.c_str());
-        }
-        ImGui::Checkbox("Culling", &withCulling_);
-        if (withCulling_) {
-            ImGui::Checkbox("Culling (GPU)", &withGPUCulling_);
-        }
-        else {
-            withGPUCulling_ = false;
-        }
+        str = "Rendered: " + std::to_string(cubeIndexies_.size());
+        ImGui::Text(str.c_str());
+    }
+    else {
+        str = "Rendered (GPU): " + std::to_string(cubesCountGPU_);
+        ImGui::Text(str.c_str());
+    }
+    ImGui::Checkbox("Culling", &withCulling_);
+    if (withCulling_) {
+        ImGui::Checkbox("Culling (GPU)", &withGPUCulling_);
+    }
+    else {
+        withGPUCulling_ = false;
+    }
 }

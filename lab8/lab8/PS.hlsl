@@ -15,7 +15,7 @@ struct PS_INPUT {
 };
 
 float4 main(PS_INPUT input) : SV_TARGET{
-    float3 color = 10.0 * cubeTexture.Sample(cubeSampler, float3(input.uv, geomBuffer[input.instanceId].shineSpeedTexIdNM.z)).xyz;
+    float3 color = cubeTexture.Sample(cubeSampler, float3(input.uv, geomBuffer[input.instanceId].shineSpeedTexIdNM.z)).xyz;
     float3 finalColor = ambientColor.xyz * color;
 
     float3 norm = float3(0, 0, 0);

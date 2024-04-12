@@ -1,20 +1,23 @@
-﻿#include "lab8.h"
-#include "rendering.h"
+﻿// Lab1.cpp : Определяет точку входа для приложения.
+//
+
+#include "Lab8.h"
+#include "Rendering.h"
 
 #define MAX_LOADSTRING 100
 
-HINSTANCE hInst;
-WCHAR szTitle[MAX_LOADSTRING];
-WCHAR szWindowClass[MAX_LOADSTRING];
+HINSTANCE hInst;                                  // текущий экземпляр
+WCHAR szTitle[MAX_LOADSTRING];                    // текст строки заголовка
+WCHAR szWindowClass[MAX_LOADSTRING];              // имя класса главного окна
 
 ATOM                 MyRegisterClass(HINSTANCE hInstance);
 BOOL                 InitInstance(HINSTANCE, int);
 LRESULT CALLBACK     WndProc(HWND, UINT, WPARAM, LPARAM);
 
 int APIENTRY wWinMain(_In_ HINSTANCE     hInstance,
-    _In_opt_ HINSTANCE hPrevInstance,
-    _In_ LPWSTR        lpCmdLine,
-    _In_ int           nCmdShow) {
+                      _In_opt_ HINSTANCE hPrevInstance,
+                      _In_ LPWSTR        lpCmdLine,
+                      _In_ int           nCmdShow) {
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
 
@@ -33,7 +36,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE     hInstance,
         SetCurrentDirectory(dir.c_str());
     }
 
-
+    // Выполнить инициализацию приложения:
     if (!InitInstance(hInstance, nCmdShow)) {
         return FALSE;
     }
@@ -43,7 +46,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE     hInstance,
     MSG msg;
     Renderer& renderer = Renderer::GetInstance();
 
-
+    // Цикл основного сообщения:
     bool exit = false;
     while (!exit) {
         if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) > 0) {
@@ -57,7 +60,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE     hInstance,
         renderer.Render();
     }
 
-    return (int)msg.wParam;
+    return (int) msg.wParam;
 }
 
 
@@ -66,29 +69,29 @@ ATOM MyRegisterClass(HINSTANCE hInstance) {
 
     wcex.cbSize = sizeof(WNDCLASSEX);
 
-    wcex.style = CS_HREDRAW | CS_VREDRAW;
-    wcex.lpfnWndProc = WndProc;
-    wcex.cbClsExtra = 0;
-    wcex.cbWndExtra = 0;
-    wcex.hInstance = hInstance;
-    wcex.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_LAB8));
-    wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
-    wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
-    wcex.lpszMenuName = nullptr;
-    wcex.lpszClassName = szWindowClass;
-    wcex.hIconSm = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
+    wcex.style           = CS_HREDRAW | CS_VREDRAW;
+    wcex.lpfnWndProc     = WndProc;
+    wcex.cbClsExtra      = 0;
+    wcex.cbWndExtra      = 0;
+    wcex.hInstance       = hInstance;
+    wcex.hIcon           = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_LAB8));
+    wcex.hCursor         = LoadCursor(nullptr, IDC_ARROW);
+    wcex.hbrBackground   = (HBRUSH)(COLOR_WINDOW+1);
+    wcex.lpszMenuName    = nullptr;
+    wcex.lpszClassName   = szWindowClass;
+    wcex.hIconSm         = LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
     return RegisterClassExW(&wcex);
 }
 
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow) {
-    hInst = hInstance;
+    hInst = hInstance; // Сохранить маркер экземпляра в глобальной переменной
 
     HWND hWnd = CreateWindowW(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr);
 
     if (!hWnd) {
-        return FALSE;
+       return FALSE;
     }
 
     ShowWindow(hWnd, nCmdShow);
@@ -103,9 +106,9 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow) {
     {
         RECT rc;
         rc.left = 0;
-        rc.right = Renderer::defaultWidth;
+        rc.right = Renderer::defaultWidth; // 1280
         rc.top = 0;
-        rc.bottom = Renderer::defaultHeight;
+        rc.bottom = Renderer::defaultHeight; // 720
 
         AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 
@@ -119,20 +122,19 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow) {
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-
 LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
     if (ImGui_ImplWin32_WndProcHandler(hWnd, message, wParam, lParam)) {
         return TRUE;
     }
-
+    
     switch (message) {
     case WM_SIZE:
-    {
-        RECT rc;
-        GetClientRect(hWnd, &rc);
-        Renderer::GetInstance().Resize(rc.right - rc.left, rc.bottom - rc.top);
-    }
-    break;
+        {
+            RECT rc;
+            GetClientRect(hWnd, &rc);
+            Renderer::GetInstance().Resize(rc.right - rc.left, rc.bottom - rc.top);
+        }
+        break;
     case WM_DESTROY:
         PostQuitMessage(0);
         break;
