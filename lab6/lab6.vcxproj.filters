@@ -75,6 +75,18 @@
     <ClInclude Include="D3dInclude.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Buffers.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="Frustum.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="TransBuffers.h">
+      <Filter>Исходные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="lab6.cpp">
@@ -114,6 +126,9 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="D3dInclude.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Frustum.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

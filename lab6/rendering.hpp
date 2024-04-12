@@ -10,8 +10,11 @@
 #include "D3DInclude.h"
 #include <string>
 #include <iostream>
+#include "Frustum.h"
 
 #define MAX_LIGHT 10
+#define SCREEN_NEAR 0.01f
+#define SCREEN_FAR 100.0f
 
 class Renderer {
 public:
@@ -35,6 +38,9 @@ private:
     HRESULT InitScene();
     void InputHandler();
     bool UpdateScene();
+    void ProcessPostEffect(D3D11_VIEWPORT viewport);
+    HRESULT InitRenderTexture(int textureWidth, int textureHeight);
+    void ReleaseRenderTexture();
 
     ID3D11Device* pDevice_;
     ID3D11DeviceContext* pDeviceContext_;
@@ -47,8 +53,11 @@ private:
     ID3D11VertexShader* pVertexShader_[3] = { NULL, NULL, NULL };
     ID3D11PixelShader* pPixelShader_[3] = { NULL, NULL, NULL };
 
-    ID3D11Buffer* pWorldMatrixBuffer_[5] = { NULL, NULL, NULL, NULL, NULL };
+    ID3D11Buffer* pGeomBufferInst_ = NULL;
+    ID3D11Buffer* pPlanesWorldMatrixBuffer_[2] = { NULL, NULL };
+    ID3D11Buffer* pSkyboxWorldMatrixBuffer_ = NULL;
     ID3D11Buffer* pViewMatrixBuffer_[2] = { NULL, NULL };
+    ID3D11Buffer* pLightBuffer_ = NULL;
     ID3D11RasterizerState* pRasterizerState_;
     ID3D11SamplerState* pSampler_;
 
@@ -76,15 +85,35 @@ private:
     float radius_;
 
     const TranspVertex VerticesT[4] = {
-        {0, -1, -1, RGB(0, 255, 255)},
-        {0,  1, -1, RGB(255, 255, 0)},
-        {0,  1,  1, RGB(0, 255, 255)},
-        {0, -1,  1, RGB(255, 255, 0)}
+        {0, -1, -1},
+        {0,  1, -1},
+        {0,  1,  1},
+        {0, -1,  1}
     };
     XMMATRIX TransparentMatrixs[2] = {
         DirectX::XMMatrixTranslation(1.8f, 0.0f, 0.0f),
         DirectX::XMMatrixTranslation(2.2f, 0.0f, 0.0f)
     };
 
+    Frustum* pFrustum_;
+
+    bool withPostEffect_ = true;
+    bool withCulling_ = true;
+    std::vector<Cube> cubes_;
+    std::vector<int> cubeIndexies_;
+    int cubesCount_ = 2;
+
+    ID3D11VertexShader* pPostEffectVertexShader_ = NULL;
+    ID3D11PixelShader* pPostEffectPixelShader_ = NULL;
+    ID3D11SamplerState* pPostEffectSamplerState_ = NULL;
+    ID3D11Buffer* pPostEffectConstantBuffer_ = NULL;
+    ID3D11Texture2D* pRenderTargetTexture_ = NULL;
+    ID3D11RenderTargetView* pPostEffectRenderTargetView_ = NULL;
+    ID3D11ShaderResourceView* pShaderResourceView_ = NULL;
+
+    const XMFLOAT4 AABB[2] = {
+        {-0.5f, -0.5f, -0.5f, 1.0f},
+        {0.5f,  0.5f, 0.5f, 1.0f}
+    };
     
 };
