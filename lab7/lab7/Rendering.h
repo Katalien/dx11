@@ -9,9 +9,6 @@
 #include <string>
 #include "structs.h"
 
-#define MAX_LIGHT 10
-#define SCREEN_NEAR 0.01f
-#define SCREEN_FAR 100.0f
 
 class Renderer {
 public:
