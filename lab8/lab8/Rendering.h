@@ -35,6 +35,7 @@ private:
     void ProcessPostEffect(D3D11_VIEWPORT viewport);
     HRESULT InitRenderTexture(int textureWidth, int textureHeight);
     void ReleaseRenderTexture();
+    void ReadQueries();
 
     ID3D11Device* pDevice_;
     ID3D11DeviceContext* pDeviceContext_;
@@ -77,10 +78,12 @@ private:
     bool showNormals_ = false;
     bool withPostEffect_ = true;
     bool withCulling_ = true;
+    bool withGPUCulling_ = false;
     std::vector<Light> lights_;
     std::vector<Cube> cubes_;
     std::vector<int> cubeIndexies_;
     int cubesCount_ = 2;
+    int cubesCountGPU_ = 2;
 
     UINT width_;
     UINT height_;
@@ -101,8 +104,28 @@ private:
         DirectX::XMMatrixTranslation(2.2f, 0.0f, 0.0f)
     };
 
-    const XMFLOAT4 AABB[2] = {
-        {-0.5f, -0.5f, -0.5f, 1.0f},
-        {0.5f,  0.5f, 0.5f, 1.0f}
+    const XMFLOAT4 AABB[8] = {
+       {-1.0f, -1.0f, -1.0f, 1.0f},
+       {1.0f, -1.0f, -1.0f, 1.0f},
+       {-1.0f, 1.0f, -1.0f, 1.0f},
+       {-1.0f, -1.0f, 1.0f, 1.0f},
+       {1.0f, 1.0f, -1.0f, 1.0f},
+       {1.0f, -1.0f, 1.0f, 1.0f},
+       {-1.0f, 1.0f, 1.0f, 1.0f},
+       {1.0f,  1.0f, 1.0f, 1.0f}
     };
+
+    ID3D11Buffer* pCullingParams_ = NULL;
+    ID3D11ComputeShader* pCullingShader_ = NULL;
+
+    ID3D11Buffer* pInderectArgsSrc_ = NULL;
+    ID3D11Buffer* pInderectArgs_ = NULL;
+    ID3D11UnorderedAccessView* pInderectArgsUAV_ = NULL;
+    ID3D11Buffer* pGeomBufferInstVis_ = NULL;
+    ID3D11Buffer* pGeomBufferInstVisGpu_ = NULL;
+    ID3D11UnorderedAccessView* pGeomBufferInstVisGpuUAV_ = NULL;
+
+    ID3D11Query* queries_[MAX_QUERY];
+    unsigned int curFrame_ = 0;
+    unsigned int lastCompletedFrame_ = 0;
 };
