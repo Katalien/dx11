@@ -36,8 +36,9 @@ struct GeomBuffer {
 
 struct SceneBuffer {
     XMMATRIX viewProjectionMatrix;
-    XMINT4 indexBuffer[MAX_CUBE];
+    XMFLOAT4 planes[6];
 };
+
 
 struct LightBuffer {
     XMFLOAT4 cameraPos;
