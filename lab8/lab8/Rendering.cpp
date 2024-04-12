@@ -11,7 +11,7 @@ float computeDistanceSqr(const XMFLOAT3 & vec1, const XMFLOAT3 & vec2);
 std::vector<Light> processGuiLight(std::vector<Light>&lights_);
 std::vector<Light> processGuiButtons(std::vector<Light>&lights_);
 int processInstancesButtons(int& cubesCount_);
-void proccessInstanceGui(int& cubesCount_, std::vector<int>&cubeIndexies_, bool& withCulling_);
+void proccessInstanceGui(int& cubesCount_, int cubesCountGPU_, std::vector<int>&cubeIndexies_, bool& withCulling_, bool& withGPUCulling_);
 
 
 Renderer& Renderer::GetInstance() {
@@ -916,7 +916,7 @@ bool Renderer::UpdateScene() {
         
         cubesCount_ = processInstancesButtons(cubesCount_);
 
-        proccessInstanceGui(cubesCount_, cubeIndexies_, withCulling_);
+        proccessInstanceGui(cubesCount_, cubesCountGPU_,  cubeIndexies_, withCulling_, withGPUCulling_);
 
         ImGui::End();
     }
@@ -1524,7 +1524,7 @@ int processInstancesButtons(int& cubesCount_) {
     return cubesCount_;
 };
 
-void proccessInstanceGui(int& cubesCount_, std::vector<int>& cubeIndexies_, bool& withCulling_) {
+void proccessInstanceGui(int& cubesCount_, int cubesCountGPU_,  std::vector<int>& cubeIndexies_, bool& withCulling_, bool& withGPUCulling_) {
     std::string str = "Count: " + std::to_string(cubesCount_);
     ImGui::Text(str.c_str());
     if (!withGPUCulling_) {
