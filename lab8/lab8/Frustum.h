@@ -4,16 +4,14 @@ using namespace DirectX;
 
 class Frustum {
 public:
-	Frustum(float screenDepth) :
-		m_screenDepth(screenDepth) {};
-	// Function to initialize frustum class
-	void Init(float screenDepth) { m_screenDepth = screenDepth; };
-	// Release function
-	void Release() {};
-	// Function to build frustum
-	void ConstructFrustum(XMMATRIX viewMatrix, XMMATRIX projectionMatrix);
-	XMFLOAT4* GetPlanes() { return m_planes; }
+    Frustum(float screenDepth);
+
+    void ConstructFrustum(XMMATRIX viewMatrix, XMMATRIX projectionMatrix);
+    bool CheckRectangle(XMFLOAT4 bbMin, XMFLOAT4 bbMax);
+    XMFLOAT4* GetPlanes() { return planes_; };
+
+    ~Frustum() = default;
 private:
-	float m_screenDepth;
-	XMFLOAT4 m_planes[6];
+    float screenDepth_;
+    XMFLOAT4 planes_[6];
 };
