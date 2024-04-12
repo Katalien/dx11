@@ -73,3 +73,9 @@ struct TransparentWorldMatrixBuffer {
     XMMATRIX worldMatrix;
     XMFLOAT4 color;
 };
+
+struct CullingParams {
+    XMINT4 numShapes;
+    XMFLOAT4 bbMin[MAX_CUBE];
+    XMFLOAT4 bbMax[MAX_CUBE];
+};
