@@ -88,11 +88,39 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0;C:\Windows\System32</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);dxgi.lib;d3d11.lib;d3dcompiler.lib</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(ProjectDir)VS.hlsl" "$(OutDir)VS.hlsl"
+copy "$(ProjectDir)PS.hlsl" "$(OutDir)PS.hlsl"
+copy "$(ProjectDir)CubeMapPS.hlsl" "$(OutDir)CubeMapPS.hlsl"
+copy "$(ProjectDir)CubeMapVS.hlsl" "$(OutDir)CubeMapVS.hlsl"
+copy "$(ProjectDir)cube.dds" "$(OutDir)cube.dds"
+copy "$(ProjectDir)texture.dds" "$(OutDir)texture.dds"
+copy "$(ProjectDir)texture2.dds" "$(OutDir)texture2.dds"
+copy "$(ProjectDir)texture_norm.dds" "$(OutDir)texture_norm.dds"
+copy "$(ProjectDir)lab7.ico" "$(OutDir)lab7.ico"
+copy "$(ProjectDir)small.ico" "$(OutDir)small.ico"
+copy "$(ProjectDir)lab7.rc" "$(OutDir)lab7.rc"
+copy "$(ProjectDir)TVS.hlsl" "$(OutDir)TVS.hlsl"
+copy "$(ProjectDir)TPS.hlsl" "$(OutDir)TPS.hlsl"
+copy "$(ProjectDir)SceneBuffer.h" "$(OutDir)SceneBuffer.h"
+copy "$(ProjectDir)LightCalc.h" "$(OutDir)LightCalc.h"
+copy "$(ProjectDir)Light.h" "$(OutDir)Light.h"
+copy "$(ProjectDir)Buffers.h" "$(OutDir)Buffers.h"
+copy "$(ProjectDir)TransBuffers.h" "$(OutDir)TransBuffers.h"
+copy "$(ProjectDir)Macros.h" "$(OutDir)Macros.h"
+copy "$(ProjectDir)PostEffectPS.hlsl" "$(OutDir)PostEffectPS.hlsl"
+copy "$(ProjectDir)PostEffectVS.hlsl" "$(OutDir)PostEffectVS.hlsl"
+copy "$(ProjectDir)structs.h" "$(OutDir)structs.h"
+copy "$(ProjectDir)framework.h" "$(OutDir)framework.h"
+copy "$(ProjectDir)FCS.hlsl" "$(OutDir)FCS.hlsl"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -102,13 +130,41 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0;C:\Windows\System32</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);dxgi.lib;d3d11.lib;d3dcompiler.lib</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(ProjectDir)VS.hlsl" "$(OutDir)VS.hlsl"
+copy "$(ProjectDir)PS.hlsl" "$(OutDir)PS.hlsl"
+copy "$(ProjectDir)CubeMapPS.hlsl" "$(OutDir)CubeMapPS.hlsl"
+copy "$(ProjectDir)CubeMapVS.hlsl" "$(OutDir)CubeMapVS.hlsl"
+copy "$(ProjectDir)cube.dds" "$(OutDir)cube.dds"
+copy "$(ProjectDir)texture.dds" "$(OutDir)texture.dds"
+copy "$(ProjectDir)texture2.dds" "$(OutDir)texture2.dds"
+copy "$(ProjectDir)texture_norm.dds" "$(OutDir)texture_norm.dds"
+copy "$(ProjectDir)lab7.ico" "$(OutDir)lab7.ico"
+copy "$(ProjectDir)small.ico" "$(OutDir)small.ico"
+copy "$(ProjectDir)lab7.rc" "$(OutDir)lab7.rc"
+copy "$(ProjectDir)TVS.hlsl" "$(OutDir)TVS.hlsl"
+copy "$(ProjectDir)TPS.hlsl" "$(OutDir)TPS.hlsl"
+copy "$(ProjectDir)SceneBuffer.h" "$(OutDir)SceneBuffer.h"
+copy "$(ProjectDir)LightCalc.h" "$(OutDir)LightCalc.h"
+copy "$(ProjectDir)Light.h" "$(OutDir)Light.h"
+copy "$(ProjectDir)Buffers.h" "$(OutDir)Buffers.h"
+copy "$(ProjectDir)TransBuffers.h" "$(OutDir)TransBuffers.h"
+copy "$(ProjectDir)Macros.h" "$(OutDir)Macros.h"
+copy "$(ProjectDir)PostEffectPS.hlsl" "$(OutDir)PostEffectPS.hlsl"
+copy "$(ProjectDir)PostEffectVS.hlsl" "$(OutDir)PostEffectVS.hlsl"
+copy "$(ProjectDir)structs.h" "$(OutDir)structs.h"
+copy "$(ProjectDir)framework.h" "$(OutDir)framework.h"
+copy "$(ProjectDir)FCS.hlsl" "$(OutDir)FCS.hlsl"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -116,12 +172,39 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0;C:\Windows\System32</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>dinput8.lib;dxguid.lib;d3d11.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);dxgi.lib;d3d11.lib;d3dcompiler.lib</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(ProjectDir)VS.hlsl" "$(OutDir)VS.hlsl"
+copy "$(ProjectDir)PS.hlsl" "$(OutDir)PS.hlsl"
+copy "$(ProjectDir)CubeMapPS.hlsl" "$(OutDir)CubeMapPS.hlsl"
+copy "$(ProjectDir)CubeMapVS.hlsl" "$(OutDir)CubeMapVS.hlsl"
+copy "$(ProjectDir)cube.dds" "$(OutDir)cube.dds"
+copy "$(ProjectDir)texture.dds" "$(OutDir)texture.dds"
+copy "$(ProjectDir)texture2.dds" "$(OutDir)texture2.dds"
+copy "$(ProjectDir)texture_norm.dds" "$(OutDir)texture_norm.dds"
+copy "$(ProjectDir)lab7.ico" "$(OutDir)lab7.ico"
+copy "$(ProjectDir)small.ico" "$(OutDir)small.ico"
+copy "$(ProjectDir)lab7.rc" "$(OutDir)lab7.rc"
+copy "$(ProjectDir)TVS.hlsl" "$(OutDir)TVS.hlsl"
+copy "$(ProjectDir)TPS.hlsl" "$(OutDir)TPS.hlsl"
+copy "$(ProjectDir)SceneBuffer.h" "$(OutDir)SceneBuffer.h"
+copy "$(ProjectDir)LightCalc.h" "$(OutDir)LightCalc.h"
+copy "$(ProjectDir)Light.h" "$(OutDir)Light.h"
+copy "$(ProjectDir)Buffers.h" "$(OutDir)Buffers.h"
+copy "$(ProjectDir)TransBuffers.h" "$(OutDir)TransBuffers.h"
+copy "$(ProjectDir)Macros.h" "$(OutDir)Macros.h"
+copy "$(ProjectDir)PostEffectPS.hlsl" "$(OutDir)PostEffectPS.hlsl"
+copy "$(ProjectDir)PostEffectVS.hlsl" "$(OutDir)PostEffectVS.hlsl"
+copy "$(ProjectDir)structs.h" "$(OutDir)structs.h"
+copy "$(ProjectDir)framework.h" "$(OutDir)framework.h"
+copy "$(ProjectDir)FCS.hlsl" "$(OutDir)FCS.hlsl"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -131,14 +214,41 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0;C:\Windows\System32</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>dinput8.lib;dxguid.lib;d3d11.lib;dxgi.lib;d3dcompiler.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);dxgi.lib;d3d11.lib;d3dcompiler.lib</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>copy "$(ProjectDir)VS.hlsl" "$(OutDir)VS.hlsl"
+copy "$(ProjectDir)PS.hlsl" "$(OutDir)PS.hlsl"
+copy "$(ProjectDir)CubeMapPS.hlsl" "$(OutDir)CubeMapPS.hlsl"
+copy "$(ProjectDir)CubeMapVS.hlsl" "$(OutDir)CubeMapVS.hlsl"
+copy "$(ProjectDir)cube.dds" "$(OutDir)cube.dds"
+copy "$(ProjectDir)texture.dds" "$(OutDir)texture.dds"
+copy "$(ProjectDir)texture2.dds" "$(OutDir)texture2.dds"
+copy "$(ProjectDir)texture_norm.dds" "$(OutDir)texture_norm.dds"
+copy "$(ProjectDir)lab7.ico" "$(OutDir)lab7.ico"
+copy "$(ProjectDir)small.ico" "$(OutDir)small.ico"
+copy "$(ProjectDir)lab7.rc" "$(OutDir)lab7.rc"
+copy "$(ProjectDir)TVS.hlsl" "$(OutDir)TVS.hlsl"
+copy "$(ProjectDir)TPS.hlsl" "$(OutDir)TPS.hlsl"
+copy "$(ProjectDir)SceneBuffer.h" "$(OutDir)SceneBuffer.h"
+copy "$(ProjectDir)LightCalc.h" "$(OutDir)LightCalc.h"
+copy "$(ProjectDir)Light.h" "$(OutDir)Light.h"
+copy "$(ProjectDir)Buffers.h" "$(OutDir)Buffers.h"
+copy "$(ProjectDir)TransBuffers.h" "$(OutDir)TransBuffers.h"
+copy "$(ProjectDir)Macros.h" "$(OutDir)Macros.h"
+copy "$(ProjectDir)PostEffectPS.hlsl" "$(OutDir)PostEffectPS.hlsl"
+copy "$(ProjectDir)PostEffectVS.hlsl" "$(OutDir)PostEffectVS.hlsl"
+copy "$(ProjectDir)structs.h" "$(OutDir)structs.h"
+copy "$(ProjectDir)framework.h" "$(OutDir)framework.h"
+copy "$(ProjectDir)FCS.hlsl" "$(OutDir)FCS.hlsl"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Buffers.h" />
